@@ -166,7 +166,7 @@ export default ({ data, error, success }) => {
 
 export const getServerSideProps = async function ({ req, res }) {
   let token = req.cookies.autobiztoken;
-
+  let result = "hi";
   if (token) {
     const { data } = await checkToken({ autobiztoken: token });
     if (data) {
@@ -182,4 +182,6 @@ export const getServerSideProps = async function ({ req, res }) {
       data,
     };
   }
+
+  return result;
 };
