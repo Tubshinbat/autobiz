@@ -54,15 +54,15 @@ export const getServerSideProps = async function ({ req, res }) {
     };
   }
 
-  if (data) {
-    const { user: result } = await getUser(data, token);
-    user = result;
-  }
+  // if (data) {
+  //   const { user: result } = await getUser(data, token);
+  //   user = result;
+  // }
 
   return {
     props: {
       data,
-      user,
+      // user,
     },
   };
 };
