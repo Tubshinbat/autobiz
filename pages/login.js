@@ -72,7 +72,7 @@ export default ({ data, error, success }) => {
 
       if (data) {
         toastControl("success", "Амжилттай нэвтэрлээ.");
-
+        setCookie("autobiztoken", data.token);
         await timer(1500);
         router.push("/userprofile");
       }
@@ -168,7 +168,7 @@ export const getServerSideProps = async function ({ req, res }) {
     return { props: {} };
   }
 
-  const { data } = await checkToken({ autobiztoken: token });
+  const { data } = await checkToken({ token });
 
   if (data) {
     return {
@@ -179,9 +179,5 @@ export const getServerSideProps = async function ({ req, res }) {
     };
   }
 
-  return {
-    props: {
-      data,
-    },
-  };
+  return { props: {} };
 };

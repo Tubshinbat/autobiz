@@ -8,7 +8,7 @@ export const useUser = (token) => {
   const fetcher = (url) =>
     axios.post(url, { autobiztoken: token }).then((res) => res.data);
 
-  const { data } = useSWR(`${base.apiUrl}/users/localuser`, fetcher);
+  const { data } = useSWR(`${base.apiUrl}/checktoken/`, fetcher);
 
   if (data) userInfo = data;
 

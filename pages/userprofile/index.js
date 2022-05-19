@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { useCookies } from "react-cookie";
 import { Fragment } from "react";
 import { useInfo } from "hooks/use-info";
 import base from "lib/base";
@@ -9,11 +8,10 @@ import Header from "components/Header/header";
 import Footer from "components/Footer";
 import Side from "components/UserProfile/side";
 import { checkToken } from "lib/token";
-import { getUser } from "lib/user";
 
 export default ({ data, user }) => {
   const { info } = useInfo();
-  console.log(data);
+
   return (
     <Fragment>
       <Head>
@@ -43,8 +41,18 @@ export default ({ data, user }) => {
 
 export const getServerSideProps = async function ({ req, res }) {
   let token = req.cookies.autobiztoken;
-  let user = {};
-  const { data } = await checkToken({ autobiztoken: token });
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  const { data } = await checkToken({ token });
+
   if (!data) {
     return {
       redirect: {
@@ -54,15 +62,5 @@ export const getServerSideProps = async function ({ req, res }) {
     };
   }
 
-  // if (data) {
-  //   const { user: result } = await getUser(data, token);
-  //   user = result;
-  // }
-
-  return {
-    props: {
-      data,
-      // user,
-    },
-  };
+  return { props: {} };
 };
