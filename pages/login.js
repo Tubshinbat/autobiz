@@ -179,9 +179,11 @@ export const getServerSideProps = async function ({ req, res }) {
     }
 
     return {
-      data,
+      props: {
+        data,
+      },
     };
   }
 
-  return result;
+  return { props: { result } };
 };
