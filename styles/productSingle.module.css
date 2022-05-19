@@ -1,0 +1,166 @@
+.ProductInfo {
+  background-color: #fff;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  padding: 25px;
+}
+
+.ProductTitle {
+  position: relative;
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #ddd;
+}
+
+.ProductTitle::before {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 120px;
+  height: 2px;
+  background: #ff9000;
+}
+
+.ProductInfoTitle {
+  margin-top: 30px;
+}
+
+.ProductInfoTitle h5 {
+  font-size: 1rem;
+}
+
+.ProductTitle h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.PriceInfos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.84rem;
+  margin-bottom: 8px;
+}
+
+.PriceInfos p {
+  padding: 10px 0px;
+}
+
+.PriceInfos span {
+  color: #ff9000;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.ConverPirce span {
+  color: #707070;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.ProductBtns {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.ProductBtn {
+  border-radius: 5px;
+  border: none;
+  padding: 10px 0px;
+  font-size: 0.8rem;
+  transition: all 0.4s;
+}
+
+.ProductBtn i {
+  font-size: 0.7rem;
+  margin-right: 10px;
+}
+
+.Cal {
+  color: #fff;
+  background-color: #237bad;
+  border-color: #237bad;
+}
+
+.Cal:hover {
+  color: #fff;
+  background-color: #175477;
+  border-color: #237bad;
+}
+
+.Buy {
+  color: #fff;
+  background-color: #ff7b00;
+  border-color: #f19e31;
+}
+
+.Buy:hover {
+  color: #fff;
+  background-color: #ff5100;
+  border-color: #f19e31;
+}
+
+.Linzing {
+  margin-top: 10px;
+  font-size: 0.8rem;
+}
+
+.FeturedTable {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.82em;
+  font-family: sans-serif;
+  width: 100%;
+}
+
+.FeturedTable th,
+.FeturedTable td {
+  padding: 8px 15px;
+  border: 1px solid rgb(241, 241, 241);
+}
+
+.FeturedTable tr {
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.FeturedTable tr:nth-of-type(even) {
+  background-color: #fafafa;
+}
+
+.FeturedTable tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+.ContactInfo {
+  padding: 20px;
+  background-color: #d2edfc;
+  margin-top: 30px;
+  font-size: 0.8rem;
+  border: 1px solid #98dbff;
+  border-radius: 4px;
+}
+
+.ModelRef {
+  font-size: 0.8rem;
+}
+
+.Location {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+.ListFeatures {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  padding: 0px;
+}
+
+.ListFeatures li {
+  padding: 6px 10px;
+  background-color: rgb(236, 236, 236);
+  margin: 5px;
+}
