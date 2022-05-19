@@ -5,13 +5,12 @@ import base from "lib/base";
 import { useRouter } from "next/router";
 import { ToastContainer } from "react-toastify";
 
-import { getInfo } from "lib/webinfo";
 import TopBar from "components/Header/topBar";
 import Header from "components/Header/header";
 import Footer from "components/Footer";
 import { regEmail, requiredCheck } from "lib/inputRegex";
 import { toastControl } from "lib/toastControl";
-import { loginUser } from "lib/login";
+import { loginUser, userRegister } from "lib/login";
 import { checkToken } from "lib/token";
 import { useInfo } from "hooks/use-info";
 
@@ -22,8 +21,9 @@ export default ({ data, error, success }) => {
 
   const router = useRouter();
   const [errors, setError] = useState({
-    email: "",
-    password: true,
+    email: false,
+    password: false,
+    confPassword: false,
   });
 
   const handleChange = (event) => {
@@ -37,6 +37,10 @@ export default ({ data, error, success }) => {
     result = requiredCheck(value);
     if (result === true && name === "email") result = regEmail(value);
     setError((be) => ({ ...be, [name]: result }));
+
+    if (name === "confPassword")
+      if (value === loginForm.password) result = true;
+      else result = "Нууц үг таарахгүй байна.";
   };
 
   const checkTrue = () => {
@@ -66,12 +70,12 @@ export default ({ data, error, success }) => {
     }
   }, [success]);
 
-  const login = async () => {
+  const register = async () => {
     if (allCheck()) {
-      const { data, isLoading, error } = await loginUser(loginForm);
+      const { data, isLoading, error } = await userRegister(loginForm);
 
       if (data) {
-        toastControl("success", "Амжилттай нэвтэрлээ.");
+        toastControl("success", "Амжилттай бүртгэл үүслээ.");
 
         await timer(1500);
         router.push("/userprofile");
@@ -84,7 +88,7 @@ export default ({ data, error, success }) => {
   return (
     <Fragment>
       <Head>
-        <title>Нэвтрэх {info.name}</title>
+        <title>Бүртгүүлэх | {info.name}</title>
         <meta property="og:url" content={`${base.siteUrl}`} />
         <meta property="og:title" content={info.name} />
         <meta property="og:description" content={info.siteInfo} />
@@ -96,7 +100,7 @@ export default ({ data, error, success }) => {
       <div className="loginSection">
         <div className="loginForm">
           <div className="loginHeader">
-            <li className={`loginTab active`}>Нэвтрэх</li>
+            <li className={`loginTab active`}>Бүртгүүлэх</li>
           </div>
           <div className="login-field">
             <input
@@ -105,10 +109,7 @@ export default ({ data, error, success }) => {
               placeholder="Та И-Мэйл хаягаа оруулна уу"
               value={loginForm.email}
               onChange={handleChange}
-              className={`form-control ${
-                (errors.email === true && "is-valid") ||
-                (errors.email !== "" && "is-invalid")
-              }`}
+              className={`form-control ${errors.email === true && "is-valid"}`}
             />
             <div className="field">
               <p className="fieldError"> {errors.email}</p>
@@ -123,24 +124,29 @@ export default ({ data, error, success }) => {
               value={loginForm.password}
               onChange={handleChange}
               className={`form-control
-                ${errors.password !== true && "is-invalid"}`}
+                ${errors.password === true && "is-valid"}`}
             />
 
             <div className="field">
-              <button onClick={() => router.push("/forget")}>
-                Нууц үгээ мартсан
-              </button>
+              <p className="fieldError"> {errors.password}</p>
             </div>
           </div>
 
-          <button onClick={login} type="button" class="btn btn-login">
-            Нэвтрэх
-          </button>
-          <button
-            onClick={() => router.push("/register")}
-            type="button"
-            class="btn btn-register"
-          >
+          <div className="login-field">
+            <input
+              type="password"
+              name="confPassword"
+              placeholder="Та нууц үгээ оруулна уу"
+              value={loginForm.confPassword}
+              onChange={handleChange}
+              className={`form-control
+                ${errors.confPassword === true && "is-valid"}`}
+            />
+
+            <div className="field">{errors.confPassword}</div>
+          </div>
+
+          <button onClick={register} type="button" class="btn btn-login">
             Бүртгүүлэх
           </button>
         </div>
