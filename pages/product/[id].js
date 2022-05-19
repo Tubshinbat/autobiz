@@ -1,4 +1,4 @@
-import { getProduct, getProducts } from "lib/Product";
+import { getProduct, getProducts } from "lib/product";
 import { getInfo } from "lib/webinfo";
 import Head from "next/head";
 import { Fragment, useEffect, useState } from "react";

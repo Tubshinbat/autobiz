@@ -1,4 +1,4 @@
-import Footer from "components/footer";
+import Footer from "components/Footer";
 import { getMenu } from "lib/menus";
 import Head from "next/head";
 
@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useRef, useState } from "react";
 
-import css from "styles/Page.module.css";
+import css from "styles/page.module.css";
 import { getEmployees, getPage, getPages } from "lib/page";
 import { useNews } from "hooks/use-news";
 import ReactTimeAgo from "react-time-ago";
