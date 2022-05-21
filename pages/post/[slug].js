@@ -17,14 +17,22 @@ import { useMenus } from "hooks/use-links";
 
 import css from "styles/page.module.css";
 import ReactTimeAgo from "react-time-ago";
+import Spinner from "components/Spinner";
 
 export default ({ info, menus, news }) => {
+  const router = useRouter();
+
+  if (router.isFallback) return <Spinner />;
+
+  if (!router.isFallback && !news?._id) {
+    router.push("/404");
+  }
+
   const { news: topNews } = useNews(`limit=4&sort={ views: -1 }&star=true`);
   const [dataMenus, setDataMenus] = useState([]);
   const { query, asPath } = useRouter();
   const { menus: mainMenu } = useMenus();
   const [ogUrl, setOgUrl] = useState("");
-  const router = useRouter();
 
   useEffect(() => {
     if (mainMenu) {
