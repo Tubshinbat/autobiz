@@ -286,6 +286,32 @@ body {
   animation-delay: -0.1s;
 }
 
+.sideMenu {
+  width: 100%;
+  position: relative;
+}
+
+.sideMenu li {
+  position: relative;
+  text-align: left;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+  color: #292929;
+}
+
+.sideMenu li a {
+  color: #999;
+  font-size: 14px;
+  width: 100%;
+  font-weight: 500;
+  float: left;
+  background: #fff;
+  position: relative;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
 /*----------------------------------------*/
 /*  2. Header Css
 /*----------------------------------------*/
@@ -1432,7 +1458,7 @@ footer ul div a:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 22%;
+  width: 400px;
   padding: 30px;
   border-radius: 10px;
   row-gap: 15px;
@@ -1561,22 +1587,596 @@ footer ul div a:hover {
   border-radius: 4px;
   background-color: rgb(255, 255, 255);
   box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px 0px;
-  padding: 30px 15px 0px;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 30px 20px 0px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
 }
 
 .userInfoBox .userPhoto {
+  position: relative;
+  display: flex;
   text-align: center;
   margin-bottom: 20px;
+  width: 120px;
+  height: 120px;
+  background-color: rgb(207, 207, 207);
+  border-radius: 50%;
+  overflow: hidden;
+  align-items: center;
+  border: 2px solid #d8d8d8;
+  justify-content: center;
 }
 
 .userPhoto img {
-  width: 150px;
+  height: 100%;
+}
+
+.greetings h6 {
+  font-size: 18px;
+}
+
+.greetings h5 {
+  font-size: 12px;
+  color: rgb(126, 126, 126);
+}
+
+.store-credit {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  align-items: flex-start;
+  padding: 12px 20px;
+  background-color: rgb(252, 252, 252);
+  margin-top: 10px;
+  border: 1px solid rgb(235, 235, 235);
+  border-radius: 5px;
+}
+
+.store-credit h5 {
+  font-size: 12px;
+  padding: 0px;
+  margin: 0px;
+  color: rgb(136, 136, 136);
+}
+
+.store-credit h4 {
+  padding: 0px;
+  margin: 0px;
+  font-size: 23px;
+}
+.userMenu {
+  margin: 0px;
+  list-style: none;
+  padding: 0px 0px 30px;
+}
+
+.userMenu li {
+  padding: 0px 20px;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  border-left: 4px solid white;
+}
+
+.userMenu li.current {
+  border-left: 4px solid #ff6600;
+}
+
+.userMenu li a,
+.userMenu li button {
+  padding: 8px 0px;
+  display: block;
+  font-size: 14px;
+  color: rgb(127, 127, 127);
+}
+
+.userMenu .count {
+  font-size: 11px;
+}
+
+.logout button {
+  width: 100%;
+  border: none;
+  margin-top: 10px;
+}
+
+.profileBtns {
+  display: flex;
+  gap: 20px;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.profileBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 50px 10px 20px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 100%;
+  transition: all 0.3s;
+}
+
+.profileBtn.current,
+.profileBtn:hover {
+  background-color: #fd9926;
+  color: #fff;
+}
+
+.profileBtn.current i,
+.profileBtn:hover i,
+.profileBtn.current p:nth-child(2) {
+  color: #fff;
+}
+
+.profileBtn i {
+  margin-right: 8px;
+  padding-right: 8px;
+  color: #ff5e00;
+}
+
+.btnInfo {
+  display: flex;
+  flex-direction: column;
+}
+.btnInfo p {
+  padding: 0px;
+  margin: 0px;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.btnInfo p:nth-child(2) {
+  font-size: 10px;
+}
+
+.userFormProfile {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  margin: 20px 0px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgb(0 0 0 / 5%) 0px 3px 6px 0px;
+  border: 1px solid #ddd;
+  width: 100%;
+}
+
+.userFormProfile h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.userFormProfile label {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.userFormProfile input,
+.userFormProfile select {
+  height: 33px;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.formInfoFooter {
+  display: flex;
+  justify-content: end;
+}
+
+.infoChange-btn {
+  display: flex;
+  background-color: #ff7b00;
+  height: 32px;
+  color: #fff;
+  font-size: 12px;
+  transition: all 0.3s;
+}
+
+.infoChange-btn:hover {
+  color: #fff;
+  background-color: #ff5100;
+}
+
+/*----------------------------------------*/
+/*  13. News page css
+/*----------------------------------------*/
+
+.newsList {
+  display: flex;
+  flex-direction: column;
+}
+
+.newsSection {
+  padding: 45px 0px;
+}
+
+.news {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  row-gap: 30px;
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+}
+
+.news::before {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: #ff9000;
+}
+
+.newsImageBox {
+  display: flex;
+  position: relative;
+  flex: 0 0 40%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  height: 190px;
+  cursor: pointer;
+}
+
+.newsInfo h3 {
+  transition: all 0.3s;
+}
+
+.newsInfo h3:hover {
+  cursor: pointer;
+  color: #ff5e00;
+}
+
+.newsImageBox::before {
+  content: "";
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background-color: #ff5e00;
+  transition: all 0.5s;
+}
+
+.newsImageBox:hover.newsImageBox::before {
+  opacity: 0.7;
+}
+
+.newsImage {
+  width: 100%;
+}
+
+.newsInfo {
+  display: flex;
+  flex: 0 0 60%;
+  flex-direction: column;
+}
+
+.newsInfo h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.newsDate {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  font-size: 13px;
+  color: rgb(82, 82, 82);
+}
+
+.newsdate_item {
+  display: flex;
+  flex-direction: row;
+  gap: 7px;
+  align-items: center;
+  justify-content: center;
+}
+
+.newsdate_item i {
+  font-size: 10px;
+  color: #ff6600;
+}
+
+.shortDesc {
+  margin-top: 10px;
+  text-align: left;
+  font-size: 13px;
+  line-height: 24px;
+  padding-bottom: 10px;
+  font-weight: 500;
+  color: #5e646a;
+}
+
+.newsView {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+}
+
+.newsView img {
+  min-width: auto;
+  max-width: 100%;
+}
+
+.newsTitle {
+  position: relative;
+
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  color: #181717;
+}
+
+.newsTitle h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.newsViewRequire {
+  display: flex;
+  margin: 12px 0px;
+  gap: 10px;
+  font-size: 12px;
+  color: #5e646a;
+}
+
+.newsViewItem {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.newsViewItem i {
+  color: #ff9000;
+}
+
+/*----------------------------------------*/
+/*  14. Lend page css
+/*----------------------------------------*/
+
+.calculator-main {
+  padding: 40px;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+.lendSection {
+  padding: 45px 0px;
+  min-height: 450px;
+}
+
+.calculator-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 20px;
+}
+
+.calInput {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.calInput label {
+  font-size: 12px;
+}
+
+.calInput input {
+  width: 250px;
+  height: 32px;
+  padding: 10px 10px;
+  font-size: 12px;
+  border: none;
+  border: 1px solid rgb(235, 234, 234);
+}
+
+.btn-cal {
+  width: 100%;
+  font-size: 11px;
+  background-color: rgb(19, 62, 119);
+  height: 30px;
+  color: #fff;
+  transition: all 0.3s;
+}
+
+.btn-cal i {
+  margin-right: 5px;
+}
+
+.calculator-list {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 0px;
+  padding: 30px;
+  border-bottom: 1px solid #ddd;
+  gap: 20px;
+}
+
+.cal-list {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border: 1px solid #ddd;
+
+  width: 100%;
+  padding: 20px;
+}
+
+.cal-list div {
+  font-size: 22px;
+}
+
+.cal-list span {
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.caltable {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.caltable td,
+.caltable th {
+  border: 1px solid #ddd;
+  padding: 10px 0px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.caltable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.caltable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  font-size: 12px;
+  background-color: #e7e7e7;
+  color: rgb(70, 70, 70);
+}
+
+.calHeader {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.calHeader h4 {
+  font-size: 20px;
+}
+
+/*----------------------------------------*/
+/*  15. Lend page css
+/*----------------------------------------*/
+
+.contactSection {
+  padding: 40px 0px;
+  min-height: 450px;
+}
+
+.contactInfos {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #ddd;
+  margin-bottom: 30px;
+  padding-right: 30px;
+  row-gap: 20px;
+}
+
+.contactInfo {
+  display: flex;
+  flex-direction: row;
+  padding: 15px 20px;
+  border-radius: 10px;
+  border: 1px solid rgb(240, 240, 240);
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.3s;
+  align-items: self-end;
+  font-size: 13px;
+}
+
+.contactInfo i {
+  padding: 20px;
+  background-color: #ff9000;
   border-radius: 50%;
+  color: #fff;
+  margin-right: 20px;
+}
+
+.contactInfo:hover {
+  border: 1px solid rgb(240, 240, 240);
+  background-color: rgb(236, 236, 236);
+}
+
+.contactForm {
+  row-gap: 20px;
+  margin-bottom: 30px;
+}
+
+.contactForm input {
+  height: 35px;
+  font-size: 12px;
+}
+
+.contactForm textarea {
+  height: 120px;
+  font-size: 12px;
+}
+
+.contactForm textarea,
+.contactForm input {
+  border: 1px solid rgb(240, 240, 240);
+}
+
+.contactFormFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+.contactFormFooter button {
+  background-color: #ff5e00;
+  border: none;
+  padding: 8px 30px;
+  font-size: 12px;
+  color: #fff;
+  transition: all 0.3s;
+}
+
+.contactFormFooter button:hover {
+  background-color: #ff3300;
+}
+
+.contactError {
+  font-size: 11px;
+  margin-top: 5px;
+  color: rgb(165, 6, 6);
 }
 
 /*----------------------------------------*/
 /*  Responsive
 /*----------------------------------------*/
+
+.mobileHeader {
+  display: none;
+  position: fixed;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 0px 0px 4px 4px;
+  box-shadow: rgb(78 85 98 / 22%) 0px 0px 16px;
+  transition: width 0.2s ease-in-out 0s;
+  width: 100%;
+  padding: 20px 0px;
+}
 
 @media (max-width: 1399px) {
   .headerSearchBox {
@@ -1620,12 +2220,58 @@ footer ul div a:hover {
   }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 992px) {
   .homesides {
     display: none !important;
   }
   .notFoundSection img {
     width: 70%;
+  }
+  .mainHeader {
+    display: none;
+  }
+  footer,
+  .footerBottom,
+  .headerSearchBox {
+    display: none;
+  }
+
+  .mobileHeader {
+    display: flex;
+    position: fixed;
+  }
+
+  .header__title {
+    font-size: 1.6rem;
+    line-height: 1.7rem;
+  }
+  .header__text {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .homeSlideText {
+    flex: auto;
+    position: absolute;
+    bottom: 0;
+    color: #fff;
+    padding: 5px 20px;
+  }
+
+  .homeSlideImage {
+    flex: 0 0 100%;
+  }
+  .homeTabs {
+    flex-wrap: wrap;
+  }
+  .homeNewsItem {
+    margin-bottom: 30px;
+  }
+
+  .news {
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -1633,6 +2279,10 @@ footer ul div a:hover {
   .notFoundSection p {
     font-size: 0.8rem;
     font-weight: bold;
+  }
+
+  .loginForm {
+    width: 80%;
   }
 
   .notFoundSection a {
@@ -1644,5 +2294,17 @@ footer ul div a:hover {
     text-transform: uppercase;
     font-weight: bold;
     transition: all 0.3s;
+  }
+}
+
+@media (max-width: 500px) {
+  .topbarContainer {
+    flex-direction: column;
+    row-gap: 10px;
+  }
+
+  .topbar {
+    height: auto;
+    padding: 10px;
   }
 }

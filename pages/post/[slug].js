@@ -1,36 +1,30 @@
 import Head from "next/head";
-import { Fragment, useEffect, useState } from "react";
-import base from "lib/base";
-import { getInfo } from "lib/webinfo";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import Router from "next/router";
+import { Fragment, useEffect, useState } from "react";
+import Link from "next/link";
+import base from "lib/base";
+
+import { getInfo } from "lib/webinfo";
 
 import TopBar from "components/Header/topBar";
 import Header from "components/Header/header";
-import Footer from "components/Footer";
-import { getNews, getNewsMenus } from "lib/news";
-import { useNews } from "hooks/use-news";
-import ReactTimeAgo from "react-time-ago";
-import { useMenus } from "hooks/use-links";
-import css from "styles/page.module.css";
-import Pagination from "react-js-pagination";
 
-export default ({ info, menus }) => {
+import Footer from "components/Footer";
+import { useNews } from "hooks/use-news";
+import { getNews, getNewsMenus, getSlug } from "lib/news";
+import { useMenus } from "hooks/use-links";
+
+import css from "styles/page.module.css";
+import ReactTimeAgo from "react-time-ago";
+
+export default ({ info, menus, news }) => {
+  const { news: topNews } = useNews(`limit=4&sort={ views: -1 }&star=true`);
   const [dataMenus, setDataMenus] = useState([]);
   const { query, asPath } = useRouter();
   const { menus: mainMenu } = useMenus();
+  const [ogUrl, setOgUrl] = useState("");
   const router = useRouter();
-  const { news: topNews } = useNews(`limit=4&sort={ views: -1 }&star=true`);
-
-  //-- PAGINATION
-  const [activePage, setActivePage] = useState(1);
-  const [limit, setLimit] = useState({});
-  const [total, setTotal] = useState();
-
-  const { news, pagination } = useNews(
-    `status=true&category=${router.query.category}&sortNews=${router.query.sortNews}&page=${router.query.page}`
-  );
 
   useEffect(() => {
     if (mainMenu) {
@@ -39,27 +33,11 @@ export default ({ info, menus }) => {
   }, [mainMenu]);
 
   useEffect(() => {
-    if (pagination) {
-      setTotal(pagination.total);
-      setLimit(pagination.limit);
-    }
-  }, [pagination]);
+    const host = window.location.host;
+    const baseUrl = `http://${host}`;
 
-  const handlePageChange = (pageNumber) => {
-    window.scrollTo(0, 0);
-    setActivePage(pageNumber);
-    router.replace({
-      pathname: router.pathname,
-      query: { ...query, page: pageNumber },
-    });
-  };
-
-  const handleSort = (event) => {
-    Router.replace({
-      pathname: router.pathname,
-      query: { ...query, sort: event.target.value },
-    });
-  };
+    setOgUrl(`${baseUrl}${asPath}`);
+  }, [router.pathname]);
 
   const renderMenu = (categories) => {
     let myCategories = [];
@@ -92,10 +70,12 @@ export default ({ info, menus }) => {
   return (
     <Fragment>
       <Head>
-        <title>{info.name}</title>
-        <meta property="og:url" content={`${base.siteUrl}`} />
-        <meta property="og:title" content={info.name} />
-        <meta property="og:description" content={info.siteInfo} />
+        <title>
+          {news.name} | {info.name}
+        </title>
+        <meta property="og:url" content={`${base.siteUrl}/${asPath}`} />
+        <meta property="og:title" content={`${news.name} | ${info.name}`} />
+        <meta property="og:description" content={news.shortDetails} />
       </Head>
       <div>
         <TopBar />
@@ -105,59 +85,65 @@ export default ({ info, menus }) => {
         <div className="container">
           <div className="row">
             <div className="col-lg-8">
-              <div className={css.PageInfo__head}>
-                <h4 className={css.PageName}>Нийтлэл мэдээлэл</h4>
-              </div>
-              <div className="newsList">
-                {news &&
-                  news.map((el) => (
-                    <div className="news" key={el._id}>
-                      <Link href={`post/${el.slug}`}>
-                        <div className="newsImageBox">
-                          <img
-                            className="newsImage"
-                            src={`${base.cdnUrl}//${el.pictures[0]}`}
-                            alt="news picture"
-                          />
-                        </div>
-                      </Link>
-                      <div className="newsInfo">
-                        <Link href={`post/${el.slug}`}>
-                          <h3> {el.name} </h3>
-                        </Link>
-                        <div className="newsDate">
-                          <div className={`newsdate_item`}>
-                            <i className="fa-regular fa-clock"></i>
-                            <ReactTimeAgo date={el.createAt} locale="mn-MN" />
-                          </div>
-                          <div className={`newsdate_item`}>
-                            <i className="fa fa-bolt"></i> {el.views} үзсэн
-                          </div>
-                        </div>
-                        <p className="shortDesc"> {el.shortDetails}</p>
-                      </div>
-                    </div>
-                  ))}
+              <div className="newsView">
+                <div className="newsTitle">
+                  <h2>{news.name}</h2>
+                </div>
+                <div className="share-post-box">
+                  <ul className="share-box">
+                    <li>
+                      <i className="fa fa-share-alt" />
+                      <span>Хуваалцах</span>
+                    </li>
+                    <li>
+                      <a
+                        className="facebook"
+                        href={`http://www.facebook.com/share.php?u=${ogUrl}`}
+                      >
+                        <i className="fa-brands fa-facebook-square" />
+                        Facebook
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="twitter"
+                        href={`http://pinterest.com/pin/create/button/?url=${ogUrl}&media=&description=${news.title}`}
+                      >
+                        <i className="fa-brands fa-twitter-square" />
+                        Twitter
+                      </a>
+                    </li>
 
-                {news && news.length < 1 && (
-                  <div className={`notFound`}>
-                    <img src="/images/notfound.png" />
-                    <p> "Илэрц олдсонгүй" </p>
+                    <li>
+                      <a
+                        className="linkedin"
+                        href={`http://www.linkedin.com/shareArticle?mini=true&url=${ogUrl}&title=${news.title}&summary=&source=${ogUrl}`}
+                      >
+                        <i className="fa-brands fa-linkedin" />
+                        <span />
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="newsViewPicture">
+                  <img src={`${base.cdnUrl}/${news.pictures[0]}`} />
+                </div>
+                <div className="newsViewRequire">
+                  <div className="newsViewItem">
+                    <i className="fa fa-bolt"></i>
+                    {news.views}
                   </div>
-                )}
-                {total && (
-                  <div className={`pagination`}>
-                    <Pagination
-                      activePage={parseInt(query.page) || 1}
-                      itemClass={`page-item`}
-                      linkClass={"page-link"}
-                      itemsCountPerPage={limit}
-                      totalItemsCount={total}
-                      pageRangeDisplayed={5}
-                      onChange={handlePageChange.bind()}
-                    />
+                  <div className="newsViewItem">
+                    <i className="fa-regular fa-clock"></i>
+                    <ReactTimeAgo date={news.createAt} locale="mn-MN" />
                   </div>
-                )}
+                </div>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: news.details,
+                  }}
+                  className="newsDescription"
+                ></div>
               </div>
             </div>
             <div className="col-lg-4">
@@ -223,18 +209,30 @@ export default ({ info, menus }) => {
   );
 };
 
-export const getStaticProps = async () => {
+export const getStaticProps = async ({ params }) => {
   const { info } = await getInfo();
-  const { news, pagination } = await getNews(`status=true`);
-  const { menus } = await getNewsMenus(`status=true`);
+  const { news } = await getSlug(params.slug);
+  const { menus } = await getNewsMenus(`active=true`);
 
   return {
     props: {
       info,
       news,
       menus,
-      pagination,
     },
-    revalidate: 100,
+    revalidate: 10,
+  };
+};
+
+export const getStaticPaths = async () => {
+  const { news } = await getNews(`active=true`);
+
+  return {
+    paths: news.map((n) => ({
+      params: {
+        slug: n.slug,
+      },
+    })),
+    fallback: true,
   };
 };

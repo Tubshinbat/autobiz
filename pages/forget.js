@@ -12,14 +12,18 @@ import Footer from "components/Footer";
 import { minLength, regEmail, requiredCheck } from "lib/inputRegex";
 import { toastControl } from "lib/toastControl";
 import { forgetPassword, resetPassword } from "lib/login";
+import { useInfo } from "hooks/use-info";
+import { checkToken } from "lib/token";
 
-export default ({ info, error, success }) => {
+export default ({ error, success }) => {
   const [loginForm, setLoginForm] = useState({});
   const [active, setActive] = useState(false);
   const router = useRouter();
   const [errors, setError] = useState({
     email: "",
   });
+
+  const { info } = useInfo();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -203,13 +207,23 @@ export default ({ info, error, success }) => {
   );
 };
 
-export const getStaticProps = async () => {
-  const { info, error } = await getInfo();
-  return {
-    props: {
-      info,
-      error,
-    },
-    revalidate: 50,
-  };
+export const getServerSideProps = async function ({ req, res }) {
+  let token = req.cookies.autobiztoken;
+
+  if (!token) {
+    return { props: {} };
+  }
+
+  const { data } = await checkToken({ token });
+
+  if (data) {
+    return {
+      redirect: {
+        destination: "/userprofile",
+        permanent: false,
+      },
+    };
+  }
+
+  return { props: {} };
 };

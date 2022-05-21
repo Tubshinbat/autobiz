@@ -174,7 +174,7 @@ export const getServerSideProps = async function ({ req, res }) {
     return { props: {} };
   }
 
-  const { data } = await checkToken({ autobiztoken: token });
+  const { data } = await checkToken({ token });
 
   if (data) {
     return {
@@ -185,9 +185,5 @@ export const getServerSideProps = async function ({ req, res }) {
     };
   }
 
-  return {
-    props: {
-      data,
-    },
-  };
+  return { props: {} };
 };

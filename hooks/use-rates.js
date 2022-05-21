@@ -1,17 +1,15 @@
-export const useRate = async () => {
-  let data = [];
-  let error;
-  await axios
-    .get("https://api.khanbank.com/v1/rates")
-    .then((res) => {
-      data = res;
-    })
-    .catch((err) => {
-      error = err.status;
-    });
+import useSWR from "swr";
+
+export const useRate = () => {
+  let rate = [];
+  const { data, error } = useSWR(`https://api.khanbank.com/v1/rates`);
+  if (data) {
+    rate = data.data;
+  }
 
   return {
-    data,
+    data: rate,
+    isLoading: !error && !rate,
     error,
   };
 };

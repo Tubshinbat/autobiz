@@ -8,8 +8,12 @@ import Header from "components/Header/header";
 import Footer from "components/Footer";
 import Side from "components/UserProfile/side";
 import { checkToken } from "lib/token";
+import { getUser } from "lib/user";
 
-export default ({ data, user }) => {
+import { toastControl } from "lib/toastControl";
+import { ToastContainer } from "react-toastify";
+
+export default ({ user }) => {
   const { info } = useInfo();
 
   return (
@@ -28,7 +32,7 @@ export default ({ data, user }) => {
         <section className="row userprofileSection">
           <div className="row">
             <div className="col-lg-3">
-              <Side />
+              <Side user={user} />
             </div>
             <div className="col-lg-9">b</div>
           </div>
@@ -42,25 +46,30 @@ export default ({ data, user }) => {
 export const getServerSideProps = async function ({ req, res }) {
   let token = req.cookies.autobiztoken;
 
-  if (!token) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
+  const user = await getUser();
+  // if (!token) {
+  //   return {
+  //     redirect: {
+  //       destination: "/login",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
-  const { data } = await checkToken({ token });
+  // const { data } = await checkToken({ token });
 
-  if (!data) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
+  // if (!data) {
+  //   return {
+  //     redirect: {
+  //       destination: "/login",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
-  return { props: {} };
+  return {
+    props: {
+      user,
+    },
+  };
 };

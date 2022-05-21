@@ -8,6 +8,7 @@ import { useMenus } from "hooks/use-links";
 import { useInfo } from "hooks/use-info";
 import { checkToken } from "lib/token";
 import { useUser } from "hooks/use-user";
+import MobileHeader from "components/Mobile/MobileHeader";
 
 const Header = () => {
   const [dataMenus, setDataMenus] = useState([]);
@@ -85,59 +86,62 @@ const Header = () => {
   };
 
   return (
-    <header className="mainHeader">
-      <div className="container">
-        <div className="headerContainer">
-          <div className="headerLogo">
-            {info.logo && (
-              <Link href="/">
-                <img src={`${base.cdnUrl}/${info.logo}`} />
-              </Link>
-            )}
-          </div>
-          <div className="headerMid">
-            <div className="searchBox">
-              <select name="type" onChange={handleChange} value={type}>
-                <option value="products">Бэлэн байгаа</option>
-                <option value="beproducts"> Ачигдахад бэлэн </option>
-              </select>
-              <input
-                type="text"
-                name="searchText"
-                onChange={handleChange}
-                value={searchText}
-                placeholder="Эндээс машинаа хайна уу"
-              />
-              <button onClick={handleSearch}>
-                <i class="fa-solid fa-magnifying-glass"></i>
-              </button>
+    <>
+      <header className="mainHeader">
+        <div className="container">
+          <div className="headerContainer">
+            <div className="headerLogo">
+              {info.logo && (
+                <Link href="/">
+                  <img src={`${base.cdnUrl}/${info.logo}`} />
+                </Link>
+              )}
             </div>
-            <ul className="headerMenu">{renderMenu(dataMenus)}</ul>
-          </div>
-          <div className="headerButtons">
-            {userInfo && userInfo.phone ? (
-              <Link href="/login">
-                <div className="headerBottom">
-                  <div className="BottomIcon">
-                    <i class="fa-regular fa-user"></i>
+            <div className="headerMid">
+              <div className="searchBox">
+                <select name="type" onChange={handleChange} value={type}>
+                  <option value="products">Бэлэн байгаа</option>
+                  <option value="beproducts"> Ачигдахад бэлэн </option>
+                </select>
+                <input
+                  type="text"
+                  name="searchText"
+                  onChange={handleChange}
+                  value={searchText}
+                  placeholder="Эндээс машинаа хайна уу"
+                />
+                <button onClick={handleSearch}>
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+              </div>
+              <ul className="headerMenu">{renderMenu(dataMenus)}</ul>
+            </div>
+            <div className="headerButtons">
+              {userInfo && userInfo.phone ? (
+                <Link href="/login">
+                  <div className="headerBottom">
+                    <div className="BottomIcon">
+                      <i class="fa-regular fa-user"></i>
+                    </div>
+                    <div className="BottomText">{userInfo.phone}</div>
                   </div>
-                  <div className="BottomText">{userInfo.phone}</div>
-                </div>
-              </Link>
-            ) : (
-              <Link href="/login">
-                <div className="headerBottom">
-                  <div className="BottomIcon">
-                    <i class="fa-regular fa-user"></i>
+                </Link>
+              ) : (
+                <Link href="/login">
+                  <div className="headerBottom">
+                    <div className="BottomIcon">
+                      <i class="fa-regular fa-user"></i>
+                    </div>
+                    <div className="BottomText">Нэвтрэх</div>
                   </div>
-                  <div className="BottomText">Нэвтрэх</div>
-                </div>
-              </Link>
-            )}
+                </Link>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
+      <MobileHeader />
+    </>
   );
 };
 

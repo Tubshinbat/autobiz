@@ -30,7 +30,7 @@ const Page = ({
 }) => {
   const router = useRouter();
   const [slug, setSlug] = useState(router.query.slug);
-  const { news } = useNews([], `limit=4&sort={ views: -1 }&star=true`);
+  const { news } = useNews(`limit=4&sort={ views: -1 }&star=true`);
   const { info } = useInfo();
 
   useEffect(() => {

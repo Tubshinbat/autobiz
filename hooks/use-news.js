@@ -18,15 +18,18 @@ export const useTopNews = () => {
   };
 };
 
-export const useNews = (init, slug) => {
-  let news = [];
+export const useNews = (slug) => {
+  let news;
+  let pagination;
   const { data, error } = useSWR(`${base.apiUrl}/news?${slug}`);
 
   if (data) {
     news = data.data;
+    pagination = data.pagination;
   }
   return {
     news,
+    pagination,
     isLoading: !error && !data,
     error,
   };

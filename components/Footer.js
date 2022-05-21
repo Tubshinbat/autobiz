@@ -108,7 +108,7 @@ export default () => {
         </div>
       </footer>
       <div className="footerBottom">
-        © ${new Date().getFullYear()} он бүх эрх хуулиар хамгаалагдсан
+        © {new Date().getFullYear()} он бүх эрх хуулиар хамгаалагдсан
       </div>
     </>
   );

@@ -22,6 +22,7 @@ import css from "/styles/productSingle.module.css";
 import Section from "components/generals/section";
 import Footer from "components/Footer";
 import Spinner from "components/Spinner";
+import Lend from "components/Lend";
 
 export default ({ info, product }) => {
   const router = useRouter();
@@ -150,10 +151,13 @@ export default ({ info, product }) => {
                     </div>
                     <div className="col-lg-6">
                       <div className={css.ProductBtns}>
-                        <button className={`${css.ProductBtn} ${css.Cal}`}>
+                        <a
+                          href="#Lend"
+                          className={`${css.ProductBtn} ${css.Cal}`}
+                        >
                           <i class="fa fa-calculator"></i>
                           Тооцоолуур
-                        </button>
+                        </a>
                         <Link href={`/purchase/${product._id}`}>
                           <button className={`${css.ProductBtn} ${css.Buy}`}>
                             <i className="fa fa-cart-shopping"></i>
@@ -211,6 +215,7 @@ export default ({ info, product }) => {
           </div>
         </div>
       </Section>
+      <Lend dPrice={product.price} />
       <Footer />
     </Fragment>
   );
