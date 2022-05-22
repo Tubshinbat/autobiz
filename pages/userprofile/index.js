@@ -12,8 +12,6 @@ import { getUser } from "lib/user";
 
 import { toastControl } from "lib/toastControl";
 import { ToastContainer } from "react-toastify";
-import { useCookies } from "react-cookie";
-const [cookies, setCookie, removeCookie] = useCookies(["autobiztoken"]);
 
 export default ({ user }) => {
   const { info } = useInfo();
@@ -46,33 +44,33 @@ export default ({ user }) => {
 };
 
 export const getServerSideProps = async function ({ req, res }) {
-  let token = cookies["autobiztoken"];
+  let token = req.cookies.autobiztoken;
+  console.log(token);
+  // if (!token) {
+  //   return {
+  //     redirect: {
+  //       destination: "/login",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
-  if (!token) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
+  // const { data } = await checkToken(token);
+  // console.log(data);
+  // if (!data) {
+  //   return {
+  //     redirect: {
+  //       destination: "/login",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
-  const { data } = await checkToken(token);
-  console.log(data);
-  if (!data) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-
-  const user = await getUser();
+  // const user = await getUser();
 
   return {
     props: {
-      user,
+      user: {},
     },
   };
 };
