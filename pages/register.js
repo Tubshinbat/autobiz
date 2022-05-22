@@ -174,9 +174,9 @@ export const getServerSideProps = async function ({ req, res }) {
     return { props: {} };
   }
 
-  const { data } = await checkToken({ token });
+  const { data } = await checkToken(token);
 
-  if (data) {
+  if (data !== undefined || data !== null) {
     return {
       redirect: {
         destination: "/userprofile",

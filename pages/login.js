@@ -170,7 +170,7 @@ export const getServerSideProps = async function ({ req, res }) {
 
   const { data } = await checkToken(token);
 
-  if (data) {
+  if (data !== undefined || data !== null) {
     return {
       redirect: {
         destination: "/userprofile",
