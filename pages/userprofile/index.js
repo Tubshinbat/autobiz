@@ -57,6 +57,8 @@ export const getServerSideProps = async function ({ req, res }) {
 
   const user = await getUser();
 
+  console.log(user);
+
   return {
     props: {
       user: {},
