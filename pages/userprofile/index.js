@@ -12,9 +12,11 @@ import { getUser } from "lib/user";
 
 import { toastControl } from "lib/toastControl";
 import { ToastContainer } from "react-toastify";
+import { useCookies } from "react-cookie";
 
 export default ({ user }) => {
   const { info } = useInfo();
+  const [cookies, setCookie, removeCookie] = useCookies(["autobiztoken"]);
 
   return (
     <Fragment>
@@ -44,7 +46,7 @@ export default ({ user }) => {
 };
 
 export const getServerSideProps = async function ({ req, res }) {
-  let token = req.cookies.autobiztoken;
+  let token = req.cookies["autobiztoken"];
 
   if (!token) {
     return {
