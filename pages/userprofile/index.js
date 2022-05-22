@@ -46,7 +46,7 @@ export default ({ user }) => {
 };
 
 export const getServerSideProps = async function ({ req, res }) {
-  let token = req.cookies["autobiztoken"];
+  let token = cookies["autobiztoken"];
 
   if (!token) {
     return {
