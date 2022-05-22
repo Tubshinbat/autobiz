@@ -72,7 +72,6 @@ export default ({ data, error, success }) => {
 
       if (data) {
         toastControl("success", "Амжилттай нэвтэрлээ.");
-        setCookie("autobiztoken", data.token);
         await timer(1500);
         router.push("/userprofile");
       }
