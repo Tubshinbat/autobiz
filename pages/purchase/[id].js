@@ -21,7 +21,7 @@ import { ToastContainer } from "react-toastify";
 import { createOrder } from "lib/order";
 import { getUser } from "lib/user";
 import { useInfo } from "hooks/use-info";
-
+const timer = (ms) => new Promise((res) => setTimeout(res, ms));
 export default ({ product, user }) => {
   const { info } = useInfo();
   const [form, setForm] = useState({});
@@ -85,7 +85,7 @@ export default ({ product, user }) => {
     });
     return errorsValues.length === errorCount;
   };
-  const timer = (ms) => new Promise((res) => setTimeout(res, ms));
+
   const allCheck = () => {
     Object.keys(errors).map((el) => {
       checkForm(el, form[el] === undefined ? "" : form[el]);
@@ -97,11 +97,12 @@ export default ({ product, user }) => {
     if (allCheck()) {
       const { order, error } = await createOrder(form);
       if (order) {
-        timer(2000);
         toastControl(
           "success",
           "Таны худалдан авалтыг хүлээн авлаа удахгүй тантай холбогдох болно"
         );
+        await timer(2000);
+
         router.push("/products");
       }
       if (error) toastControl("error", error);
