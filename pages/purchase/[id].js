@@ -90,17 +90,6 @@ export default ({ product, user }) => {
     return checkTrue();
   };
 
-  useEffect(() => {
-    toastControl("error", error);
-  }, [error]);
-
-  useEffect(() => {
-    if (success) {
-      toastControl("success", props.success);
-      init();
-    }
-  }, [success]);
-
   const sendOrder = async () => {
     if (allCheck()) {
       const { order, error } = await createOrder(form);
@@ -266,8 +255,8 @@ export default ({ product, user }) => {
 export const getServerSideProps = async function ({ req, res, params }) {
   let user = {};
 
-  // const token = req.cookies.autobiztoken;
-  // if (token) user = await getUser(token);
+  const token = req.cookies.autobiztoken;
+  if (token) user = await getUser(token);
 
   const { id } = params;
   console.log(id);
