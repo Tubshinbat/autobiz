@@ -54,7 +54,7 @@ export default ({ user, orders }) => {
                         </td>
                         <td>
                           <a href={`/product/${el.product_id._id}`}>
-                            {el.product_id.title}{" "}
+                            {el.product_id && el.product_id.title}{" "}
                           </a>
                         </td>
                         <td>
