@@ -219,7 +219,7 @@ export const getServerSideProps = async function ({ req, res }) {
   if (data !== undefined || data !== null) {
     return {
       redirect: {
-        destination: "/userprofile",
+        destination: "/",
         permanent: false,
       },
     };
