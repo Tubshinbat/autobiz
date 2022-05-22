@@ -1793,6 +1793,17 @@ footer ul div a:hover {
   background-color: #ff5100;
 }
 
+.ordersListUser {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  margin: 20px 0px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgb(0 0 0 / 5%) 0px 3px 6px 0px;
+  border: 1px solid #ddd;
+  width: 100%;
+}
+
 /*----------------------------------------*/
 /*  13. News page css
 /*----------------------------------------*/

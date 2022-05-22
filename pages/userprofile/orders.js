@@ -37,7 +37,17 @@ export default ({ user, orders }) => {
             </div>
             <div className="col-lg-9">
               <div className="ordersListUser">
-                <table></table>
+                <table class="myTable table">
+                  <thead>
+                    <tr>
+                      <th>Хэлцэл</th>
+                      <th>Хэлцэл</th>
+                    </tr>
+                  </thead>
+                  <tr>
+                    <td></td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>

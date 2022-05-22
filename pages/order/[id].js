@@ -40,6 +40,13 @@ export default ({ product, user }) => {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (product) {
+      const { _id } = product;
+      setForm((bf) => ({ ...bf, product_id: _id }));
+    }
+  }, [product]);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setForm((bf) => ({ ...bf, [name]: value }));
