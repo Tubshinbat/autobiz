@@ -2,7 +2,6 @@ import base from "lib/base";
 import Link from "next/link";
 
 export default ({ user }) => {
-  console.log(user);
   return (
     <div className="userInfoBox">
       <div className="userInfo">

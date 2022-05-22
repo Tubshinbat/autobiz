@@ -45,15 +45,16 @@ export default ({ user }) => {
 
 export const getServerSideProps = async function ({ req, res }) {
   let token = req.cookies.autobiztoken;
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
   console.log(token);
-  // if (!token) {
-  //   return {
-  //     redirect: {
-  //       destination: "/login",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
 
   // const { data } = await checkToken(token);
   // console.log(data);
