@@ -7,9 +7,9 @@ import base from "lib/base";
 import TopBar from "components/Header/topBar";
 import Header from "components/Header/header";
 import Footer from "components/Footer";
-import { useInfo } from "hooks/use-info";
+
 import { getProduct, getProducts } from "lib/product";
-import { getInfo } from "lib/webinfo";
+
 import {
   maxLength,
   minLength,
@@ -22,7 +22,6 @@ import { createOrder } from "lib/order";
 import { getUser } from "lib/user";
 
 export default ({ product, user }) => {
-  const { info } = useInfo();
   const [form, setForm] = useState({});
   const router = useRouter();
   const [errors, setError] = useState({
@@ -267,8 +266,8 @@ export default ({ product, user }) => {
 export const getServerSideProps = async function ({ req, res, params }) {
   let user = {};
 
-  // let token = req.cookies.autobiztoken;
-  // if (token) user = await getUser(token);
+  let token = req.cookies.autobiztoken;
+  if (token) user = await getUser(token);
 
   const { id } = params;
   console.log(id);
