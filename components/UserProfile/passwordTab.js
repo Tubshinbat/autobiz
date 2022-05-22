@@ -7,7 +7,6 @@ import { useCookies } from "react-cookie";
 
 export default ({ active, user }) => {
   const [form, setForm] = useState({});
-  const [cookies, setCookie, removeCookie] = useCookies(["autobiztoken"]);
 
   const timer = (ms) => new Promise((res) => setTimeout(res, ms));
   const [errors, setErrors] = useState({
