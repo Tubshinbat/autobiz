@@ -53,9 +53,11 @@ export default ({ user, orders }) => {
                           {el.status === active ? " Нээлттэй " : " Дууссан "}
                         </td>
                         <td>
-                          <a href={`/product/${el.product_id._id}`}>
-                            {el.product_id && el.product_id.title}{" "}
-                          </a>
+                          {el.product_id && (
+                            <a href={`/product/${el.product_id._id}`}>
+                              {el.product_id && el.product_id.title}{" "}
+                            </a>
+                          )}
                         </td>
                         <td>
                           <ul>
