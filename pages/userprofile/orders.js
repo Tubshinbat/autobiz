@@ -61,7 +61,7 @@ export default ({ user, orders }) => {
 
 export const getServerSideProps = async function ({ req, res }) {
   let token = req.cookies.autobiztoken;
-
+  let orders = [];
   if (!token) {
     return {
       redirect: {
@@ -72,7 +72,7 @@ export const getServerSideProps = async function ({ req, res }) {
   }
 
   const user = await getUser(token);
-  orders = [];
+
   if (!user) {
     return {
       redirect: {
@@ -82,7 +82,7 @@ export const getServerSideProps = async function ({ req, res }) {
     };
   }
 
-  const orders = await getOrders(token);
+  orders = await getOrders(token);
 
   return {
     props: {
