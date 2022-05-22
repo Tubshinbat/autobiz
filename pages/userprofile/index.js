@@ -7,14 +7,11 @@ import TopBar from "components/Header/topBar";
 import Header from "components/Header/header";
 import Footer from "components/Footer";
 import Side from "components/UserProfile/side";
-import { checkToken } from "lib/token";
 import { getUser } from "lib/user";
-
-import { toastControl } from "lib/toastControl";
-import { ToastContainer } from "react-toastify";
 
 export default ({ user }) => {
   const { info } = useInfo();
+  const [active, setActive] = useState("profile");
 
   return (
     <Fragment>
@@ -34,7 +31,38 @@ export default ({ user }) => {
             <div className="col-lg-3">
               <Side user={user} />
             </div>
-            <div className="col-lg-9">b</div>
+            <div className="col-lg-9">
+              <div className="userprofile">
+                <div className="profileBtns">
+                  <div
+                    className={`profileBtn ${
+                      active === "profile" && "current"
+                    }`}
+                    onClick={() => setActive("profile")}
+                  >
+                    <i className="fa-regular fa-user"></i>
+                    <div className="btnInfo">
+                      <p className="btnTitle">Хувийн мэдээлэл</p>
+                      <p className="btnTitleSpan">{user.firstname}</p>
+                    </div>
+                  </div>
+                  <div
+                    className={`profileBtn ${
+                      active === "password" && "current"
+                    }`}
+                    onClick={() => setActive("password")}
+                  >
+                    <i className="fa-solid fa-lock"></i>
+                    <div className="btnInfo">
+                      <p className="btnTitle">Нууц үг</p>
+                      <p className="btnTitleSpan">Шинэчлэх, өөрчлөх</p>
+                    </div>
+                  </div>
+                  <Profile user={user} active={active} />
+                  <PasswordTab user={user} active={active} />
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </div>
