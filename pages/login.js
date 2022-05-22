@@ -73,7 +73,7 @@ export default ({ data, error, success }) => {
       if (data) {
         toastControl("success", "Амжилттай нэвтэрлээ.");
         await timer(1500);
-        router.push("/userprofile");
+        router.push("/");
       }
 
       if (error) toastControl("error", error);
