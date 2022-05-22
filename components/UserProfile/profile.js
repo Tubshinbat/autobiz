@@ -14,15 +14,14 @@ export default ({ active, user }) => {
 
   const timer = (ms) => new Promise((res) => setTimeout(res, ms));
   const [errors, setErrors] = useState({
-    firstname: false,
-    lastname: false,
-    phone: false,
+    firstname: true,
+    lastname: true,
+    phone: true,
   });
 
   useEffect(() => {
     if (user) {
       setForm(user);
-      allCheck();
     }
   }, [user]);
 

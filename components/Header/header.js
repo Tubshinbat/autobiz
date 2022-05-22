@@ -117,13 +117,15 @@ const Header = () => {
               <ul className="headerMenu">{renderMenu(dataMenus)}</ul>
             </div>
             <div className="headerButtons">
-              {userInfo && userInfo.phone ? (
+              {userInfo ? (
                 <Link href="/login">
                   <div className="headerBottom">
                     <div className="BottomIcon">
                       <i class="fa-regular fa-user"></i>
                     </div>
-                    <div className="BottomText">{userInfo.phone}</div>
+                    <div className="BottomText">
+                      {(userInfo.phone && userInfo.phone) || userInfo.email}
+                    </div>
                   </div>
                 </Link>
               ) : (

@@ -2237,6 +2237,101 @@ footer ul div a:hover {
   color: rgb(46, 46, 46);
 }
 
+.purchaseUserTitle {
+  position: relative;
+  margin: 30px 0px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.purchaseUserTitle::before {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: #ff9000;
+}
+
+.purchaseUserTitle h5 {
+  font-size: 16px;
+}
+
+.purchaseForm label {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.purchaseForm input {
+  height: 32px;
+  font-size: 12px;
+}
+
+.purchaseForm textarea {
+  height: 200px;
+  padding: 20px;
+  font-size: 12px;
+}
+
+.purchaseForm .form-group {
+  margin-bottom: 15px;
+}
+
+.deals {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.deal {
+  display: flex;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: rgb(241, 241, 195);
+  width: 100%;
+  cursor: pointer;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 12px;
+  transition: all 0.3s;
+}
+
+.deal:hover,
+.deal.current {
+  background-color: rgb(255 144 0);
+  color: #fff;
+}
+
+.dealIcon i {
+  padding: 10px 20px;
+  background-color: rgb(247, 174, 39);
+  margin-right: 15px;
+  border-radius: 3px;
+  font-size: 12px;
+  color: #fff;
+}
+
+.deals-footer {
+  display: flex;
+  width: 100%;
+}
+
+.btn-deals {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid rgb(255 144 0);
+  transition: all 0.3s;
+}
+
+.btn-deals:hover {
+  color: #f14133;
+}
+
 /*----------------------------------------*/
 /*  Responsive
 /*----------------------------------------*/
