@@ -55,7 +55,7 @@ export const getServerSideProps = async function ({ req, res }) {
     };
   }
 
-  const user = await getUser();
+  const user = await getUser(token);
 
   console.log(user);
 
