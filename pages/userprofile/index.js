@@ -2,6 +2,7 @@ import Head from "next/head";
 import { Fragment, useState } from "react";
 import { useInfo } from "hooks/use-info";
 import base from "lib/base";
+import { ToastContainer } from "react-toastify";
 
 import TopBar from "components/Header/topBar";
 import Header from "components/Header/header";
@@ -69,6 +70,17 @@ export default ({ user }) => {
         </section>
       </div>
       <Footer />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </Fragment>
   );
 };
