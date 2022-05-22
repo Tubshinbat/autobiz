@@ -57,11 +57,18 @@ export const getServerSideProps = async function ({ req, res }) {
 
   const user = await getUser(token);
 
-  console.log(user);
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {
-      user: {},
+      user,
     },
   };
 };
