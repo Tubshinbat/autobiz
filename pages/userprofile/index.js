@@ -70,7 +70,7 @@ export const getServerSideProps = async function ({ req, res }) {
 
   return {
     props: {
-      token,
+      user: {},
     },
   };
 };
