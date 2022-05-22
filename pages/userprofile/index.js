@@ -55,21 +55,7 @@ export const getServerSideProps = async function ({ req, res }) {
     };
   }
 
-  const { data } = await checkToken(token);
-
-  console.log(data);
-
-  // console.log(data);
-  // if (!data) {
-  //   return {
-  //     redirect: {
-  //       destination: "/login",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
-
-  // const user = await getUser();
+  const user = await getUser();
 
   return {
     props: {

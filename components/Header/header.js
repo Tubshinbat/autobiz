@@ -6,7 +6,7 @@ import { useCookies } from "react-cookie";
 
 import { useMenus } from "hooks/use-links";
 import { useInfo } from "hooks/use-info";
-import { checkToken } from "lib/token";
+
 import { useUser } from "hooks/use-user";
 import MobileHeader from "components/Mobile/MobileHeader";
 
