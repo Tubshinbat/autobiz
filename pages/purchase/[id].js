@@ -35,8 +35,9 @@ export default ({ product, user }) => {
 
   useEffect(() => {
     if (user) {
-      const { phone, lastname, email } = user;
-      setForm((bf) => ({ ...bf, phone, lastname, email }));
+      const { phone, lastname, email, _id } = user;
+
+      setForm((bf) => ({ ...bf, phone, lastname, email, userId: _id }));
     }
   }, [user]);
 
@@ -96,11 +97,11 @@ export default ({ product, user }) => {
     if (allCheck()) {
       const { order, error } = await createOrder(form);
       if (order) {
+        timer(2000);
         toastControl(
           "success",
           "Таны худалдан авалтыг хүлээн авлаа удахгүй тантай холбогдох болно"
         );
-        timer(2000);
         router.push("/products");
       }
       if (error) toastControl("error", error);
