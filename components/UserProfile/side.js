@@ -35,7 +35,14 @@ export default ({ user }) => {
           <Link href="/userprofile/orders">
             <a aria-label="Orders">Миний захиалгууд</a>
           </Link>
-          <span className="count">0</span>
+          {/* <span className="count">0</span> */}
+        </li>
+
+        <li className>
+          <Link href="/userprofile/purchasies">
+            <a aria-label="Orders">Худалдан авалт</a>
+          </Link>
+          {/* <span className="count">0</span> */}
         </li>
 
         <li className>
