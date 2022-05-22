@@ -266,11 +266,12 @@ export default ({ product, user }) => {
 
 export const getServerSideProps = async function ({ req, res, params }) {
   let user = {};
+
   let token = req.cookies.autobiztoken;
   if (token) user = await getUser(token);
 
   const { id } = params;
-
+  console.log(id);
   const { product } = await getProduct(id);
 
   if (!product) {
