@@ -66,11 +66,11 @@ export const getServerSideProps = async function ({ req, res }) {
     };
   }
 
-  // const user = await getUser();
+  const user = await getUser();
 
   return {
     props: {
-      user: {},
+      user,
     },
   };
 };
