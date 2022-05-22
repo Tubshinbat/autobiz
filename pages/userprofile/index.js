@@ -54,9 +54,11 @@ export const getServerSideProps = async function ({ req, res }) {
       },
     };
   }
-  console.log(token);
 
-  // const { data } = await checkToken(token);
+  const { data } = await checkToken(token);
+
+  console.log(data);
+
   // console.log(data);
   // if (!data) {
   //   return {
