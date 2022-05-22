@@ -161,7 +161,7 @@ export default ({ info }) => {
   return (
     <Fragment>
       <Head>
-        <title>Бэлэн машинууд | {info.name}</title>
+        <title>Ачигдахад бэлэн машинууд | {info.name}</title>
         <meta property="og:url" content={`${base.siteUrl}`} />
         <meta property="og:title" content={`Бэлэн машинууд | ${info.name}`} />
         <meta property="og:description" content={info.siteInfo} />

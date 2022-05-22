@@ -1,12 +1,7 @@
-import {
-  maxLength,
-  minLength,
-  onlyNumber,
-  requiredCheck,
-} from "lib/inputRegex";
+import { minLength, requiredCheck } from "lib/inputRegex";
 
 import { toastControl } from "lib/toastControl";
-import { updateUser } from "lib/user";
+import { changePassword, updateUser } from "lib/user";
 import { useEffect, useState } from "react";
 
 export default ({ active, user }) => {
@@ -33,9 +28,11 @@ export default ({ active, user }) => {
         result = minLength(val, 8);
       }
 
-      if (name === "confPassword" && result === true)
-        if (form.password === form.confPassword) result = true;
-        else result = "Нууц үг адилхан биш байна!";
+      if (name === "confPassword" && result === true) {
+        if (form.password === val) {
+          result = true;
+        } else result = "Нууц үг адилхан биш байна!";
+      }
     }
     setErrors((bfError) => ({ ...bfError, [name]: result }));
   };
@@ -65,10 +62,10 @@ export default ({ active, user }) => {
 
   const changeClick = async () => {
     if (allCheck()) {
-      const { user, error } = await updateUser(form);
+      const { user, error } = await changePassword(form);
 
       if (user !== null) {
-        toastControl("success", "Мэдээлэл амжилттай шинэчлэгдлээ");
+        toastControl("success", "Нууц үг шинэчлэгдлээ");
         timer(1500);
       }
       if (error) toastControl("error", error);

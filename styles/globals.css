@@ -2163,6 +2163,81 @@ footer ul div a:hover {
 }
 
 /*----------------------------------------*/
+/*  16. Purchase page css
+/*----------------------------------------*/
+
+.purchase {
+  min-height: 450px;
+  padding: 40px 0px;
+}
+
+.purchaseTitle {
+  position: relative;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.purchaseTitle::before {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 120px;
+  height: 2px;
+  background: #ff9000;
+}
+
+.purchaseTitle h2 {
+  font-size: 20px;
+}
+
+.purchaseList {
+  display: flex;
+}
+
+.purchaseItem {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.purchaseDetails {
+  display: flex;
+}
+
+.purchaseImage {
+  display: flex;
+  width: 90px;
+  height: 90px;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  margin-right: 15px;
+}
+
+.purchaseImage img {
+  height: 100%;
+}
+
+.purchaseInfo span {
+  font-size: 14px;
+  color: #666666;
+}
+
+.purchaseInfo h5 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.purchasePrice {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(46, 46, 46);
+}
+
+/*----------------------------------------*/
 /*  Responsive
 /*----------------------------------------*/
 
@@ -2232,7 +2307,8 @@ footer ul div a:hover {
   }
   footer,
   .footerBottom,
-  .headerSearchBox {
+  .headerSearchBox,
+  .topbar {
     display: none;
   }
 
