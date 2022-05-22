@@ -6,11 +6,16 @@ export const useUser = (token) => {
   let userInfo;
 
   const fetcher = (url) =>
-    axios.post(url, { autobiztoken: token }).then((res) => res.data);
+    axios
+      .get(url, {
+        withCredentials: true,
+        headers: { Cookie: `autobiztoken=${token};` },
+      })
+      .then((res) => res.data);
 
-  const { data } = useSWR(`${base.apiUrl}/checktoken/`, fetcher);
+  const { data } = useSWR(`${base.apiUrl}/users/userdata`, fetcher);
 
-  if (data) userInfo = data;
+  if (data) userInfo = data.data;
 
   return { userInfo };
 };

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { useInfo } from "hooks/use-info";
 import base from "lib/base";
 
@@ -8,6 +8,8 @@ import Header from "components/Header/header";
 import Footer from "components/Footer";
 import Side from "components/UserProfile/side";
 import { getUser } from "lib/user";
+import Profile from "components/UserProfile/profile";
+import PasswordTab from "components/UserProfile/passwordTab";
 
 export default ({ user }) => {
   const { info } = useInfo();
