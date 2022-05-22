@@ -126,7 +126,7 @@ export default ({ product, user }) => {
                   <div className="purchaseDetails">
                     <div className="purchaseImage">
                       {product.gallery_images && (
-                        <img src={`${product.product.gallery_images[0]}`} />
+                        <img src={`${product.gallery_images[0]}`} />
                       )}
                     </div>
                     <div className="purchaseInfo">
