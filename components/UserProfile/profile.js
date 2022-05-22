@@ -75,7 +75,7 @@ export default ({ active, user }) => {
     if (allCheck()) {
       const { user, error } = await updateUser(form);
 
-      if (user !== null) {
+      if (user !== undefined) {
         toastControl("success", "Мэдээлэл амжилттай шинэчлэгдлээ");
         timer(1500);
       }
