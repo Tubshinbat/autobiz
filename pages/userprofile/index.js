@@ -13,10 +13,10 @@ import { getUser } from "lib/user";
 import { toastControl } from "lib/toastControl";
 import { ToastContainer } from "react-toastify";
 import { useCookies } from "react-cookie";
+const [cookies, setCookie, removeCookie] = useCookies(["autobiztoken"]);
 
 export default ({ user }) => {
   const { info } = useInfo();
-  const [cookies, setCookie, removeCookie] = useCookies(["autobiztoken"]);
 
   return (
     <Fragment>
