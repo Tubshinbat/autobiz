@@ -20,7 +20,7 @@ const Header = () => {
   const [cookies] = useCookies(["autobiztoken"]);
 
   const { userInfo } = useUser(cookies.autobiztoken);
-  console.log(userInfo + " ==> ");
+
   useEffect(() => {
     if (menus) {
       setDataMenus(menus.data);
