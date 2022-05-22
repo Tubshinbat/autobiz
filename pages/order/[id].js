@@ -129,12 +129,12 @@ export default ({ product, user }) => {
                       )}
                     </div>
                     <div className="purchaseInfo">
-                      <span> {product.car_industry.name} </span>
+                      <span> {product.mark_txt} </span>
                       <h5> {product.title}</h5>
                     </div>
                   </div>
                   <div className="purchasePrice">
-                    <p>{new Intl.NumberFormat().format(product.price)} ₮</p>
+                    <p>${new Intl.NumberFormat().format(product.price)}</p>
                   </div>
                 </div>
               </div>
