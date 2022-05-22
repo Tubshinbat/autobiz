@@ -46,26 +46,27 @@ export default ({ user }) => {
 export const getServerSideProps = async function ({ req, res }) {
   let token = req.cookies.autobiztoken;
 
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  const { data } = await checkToken(token);
+
+  if (!data) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
   const user = await getUser();
-  // if (!token) {
-  //   return {
-  //     redirect: {
-  //       destination: "/login",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
-
-  // const { data } = await checkToken({ token });
-
-  // if (!data) {
-  //   return {
-  //     redirect: {
-  //       destination: "/login",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
 
   return {
     props: {
