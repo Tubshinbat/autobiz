@@ -65,7 +65,7 @@ export default ({ active, user }) => {
     if (allCheck()) {
       const { user, error } = await changePassword(form);
       console.log(user);
-      if (user !== null) {
+      if (user) {
         toastControl("success", "Нууц үг шинэчлэгдлээ");
         timer(1500);
       }
