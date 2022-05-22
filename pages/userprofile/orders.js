@@ -59,8 +59,8 @@ export default ({ user, orders }) => {
                         </td>
                         <td>
                           <ul>
-                            {el.message.length > 0 &&
-                              el.message[el.message.length - 1]}
+                            {/* {el.message.length > 0 &&
+                              el.message[el.message.length - 1]} */}
                           </ul>
                         </td>
                         <td>{el.createAt}</td>
