@@ -172,10 +172,10 @@ export default ({ info, product }) => {
                         {product.location_fob}
                       </div>
                       <div className={css.ProductBtns}>
-                        <button className={`${css.ProductBtn} ${css.Cal}`}>
+                        {/* <button className={`${css.ProductBtn} ${css.Cal}`}>
                           <i class="fa fa-calculator"></i>
                           Тооцоолуур
-                        </button>
+                        </button> */}
                         <Link href={`/order/${product._id}`}>
                           <button className={`${css.ProductBtn} ${css.Buy}`}>
                             <i className="fa fa-cart-shopping"></i>

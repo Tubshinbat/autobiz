@@ -8,7 +8,7 @@ import TopBar from "components/Header/topBar";
 import Header from "components/Header/header";
 import Footer from "components/Footer";
 
-import { getProduct, getProducts } from "lib/product";
+import { getBeProduct } from "lib/beproduct";
 
 import {
   maxLength,
@@ -18,10 +18,10 @@ import {
 } from "lib/inputRegex";
 import { toastControl } from "lib/toastControl";
 import { ToastContainer } from "react-toastify";
-import { createOrder } from "lib/order";
 import { getUser } from "lib/user";
 import { useInfo } from "hooks/use-info";
 const timer = (ms) => new Promise((res) => setTimeout(res, ms));
+
 export default ({ product, user }) => {
   const { info } = useInfo();
   const [form, setForm] = useState({});
@@ -30,13 +30,11 @@ export default ({ product, user }) => {
     phone: "",
     lastname: "",
     email: "",
-    deal: "",
   });
 
   useEffect(() => {
     if (user) {
       const { phone, lastname, email, _id } = user;
-
       setForm((bf) => ({ ...bf, phone, lastname, email, userId: _id }));
     }
   }, [user]);
@@ -71,12 +69,6 @@ export default ({ product, user }) => {
     }
   };
 
-  useEffect(() => {
-    if (form && form.deal) {
-      checkForm("deal", form.deal);
-    }
-  }, [form]);
-
   const checkTrue = () => {
     let errorCount = 0;
     let errorsValues = Object.values(errors);
@@ -95,7 +87,7 @@ export default ({ product, user }) => {
 
   const sendOrder = async () => {
     if (allCheck()) {
-      const { order, error } = await createOrder(form);
+      const { order, error } = await createBeOrder(form);
       if (order) {
         toastControl(
           "success",
@@ -209,27 +201,6 @@ export default ({ product, user }) => {
             </div>
             <div className="col-lg-4">
               <div className="deals">
-                <div
-                  className={`deal ${form.deal === "bank" && "current"} bank`}
-                  onClick={() => setForm((bf) => ({ ...bf, deal: "bank" }))}
-                >
-                  <div className="dealIcon">
-                    <i className="fa-solid fa-building-columns"></i>
-                  </div>
-                  <div className="dealInfo"> Банк болон банк бусын линзинг</div>
-                </div>
-                <div
-                  className={`deal ${form.deal === "money" && "current"} money`}
-                  onClick={() => setForm((bf) => ({ ...bf, deal: "money" }))}
-                >
-                  <div className="dealIcon">
-                    <i className="fa-solid fa-money-bill"></i>
-                  </div>
-                  <div className="dealInfo"> Бэлэн төлөлт </div>
-                </div>
-                <div className="field">
-                  <p className="fieldError"> {errors.deal}</p>
-                </div>
                 <div className="deals-footer">
                   <button className="btn btn-deals" onClick={sendOrder}>
                     Захиалга дуусгах
@@ -264,7 +235,7 @@ export const getServerSideProps = async function ({ req, res, params }) {
 
   const { id } = params;
 
-  const { product } = await getProduct(id);
+  const { product } = await getBeProduct(id);
 
   if (!product) {
     return {
