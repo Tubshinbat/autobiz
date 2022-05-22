@@ -20,8 +20,10 @@ import { toastControl } from "lib/toastControl";
 import { ToastContainer } from "react-toastify";
 import { createOrder } from "lib/order";
 import { getUser } from "lib/user";
+import { useInfo } from "hooks/use-info";
 
 export default ({ product, user }) => {
+  const { info } = useInfo;
   const [form, setForm] = useState({});
   const router = useRouter();
   const [errors, setError] = useState({
