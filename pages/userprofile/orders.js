@@ -41,12 +41,31 @@ export default ({ user, orders }) => {
                   <thead>
                     <tr>
                       <th>Хэлцэл</th>
-                      <th>Хэлцэл</th>
+                      <th>Сонгосон машин</th>
+                      <th>Мессеж </th>
+                      <th> Огноо</th>
                     </tr>
                   </thead>
-                  <tr>
-                    <td></td>
-                  </tr>
+                  {orders &&
+                    orders.map((el) => (
+                      <tr>
+                        <td>
+                          {el.status === active ? " Нээлттэй " : " Дууссан "}
+                        </td>
+                        <td>
+                          <a href={`/product/${el.product_id._id}`}>
+                            {el.product_id.title}{" "}
+                          </a>
+                        </td>
+                        <td>
+                          <ul>
+                            {el.message.length > 0 &&
+                              el.message[el.message.length - 1]}
+                          </ul>
+                        </td>
+                        <td>{el.createAt}</td>
+                      </tr>
+                    ))}
                 </table>
               </div>
             </div>
