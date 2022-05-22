@@ -56,8 +56,8 @@ export const getServerSideProps = async function ({ req, res }) {
   }
 
   const { data } = await checkToken(token);
-
-  if (data !== undefined) {
+  console.log(data);
+  if (!data) {
     return {
       redirect: {
         destination: "/login",
