@@ -20,6 +20,7 @@ import { toastControl } from "lib/toastControl";
 import { ToastContainer } from "react-toastify";
 import { getUser } from "lib/user";
 import { useInfo } from "hooks/use-info";
+import { createBeOrder } from "lib/order";
 const timer = (ms) => new Promise((res) => setTimeout(res, ms));
 
 export default ({ product, user }) => {
@@ -124,8 +125,8 @@ export default ({ product, user }) => {
                 <div className="purchaseItem">
                   <div className="purchaseDetails">
                     <div className="purchaseImage">
-                      {product.pictures && (
-                        <img src={`${base.cdnUrl}/${product.pictures[0]}`} />
+                      {product.gallery_images && (
+                        <img src={`${product.product.gallery_images[0]}`} />
                       )}
                     </div>
                     <div className="purchaseInfo">
