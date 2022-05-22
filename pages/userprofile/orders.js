@@ -50,7 +50,7 @@ export default ({ user, orders }) => {
                     orders.map((el) => (
                       <tr>
                         <td>
-                          {el.status === active ? " Нээлттэй " : " Дууссан "}
+                          {el.status === true ? " Нээлттэй " : " Дууссан "}
                         </td>
                         <td>
                           {el.product_id && (
@@ -61,8 +61,9 @@ export default ({ user, orders }) => {
                         </td>
                         <td>
                           <ul>
-                            {/* {el.message.length > 0 &&
-                              el.message[el.message.length - 1]} */}
+                            {el.message &&
+                              el.message.length > 0 &&
+                              el.message[el.message.length - 1]}
                           </ul>
                         </td>
                         <td>{el.createAt}</td>
