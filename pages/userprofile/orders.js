@@ -68,7 +68,7 @@ export default ({ user, orders }) => {
                               el.message[el.message.length - 1]}
                           </ul>
                         </td>
-                        <td> ${el.product_id.price} </td>
+                        <td> ${el.product_id && el.product_id.price} </td>
                         <td> ${el.total} </td>
                         <td>{el.createAt}</td>
                       </tr>
