@@ -11,7 +11,7 @@ export default () => {
   const [active, setActive] = useState("product");
 
   return (
-    <div className="main">
+    <section className="main">
       <div className="container">
         <div className="row">
           <div className="col-lg-3 col-md-3">
@@ -50,6 +50,6 @@ export default () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };

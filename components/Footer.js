@@ -3,6 +3,7 @@ import { useSocials } from "hooks/use-links";
 import { useFooterMenu } from "hooks/use-menus";
 import base from "lib/base";
 import Link from "next/link";
+import MobileFooter from "./Mobile/MobileFooter";
 
 export default () => {
   const { info } = useInfo();
@@ -110,6 +111,7 @@ export default () => {
       <div className="footerBottom">
         © {new Date().getFullYear()} он бүх эрх хуулиар хамгаалагдсан
       </div>
+      <MobileFooter />
     </>
   );
 };
