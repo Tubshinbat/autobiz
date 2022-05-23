@@ -43,6 +43,8 @@ export default ({ user, orders }) => {
                       <th>Хэлцэл</th>
                       <th>Сонгосон машин</th>
                       <th>Мессеж </th>
+                      <th> Үнэ </th>
+                      <th> Бодогдсон үнэ </th>
                       <th> Огноо</th>
                     </tr>
                   </thead>
@@ -66,6 +68,8 @@ export default ({ user, orders }) => {
                               el.message[el.message.length - 1]}
                           </ul>
                         </td>
+                        <td> ${el.product_id.price} </td>
+                        <td> ${el.total} </td>
                         <td>{el.createAt}</td>
                       </tr>
                     ))}
