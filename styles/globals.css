@@ -2562,6 +2562,11 @@ footer ul div a:hover {
   .homesides {
     display: none !important;
   }
+
+  .calculator-list {
+    flex-wrap: wrap;
+  }
+
   .notFoundSection img {
     width: 70%;
   }
