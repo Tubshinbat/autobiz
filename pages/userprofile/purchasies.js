@@ -27,7 +27,7 @@ export default ({ user, orders }) => {
       </Head>
       <div>
         <TopBar />
-        <Header />
+        <Header page={true} text="Худалдаж авах хүсэлтэй" />
       </div>
       <div className="container">
         <section className={`row userprofileSection `}>

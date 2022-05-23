@@ -109,7 +109,8 @@ export default ({ info }) => {
         <meta property="og:description" content={info.siteInfo} />
       </Head>
       <TopBar />
-      <Header />
+      <Header page={true} text="Бэлэн машинууд" />
+
       <Section>
         <div className="container">
           <div className="row ">

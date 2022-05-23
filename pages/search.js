@@ -34,7 +34,7 @@ export default ({ info }) => {
       </Head>
       <div>
         <TopBar />
-        <Header />
+        <Header page={true} text="Хайлт хийх" />
       </div>
       <div className="searchBoxMobile">
         <div className="container">

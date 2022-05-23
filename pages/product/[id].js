@@ -51,7 +51,7 @@ export default ({ info, product }) => {
         </title>
       </Head>
       <TopBar />
-      <Header />
+      <Header page={true} />
       <Section>
         <div className="container">
           <div className="row">

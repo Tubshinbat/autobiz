@@ -1809,6 +1809,7 @@ footer ul div a:hover {
   border-collapse: collapse;
   width: 100%;
   font-size: 12px;
+  overflow-x: auto;
 }
 
 .orderTable td,

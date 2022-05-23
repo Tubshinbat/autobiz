@@ -95,7 +95,7 @@ export default ({ data, error, success }) => {
       </Head>
       <div>
         <TopBar />
-        <Header />
+        <Header page={true} text="Бүртгүүлэх" />
       </div>
       <div className="loginSection">
         <div className="loginForm">

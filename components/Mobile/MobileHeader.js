@@ -3,14 +3,19 @@ import base from "lib/base";
 import Link from "next/link";
 import { useMenus, useSocials } from "hooks/use-links";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export default ({ text, page = false }) => {
   const { menus } = useMenus();
   const { info } = useInfo();
   const [dataMenus, setDataMenus] = useState([]);
   const { socialLinks } = useSocials();
-
+  const router = useRouter();
   const [active, setActive] = useState(false);
+
+  const backGo = () => {
+    router.back();
+  };
 
   useEffect(() => {
     if (menus) {
@@ -60,8 +65,9 @@ export default ({ text, page = false }) => {
           className={`back-button  ${
             page === true ? "displayBlock" : "displayNone"
           }`}
+          onClick={backGo}
         >
-          <i class="fa-solid fa-arrow-left"></i>
+          <i className="fa-solid fa-arrow-left"></i>
         </div>
         <div className="mid">
           {text ? (

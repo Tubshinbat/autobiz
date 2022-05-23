@@ -119,7 +119,7 @@ export default ({ product, user }) => {
       </Head>
       <div>
         <TopBar />
-        <Header />
+        <Header page={true} text="Захиалгын хуудас" />
       </div>
       <section className="purchase">
         <div className="container">

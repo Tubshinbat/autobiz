@@ -60,7 +60,7 @@ export default ({ info, product }) => {
         </title>
       </Head>
       <TopBar />
-      <Header />
+      <Header page={true} text="Захиалгын хуудас" />
       <Section>
         <div className="container">
           <div className="row">

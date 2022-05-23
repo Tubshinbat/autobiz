@@ -99,7 +99,7 @@ export default ({ info, menus }) => {
       </Head>
       <div>
         <TopBar />
-        <Header />
+        <Header page={true} text="Нийтлэл" />
       </div>
       <section className="newsSection ">
         <div className="container">

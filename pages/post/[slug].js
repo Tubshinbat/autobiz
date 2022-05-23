@@ -87,7 +87,7 @@ export default ({ info, menus, news }) => {
       </Head>
       <div>
         <TopBar />
-        <Header />
+        <Header page={true} />
       </div>
       <section className="newsSection ">
         <div className="container">

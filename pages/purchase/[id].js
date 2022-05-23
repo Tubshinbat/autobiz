@@ -126,7 +126,7 @@ export default ({ product, user }) => {
       </Head>
       <div>
         <TopBar />
-        <Header />
+        <Header page={true} />
       </div>
       <section className="purchase">
         <div className="container">

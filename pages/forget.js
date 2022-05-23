@@ -109,7 +109,7 @@ export default ({ error, success }) => {
       </Head>
       <div>
         <TopBar />
-        <Header />
+        <Header page={true} />
       </div>
       <div className="loginSection">
         <div className="loginForm">

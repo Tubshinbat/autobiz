@@ -31,11 +31,11 @@ export default ({ user }) => {
       <div className="container">
         <section className="row userprofileSection">
           <div className="row">
-            <div className="col-lg-3">
+            <div className="col-lg-3 col-sm-12">
               <Side user={user} />
             </div>
             <div className="col-lg-9">
-              <div className="userprofile">
+              <div className="desktop userprofile">
                 <div className="profileBtns">
                   <div
                     className={`profileBtn ${

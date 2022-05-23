@@ -10,7 +10,7 @@ import { useInfo } from "hooks/use-info";
 import { useUser } from "hooks/use-user";
 import MobileHeader from "components/Mobile/MobileHeader";
 
-const Header = () => {
+const Header = ({ page, text }) => {
   const [dataMenus, setDataMenus] = useState([]);
   const { info } = useInfo();
   const { menus } = useMenus();
@@ -142,7 +142,7 @@ const Header = () => {
           </div>
         </div>
       </header>
-      <MobileHeader />
+      <MobileHeader page={page} text={text} />
     </>
   );
 };

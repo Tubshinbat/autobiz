@@ -25,7 +25,7 @@ export default ({ info }) => {
       </Head>
       <div>
         <TopBar />
-        <Header />
+        <Header page={true} text="Зээлийн тооцоолуур" />
       </div>
       <Lend />
       <Footer />

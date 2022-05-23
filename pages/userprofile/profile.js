@@ -29,7 +29,7 @@ export default ({ user, error }) => {
       </Head>
       <div>
         <TopBar />
-        <Header />
+        <Header page={true} text="Хэрэглэгчийн мэдээлэл" />
       </div>
       <div className="container">
         <section className={`row userprofileSection `}>

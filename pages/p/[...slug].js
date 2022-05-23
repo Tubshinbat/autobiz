@@ -50,7 +50,7 @@ const Page = ({
           {menu.name} - {info.name}
         </title>
       </Head>
-      <Header />
+      <Header page={true} />
 
       <div className={`${css.Page} animate__animated animate__fadeIn`}>
         <div className="container">

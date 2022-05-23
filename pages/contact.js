@@ -98,7 +98,7 @@ export default ({ info }) => {
       </Head>
       <div>
         <TopBar />
-        <Header />
+        <Header page={true} text="Холбоо барих" />
       </div>
       <section className="contactSection">
         <div className="container">
