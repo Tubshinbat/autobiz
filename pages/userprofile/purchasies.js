@@ -14,7 +14,7 @@ import { getOrders } from "lib/order";
 
 export default ({ user, orders }) => {
   const { info } = useInfo();
-  console.log(orders);
+
   const [active, setActive] = useState("profile");
 
   return (

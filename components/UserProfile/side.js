@@ -1,7 +1,15 @@
 import base from "lib/base";
 import Link from "next/link";
-
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/router";
 export default ({ user }) => {
+  const [cookies, setCookie, removeCookie] = useCookies(["autobiztoken"]);
+  const router = useRouter();
+  const logout = () => {
+    removeCookie("autobiztoken");
+    router.push("/");
+  };
+
   return (
     <div className="userInfoBox">
       <div className="userInfo">
@@ -24,7 +32,7 @@ export default ({ user }) => {
         </div>
       </div>
       <ul className="userMenu">
-        <li className="current">
+        <li className="">
           <Link href="/userprofile/profile">
             <a aria-label="Personal Info" href="/account/profile">
               Хувийн мэдээлэл
@@ -54,7 +62,9 @@ export default ({ user }) => {
           </span>
         </li>
         <li className="logout">
-          <button type="button">Гарах</button>
+          <button type="button" onClick={logout}>
+            Гарах
+          </button>
         </li>
       </ul>
     </div>
