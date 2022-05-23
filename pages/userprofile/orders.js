@@ -37,7 +37,7 @@ export default ({ user, orders }) => {
             </div>
             <div className="col-lg-9">
               <div className="ordersListUser">
-                <table class="myTable table">
+                <table class="orderTable">
                   <thead>
                     <tr>
                       <th>Хэлцэл</th>
