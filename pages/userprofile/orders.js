@@ -10,7 +10,7 @@ import Footer from "components/Footer";
 import Side from "components/UserProfile/side";
 import { getUser } from "lib/user";
 
-import { getOrders } from "lib/order";
+import { getBeOrders, getOrders } from "lib/order";
 
 export default ({ user, orders }) => {
   const { info } = useInfo();
@@ -54,7 +54,7 @@ export default ({ user, orders }) => {
                         </td>
                         <td>
                           {el.product_id && (
-                            <a href={`/product/${el.product_id._id}`}>
+                            <a href={`/beproduct/${el.product_id._id}`}>
                               {el.product_id && el.product_id.title}{" "}
                             </a>
                           )}
@@ -114,7 +114,7 @@ export const getServerSideProps = async function ({ req, res }) {
     };
   }
 
-  orders = await getOrders(token);
+  orders = await getBeOrders(token);
 
   return {
     props: {

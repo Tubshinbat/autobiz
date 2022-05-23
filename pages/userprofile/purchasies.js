@@ -37,7 +37,39 @@ export default ({ user, orders }) => {
             </div>
             <div className="col-lg-9">
               <div className="ordersListUser">
-                <table></table>
+                <table class="orderTable">
+                  <thead>
+                    <tr>
+                      <th>Хэлцэл</th>
+                      <th>Сонгосон машин</th>
+                      <th>Мессеж </th>
+                      <th> Огноо</th>
+                    </tr>
+                  </thead>
+                  {orders &&
+                    orders.map((el) => (
+                      <tr>
+                        <td>
+                          {el.status === true ? " Нээлттэй " : " Дууссан "}
+                        </td>
+                        <td>
+                          {el.product_id && (
+                            <a href={`/product/${el.product_id._id}`}>
+                              {el.product_id && el.product_id.title}{" "}
+                            </a>
+                          )}
+                        </td>
+                        <td>
+                          <ul>
+                            {el.message &&
+                              el.message.length > 0 &&
+                              el.message[el.message.length - 1]}
+                          </ul>
+                        </td>
+                        <td>{el.createAt}</td>
+                      </tr>
+                    ))}
+                </table>
               </div>
             </div>
           </div>
@@ -61,7 +93,7 @@ export default ({ user, orders }) => {
 
 export const getServerSideProps = async function ({ req, res }) {
   let token = req.cookies.autobiztoken;
-
+  let orders = [];
   if (!token) {
     return {
       redirect: {
@@ -72,7 +104,7 @@ export const getServerSideProps = async function ({ req, res }) {
   }
 
   const user = await getUser(token);
-  orders = [];
+
   if (!user) {
     return {
       redirect: {
@@ -82,7 +114,7 @@ export const getServerSideProps = async function ({ req, res }) {
     };
   }
 
-  const orders = await getOrders(token);
+  orders = await getOrders(token);
 
   return {
     props: {
