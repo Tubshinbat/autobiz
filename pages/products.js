@@ -398,7 +398,7 @@ export default ({ info }) => {
                                 <li>{product.car_km} km</li>
                               </div>
                               <div className="productPrice">
-                                {parseInt(product.price) / 100} Сая
+                                {parseInt(product.price) / 1000000} Сая
                               </div>
                             </div>
                           </div>
