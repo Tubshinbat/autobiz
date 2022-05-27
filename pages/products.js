@@ -363,7 +363,7 @@ export default ({ info }) => {
                 {products &&
                   products.map((product, index) => (
                     <div
-                      className="col-lg-3 col-md-3 col-sm-6 col-6 wow animate__animated animate__fadeIn"
+                      className="col-custom-2 col-lg-3 col-md-3 col-sm-6 col-6 wow animate__animated animate__fadeIn"
                       data-wow-delay={`${0.8}s`}
                       key={`product_${product._id}`}
                     >
@@ -398,7 +398,7 @@ export default ({ info }) => {
                                 <li>{product.car_km} km</li>
                               </div>
                               <div className="productPrice">
-                                {parseInt(product.price) / 1000000} Сая
+                                {parseInt(product.price) / 100} Сая
                               </div>
                             </div>
                           </div>

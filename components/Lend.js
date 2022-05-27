@@ -107,7 +107,7 @@ export default ({ dPrice }) => {
                   id="amount"
                   type="text"
                   name="price"
-                  defaultValue={dPrice && dPrice}
+                  defaultValue={dPrice && dPrice - dPrice * 0.2}
                   placeholder="Зээлийн хэмжээ"
                 />
               </div>

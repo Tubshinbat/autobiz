@@ -10,7 +10,7 @@ const TopBar = () => {
 
   useEffect(async () => {
     const { data } = await getRate();
-    const usdIndex = await data.findIndex((x) => x.number === 1);
+    const usdIndex = await data.findIndex((x) => x.number === 3);
     if (data)
       setUsd(
         data[usdIndex] && data[usdIndex].sellRate && data[usdIndex].sellRate
@@ -22,7 +22,7 @@ const TopBar = () => {
       <div className="container">
         <div className="topbarContainer">
           <div className="topRate">
-            Өнөөдрийн ханш: <b>${usd}</b>
+            Өнөөдрийн ханш: <b>¥ {usd}</b>
           </div>
           <div className="topContact">
             <div className="topSocials">

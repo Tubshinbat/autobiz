@@ -18,7 +18,7 @@ export default ({ active }) => {
       {products &&
         products.map((product, index) => (
           <div
-            className="col-lg-3 col-md-3 col-sm-6 col-6 wow animate__animated animate__fadeIn"
+            className="col-custom-2 col-lg-3 col-md-3 col-sm-6 col-6 wow animate__animated animate__fadeIn"
             data-wow-delay={`${0.8}s`}
             key={`product_${product._id}`}
           >

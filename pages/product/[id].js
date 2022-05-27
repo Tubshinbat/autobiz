@@ -4,6 +4,7 @@ import Head from "next/head";
 import { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import ImageGallery from "react-image-gallery";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -26,6 +27,7 @@ import Lend from "components/Lend";
 
 export default ({ info, product }) => {
   const router = useRouter();
+  const [image, setImage] = useState([]);
   const [ogUrl, setOgUrl] = useState("");
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const { asPath } = useRouter();
@@ -43,6 +45,19 @@ export default ({ info, product }) => {
     setOgUrl(`${baseUrl}${asPath}`);
   }, [router.pathname]);
 
+  useEffect(() => {
+    if (product) {
+      let img = [];
+      product.pictures.map((picture) =>
+        img.push({
+          original: base.cdnUrl + "/" + picture,
+          thumbnail: base.cdnUrl + "/" + picture,
+        })
+      );
+      setImage(img);
+    }
+  }, [product]);
+
   return (
     <Fragment>
       <Head>
@@ -56,7 +71,8 @@ export default ({ info, product }) => {
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
-              <Swiper
+              <ImageGallery items={image} />
+              {/* <Swiper
                 spaceBetween={10}
                 navigation={true}
                 thumbs={{ swiper: thumbsSwiper }}
@@ -97,7 +113,7 @@ export default ({ info, product }) => {
                       />
                     </SwiperSlide>
                   ))}
-              </Swiper>
+              </Swiper> */}
               <div className="share-post-box">
                 <ul className="share-box">
                   <li>
@@ -198,6 +214,9 @@ export default ({ info, product }) => {
                     <tr>
                       <td>Түлшний төрөл: {product.car_shatakhuun} </td>
                       <td>Араа: {product.car_speed_box}</td>
+                    </tr>
+                    <tr>
+                      <td>Моторын багтаамж: {product.car_motor} </td>
                     </tr>
                   </table>
                 </div>

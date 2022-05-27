@@ -33,14 +33,8 @@ const Header = ({ page, text }) => {
       let sticky = header.offsetTop;
       if (window.pageYOffset > sticky) {
         header.classList.add(`headerSticky`);
-        header.classList.add("animate__animated");
-        header.classList.add("animate__slideInDown");
-        header.classList.add("animate__delay-0.2s");
       } else {
         header.classList.remove(`headerSticky`);
-        header.classList.remove("animate__animated");
-        header.classList.remove("animate__slideInDown");
-        header.classList.remove("animate__delay-0.2s");
       }
     };
   }, []);

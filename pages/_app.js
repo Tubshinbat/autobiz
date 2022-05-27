@@ -14,6 +14,7 @@ import ru from "javascript-time-ago/locale/ru.json";
 TimeAgo.addDefaultLocale(mn);
 TimeAgo.addLocale(ru);
 
+import "react-image-gallery/styles/css/image-gallery.css";
 import "nprogress/nprogress.css";
 import "react-toastify/dist/ReactToastify.css";
 import "styles/hovereffects.css";

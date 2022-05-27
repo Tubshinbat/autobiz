@@ -8,7 +8,7 @@ import Product from "./product";
 import Beproduct from "./beproduct";
 
 export default () => {
-  const [active, setActive] = useState("product");
+  const [active, setActive] = useState("beproduct");
 
   return (
     <section className="main">
@@ -21,13 +21,10 @@ export default () => {
           <div className="col-lg-9 col-md-12">
             <div className="homeTabs">
               <div
-                className={`homeTab ${
-                  active === "product" && "active"
-                } wow animate__animated animate__fadeInUp`}
-                data-wow-delay={`1.4s`}
-                onClick={() => setActive("product")}
+                className="homeTab action wow animate__animated animate__fadeInUp"
+                data-wow-delay={`1.8s`}
               >
-                Монголд байгаа
+                LIVE Дуудлага худалдаа <span className="coming"> Удахгүй</span>
               </div>
               <div
                 className={`homeTab ${
@@ -39,10 +36,13 @@ export default () => {
                 Ачигдахад бэлэн
               </div>
               <div
-                className="homeTab action wow animate__animated animate__fadeInUp"
-                data-wow-delay={`1.8s`}
+                className={`homeTab ${
+                  active === "product" && "active"
+                } wow animate__animated animate__fadeInUp`}
+                data-wow-delay={`1.4s`}
+                onClick={() => setActive("product")}
               >
-                LIVE Дуудлага худалдаа <span className="coming"> Удахгүй</span>
+                Монголд байгаа
               </div>
             </div>
             <Product active={active} />

@@ -23,7 +23,7 @@ export default ({ info }) => {
         <meta property="og:title" content={info.name} />
         <meta property="og:description" content={info.siteInfo} />
       </Head>
-      <div>
+      <div className="home">
         <TopBar />
         <Header />
         <Banner />

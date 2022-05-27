@@ -3,6 +3,7 @@ import Head from "next/head";
 import { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import ImageGallery from "react-image-gallery";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -23,13 +24,16 @@ import Footer from "components/Footer";
 import Spinner from "components/Spinner";
 import { getBeProduct, getBeProducts } from "lib/beproduct";
 import { getRate } from "lib/rate";
+import Lend from "components/Lend";
 
 export default ({ info, product }) => {
   const router = useRouter();
   const [ogUrl, setOgUrl] = useState("");
+  const [image, setImage] = useState([]);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const { asPath } = useRouter();
   const [usd, setUsd] = useState("");
+  const [jpy, setJpy] = useState("");
 
   if (router.isFallback) return <Spinner />;
 
@@ -40,10 +44,27 @@ export default ({ info, product }) => {
   useEffect(async () => {
     const { data } = await getRate();
     const usdIndex = await data.findIndex((x) => x.number === 1);
+    const japanIndex = await data.findIndex((x) => x.number === 3);
+    setJpy(
+      data[japanIndex] && data[japanIndex].sellRate && data[japanIndex].sellRate
+    );
     setUsd(
-      data[usdIndex] && data[usdIndex].sellRate && data[usdIndex].sellRate
+      data[usdIndex] && data[usdIndex].sellRate && data[usdIndex].sellRate + 0.5
     );
   }, []);
+
+  useEffect(() => {
+    if (product) {
+      let img = [];
+      product.gallery_images.map((picture) =>
+        img.push({
+          original: picture,
+          thumbnail: picture,
+        })
+      );
+      setImage(img);
+    }
+  }, [product]);
 
   useEffect(() => {
     const host = window.location.host;
@@ -65,7 +86,8 @@ export default ({ info, product }) => {
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
-              <Swiper
+              <ImageGallery items={image} />
+              {/* <Swiper
                 spaceBetween={10}
                 navigation={true}
                 thumbs={{ swiper: thumbsSwiper }}
@@ -101,7 +123,7 @@ export default ({ info, product }) => {
                       <img key={`image_${index}`} src={el} />
                     </SwiperSlide>
                   ))}
-              </Swiper>
+              </Swiper> */}
               <div className="share-post-box">
                 <ul className="share-box">
                   <li>
@@ -152,14 +174,18 @@ export default ({ info, product }) => {
                       <div className={css.PriceInfos}>
                         <div>Зарагдаж буй үнэ:</div>
                         <span>
-                          ${new Intl.NumberFormat().format(product.price)}
+                          {new Intl.NumberFormat().format(
+                            (
+                              parseInt(parseInt(product.price) * usd) / 1000000
+                            ).toFixed(2)
+                          )}
+                          сая ₮
                         </span>
                       </div>
                       <div className={`${css.PriceInfos} ${css.ConverPirce}`}>
-                        <div>Хөрвүүлсэн дүн:</div>
+                        <div>Япон иен дүн:</div>
                         <span>
-                          {parseInt((parseInt(product.price) * usd) / 1000000)}
-                          сая ₮
+                          ¥{new Intl.NumberFormat().format(product.price)}
                         </span>
                       </div>
                       <p className={css.Linzing}>
@@ -172,10 +198,13 @@ export default ({ info, product }) => {
                         {product.location_fob}
                       </div>
                       <div className={css.ProductBtns}>
-                        {/* <button className={`${css.ProductBtn} ${css.Cal}`}>
+                        <a
+                          href="#Lend"
+                          className={`${css.ProductBtn} ${css.Cal}`}
+                        >
                           <i class="fa fa-calculator"></i>
                           Тооцоолуур
-                        </button> */}
+                        </a>
                         <Link href={`/order/${product._id}`}>
                           <button className={`${css.ProductBtn} ${css.Buy}`}>
                             <i className="fa fa-cart-shopping"></i>
@@ -212,7 +241,7 @@ export default ({ info, product }) => {
                     </tr>
                     <tr>
                       <td>Өнгө: {product.color || "-"}</td>
-                      <td>Жолооны хүрд: {product.hurd || "-"}</td>
+                      <td>Жолооны хүрд: {product.steering || "-"}</td>
                     </tr>
                     <tr>
                       <td>Үйлдвэрлэгдсэн он: {product.car_year} </td>
@@ -236,6 +265,63 @@ export default ({ info, product }) => {
           </div>
         </div>
       </Section>
+      {/* <div className="calTabs">
+        <div className="calTab"> Монголд ирэх дүн бодох </div>
+        <div className="calTab"> Зээлийн тооцоолуур </div>
+      </div>
+      <div className="container">
+        <div className="calFob">
+          <div className="calFobTitle"> Монголд ирэх үнэ бодох</div>
+          <table>
+            <tr>
+              <th>№</th>
+              <th>Тайлбар</th>
+              <th>Валют</th>
+              <th>Ханш</th>
+              <th>Үнэ</th>
+            </tr>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Зарагдаж байгаа үнэ</td>
+                <td>{}</td>
+                <td>{jpy}</td>
+                <td>{}</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>
+                  Японы худалдааны татвар 7%{" "}
+                  <a
+                    href="https://ja.m.wikipedia.org/wiki/%E6%B6%88%E8%B2%BB%E7%A8%8E"
+                    target="_blank"
+                  >
+                    татвар
+                  </a>
+                </td>
+                <td>{}</td>
+                <td>{jpy}</td>
+                <td>{}</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Япон дах үйлчилгээний зардал</td>
+                <td>100,000 Иен</td>
+                <td>{jpy}</td>
+                <td>{new Intl.NumberFormat().format(100000 * jpy)}₮</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Урьдчилгаа төлбөр</td>
+                <td>100,000 Иен</td>
+                <td>{jpy}</td>
+                <td>₮</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div> */}
+      <Lend />
       <Footer />
     </Fragment>
   );

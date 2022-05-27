@@ -455,7 +455,7 @@ export default ({ info }) => {
                 {products &&
                   products.map((product, index) => (
                     <div
-                      className="col-lg-3 col-md-3 col-sm-6 col-6 wow animate__animated animate__fadeIn"
+                      className="col-custom-2 col-lg-3 col-md-3 col-sm-6 col-6 wow animate__animated animate__fadeIn"
                       data-wow-delay={`${0.8}s`}
                       key={`product_${product._id}`}
                     >
@@ -490,13 +490,10 @@ export default ({ info }) => {
                                 <li>{product.mileage} km</li>
                               </div>
                               <div className="productPrice">
-                                ${product.price} /
-                                <span>
-                                  {parseInt(
-                                    (parseInt(product.price) * usd) / 1000000
-                                  )}
-                                  сая
-                                </span>
+                                {parseInt(
+                                  (parseInt(product.price) * usd) / 1000000
+                                )}
+                                сая /<span>¥{product.price}</span>
                               </div>
                               <p className="plusInfo">
                                 тээвэр, татвар бусад зардал багтаагүй үнэ

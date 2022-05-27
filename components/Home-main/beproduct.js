@@ -30,7 +30,7 @@ export default ({ active }) => {
       {products &&
         products.map((product) => (
           <div
-            className="col-lg-3 col-md-3 col-sm-6 col-6"
+            className="col-custom-2 col-lg-3 col-md-3 col-sm-6 col-6"
             key={`beproduct_${product._id}`}
           >
             <Link href={`/beproduct/${product._id}`}>
@@ -63,7 +63,9 @@ export default ({ active }) => {
                     <div className="productPrice">
                       ${product.price} /
                       <span>
-                        {parseInt((parseInt(product.price) * usd) / 1000000)}
+                        {new Intl.NumberFormat().format(
+                          parseInt(parseInt(product.price) * usd) / 1000000
+                        )}
                         сая
                       </span>
                     </div>

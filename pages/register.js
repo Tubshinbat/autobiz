@@ -24,6 +24,9 @@ export default ({ data, error, success }) => {
     email: false,
     password: false,
     confPassword: false,
+    lastname: false,
+    firstname: false,
+    phone: false,
   });
 
   const handleChange = (event) => {
@@ -97,55 +100,105 @@ export default ({ data, error, success }) => {
         <TopBar />
         <Header page={true} text="Бүртгүүлэх" />
       </div>
-      <div className="loginSection">
-        <div className="loginForm">
+      <div className="loginSection ">
+        <div className="loginForm registerForm">
           <div className="loginHeader">
             <li className={`loginTab active`}>Бүртгүүлэх</li>
           </div>
-          <div className="login-field">
-            <input
-              type="email"
-              name="email"
-              placeholder="Та И-Мэйл хаягаа оруулна уу"
-              value={loginForm.email}
-              onChange={handleChange}
-              className={`form-control ${errors.email === true && "is-valid"}`}
-            />
-            <div className="field">
-              <p className="fieldError"> {errors.email}</p>
+          <div className="row">
+            <div className="col-lg-6 register-field">
+              <input
+                type="text"
+                name="lastname"
+                placeholder="Таны овог нэр"
+                value={loginForm.lastname}
+                onChange={handleChange}
+                className={`form-control ${
+                  errors.lastname === true && "is-valid"
+                }`}
+              />
+              <div className="field">
+                <p className="fieldError"> {errors.lastname}</p>
+              </div>
             </div>
-          </div>
+            <div className="col-lg-6 register-field">
+              <input
+                type="text"
+                name="firstname"
+                placeholder="Таны нэр"
+                value={loginForm.firstname}
+                onChange={handleChange}
+                className={`form-control ${
+                  errors.firstname === true && "is-valid"
+                }`}
+              />
+              <div className="field">
+                <p className="fieldError"> {errors.firstname}</p>
+              </div>
+            </div>
+            <div className="col-lg-6 register-field">
+              <input
+                type="number"
+                name="phone"
+                placeholder="Таны утасны дугаар"
+                value={loginForm.phone}
+                onChange={handleChange}
+                className={`form-control ${
+                  errors.phone === true && "is-valid"
+                }`}
+              />
+              <div className="field">
+                <p className="fieldError"> {errors.phone}</p>
+              </div>
+            </div>
+            <div className="col-lg-6 register-field">
+              <input
+                type="email"
+                name="email"
+                placeholder="Та И-Мэйл хаягаа оруулна уу"
+                value={loginForm.email}
+                onChange={handleChange}
+                className={`form-control ${
+                  errors.email === true && "is-valid"
+                }`}
+              />
+              <div className="field">
+                <p className="fieldError"> {errors.email}</p>
+              </div>
+            </div>
 
-          <div className="login-field">
-            <input
-              type="password"
-              name="password"
-              placeholder="Та нууц үгээ оруулна уу"
-              value={loginForm.password}
-              onChange={handleChange}
-              className={`form-control
+            <div className="col-lg-6 register-field">
+              <input
+                type="password"
+                name="password"
+                placeholder="Та нууц үгээ оруулна уу"
+                value={loginForm.password}
+                onChange={handleChange}
+                className={`form-control
                 ${errors.password === true && "is-valid"}`}
-            />
+              />
 
-            <div className="field">
-              <p className="fieldError"> {errors.password}</p>
+              <div className="field">
+                <p className="fieldError"> {errors.password}</p>
+              </div>
+            </div>
+
+            <div className="col-lg-6 register-field">
+              <input
+                type="password"
+                name="confPassword"
+                placeholder="Та нууц үгээ давтан оруулна уу"
+                value={loginForm.confPassword}
+                onChange={handleChange}
+                className={`form-control
+                ${errors.confPassword === true && "is-valid"}`}
+              />
+
+              <div className="field">
+                <p className="fieldError"> {errors.confPassword} </p>
+              </div>
             </div>
           </div>
-
-          <div className="login-field">
-            <input
-              type="password"
-              name="confPassword"
-              placeholder="Та нууц үгээ оруулна уу"
-              value={loginForm.confPassword}
-              onChange={handleChange}
-              className={`form-control
-                ${errors.confPassword === true && "is-valid"}`}
-            />
-
-            <div className="field">{errors.confPassword}</div>
-          </div>
-
           <button onClick={register} type="button" class="btn btn-login">
             Бүртгүүлэх
           </button>
