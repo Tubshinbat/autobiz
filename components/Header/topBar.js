@@ -5,16 +5,26 @@ import { useInfo } from "hooks/use-info";
 
 const TopBar = () => {
   const [usd, setUsd] = useState("");
+  const [jpy, setJpy] = useState("");
   const { socialLinks } = useSocials();
   const { info } = useInfo();
 
   useEffect(async () => {
     const { data } = await getRate();
-    const usdIndex = await data.findIndex((x) => x.number === 3);
-    if (data)
+    const usdIndex = await data.findIndex((x) => x.number === 1);
+    const jpyIndex = await data.findIndex((x) => x.number === 3);
+    if (data) {
       setUsd(
-        data[usdIndex] && data[usdIndex].sellRate && data[usdIndex].sellRate
+        data[usdIndex] &&
+          data[usdIndex].cashSellRate &&
+          data[usdIndex].cashSellRate
       );
+      setJpy(
+        data[jpyIndex] &&
+          data[jpyIndex].cashSellRate &&
+          data[jpyIndex].cashSellRate
+      );
+    }
   }, []);
 
   return (
@@ -22,7 +32,7 @@ const TopBar = () => {
       <div className="container">
         <div className="topbarContainer">
           <div className="topRate">
-            Өнөөдрийн ханш: <b>¥ {usd}</b>
+            Өнөөдрийн ханш: <b>¥ {jpy}</b>
           </div>
           <div className="topContact">
             <div className="topSocials">

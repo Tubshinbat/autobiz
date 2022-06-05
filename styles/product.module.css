@@ -1,19 +1,28 @@
 .SearchBox {
-  padding: 20px 10px;
-  background-color: #f5ab4b;
-  row-gap: 15px;
+  padding: 20px;
+  background-color: #ffe8bd;
+  row-gap: 12px;
+  border: 1.5px solid rgb(238, 238, 238);
+  box-shadow: rgb(0 0 0 / 5%) 0px 6px 24px 0px, rgb(0 0 0 / 8%) 0px 0px 0px 1px;
 }
 
 .InputBox {
   border-radius: 3px;
   border: none;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
+  margin-bottom: 10px;
+  background-color: #fff;
+  padding: 7px 7px;
+  height: 31px;
+  border: 1px solid rgb(201, 201, 201);
+  border-radius: 5px;
 }
 
 .SearchBoxFooter {
   display: flex;
   width: 100%;
   justify-content: center;
+  margin-top: 12px;
 }
 
 .SearchBoxBtns {
@@ -23,30 +32,30 @@
 
 .SearchBoxBtns button {
   border: none;
-  padding: 8px 20px;
-  font-size: 0.7rem;
+  padding: 6px 20px;
+  font-size: 0.72rem;
   background: none;
   text-transform: uppercase;
 }
 
 .SearchSubmit {
-  background-color: #a53728 !important;
+  background-color: #ff7b00 !important;
   color: #fff;
   font-weight: bold;
   transition: all 0.3s ease-in;
 }
 
 .SearchSubmit:hover {
-  background-color: #811f12 !important;
+  background-color: #ce6808 !important;
 }
 
 .SearchSubmit i {
   margin-right: 5px;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
 }
 
 .Clear {
-  color: #fff;
+  color: rgb(31, 31, 31);
 }
 
 .ProductHeader {
@@ -78,7 +87,8 @@
 
 .ProductHeader select {
   padding: 6px 10px;
-  font-size: 0.85rem;
+  font-size: 0.7rem;
   border-radius: 4px;
   border: none;
+  border: 2px solid rgb(235, 235, 235);
 }

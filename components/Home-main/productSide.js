@@ -10,10 +10,7 @@ export default ({ active }) => {
         active !== "product" ? "displayNone" : "displayBlock"
       }`}
     >
-      <div
-        className="side wow animate__animated animate__fadeIn"
-        data-wow-delay={`1.2s`}
-      >
+      <div className="side " data-wow-delay={`1.2s`}>
         <div className="sideTitle">Үйлдвэрлэгч</div>
         <ul className="makes">
           {products &&
@@ -35,10 +32,7 @@ export default ({ active }) => {
             ))}
         </ul>
       </div>
-      <div
-        className="side wow animate__animated animate__fadeIn"
-        data-wow-delay={`1.5s`}
-      >
+      <div className="side" data-wow-delay={`1.5s`}>
         <div className="sideTitle">Төрөл</div>
         <ul className="makes">
           {countTypes &&

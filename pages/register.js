@@ -63,6 +63,7 @@ export default ({ data, error, success }) => {
   };
 
   useEffect(() => {
+    removeCookie("autobiztoken");
     toastControl("error", error);
   }, [error]);
 
@@ -227,7 +228,9 @@ export const getServerSideProps = async function ({ req, res }) {
     return { props: {} };
   }
 
-  const { data } = await checkToken(token);
+  const { data, error } = await checkToken(token);
+
+  if (error !== null) return { props: { error } };
 
   if (data !== undefined || data !== null) {
     return {

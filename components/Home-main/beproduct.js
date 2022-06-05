@@ -1,3 +1,4 @@
+import BeSearch from "components/BeSearch";
 import { useBeproducts } from "hooks/use-beproduct";
 import base from "lib/base";
 import { getRate } from "lib/rate";
@@ -7,26 +8,39 @@ import { useEffect, useState } from "react";
 
 export default ({ active }) => {
   const [usd, setUsd] = useState("");
-  const { products } = useBeproducts(`limit=24&status=true`);
+  const [jpy, setJpy] = useState("");
+  const { products } = useBeproducts(`limit=25&status=true`);
   const router = useRouter();
   const more = () => {
-    router.push(`/beproducts`);
+    router.push(`/beproducts?page=2`);
   };
 
   useEffect(async () => {
     const { data } = await getRate();
     const usdIndex = await data.findIndex((x) => x.number === 1);
-    setUsd(
-      data[usdIndex] && data[usdIndex].sellRate && data[usdIndex].sellRate
-    );
+    const jpyIndex = await data.findIndex((x) => x.number === 3);
+    if (data) {
+      setUsd(
+        data[usdIndex] &&
+          data[usdIndex].cashSellRate &&
+          data[usdIndex].cashSellRate
+      );
+      setJpy(
+        data[jpyIndex] &&
+          data[jpyIndex].cashSellRate &&
+          data[jpyIndex].cashSellRate
+      );
+    }
   }, []);
-
   return (
     <div
-      className={`row productsList  ${
+      className={`row productsGrip  ${
         active !== "beproduct" ? "displayNone" : "displayBlock"
       }`}
     >
+      <div className="col-lg-12">
+        <BeSearch />
+      </div>
       {products &&
         products.map((product) => (
           <div
@@ -36,37 +50,29 @@ export default ({ active }) => {
             <Link href={`/beproduct/${product._id}`}>
               <a>
                 <div className="productItem">
-                  <div className="productImage">
-                    {product.gallery_images ? (
-                      <>
-                        <img
-                          src={`${product.gallery_images[0]}`}
-                          className="productImg1"
-                        />
-                        {product.gallery_images[1] && (
-                          <img
-                            src={`${product.gallery_images[1]}`}
-                            className="productImg2"
-                          />
-                        )}
-                      </>
-                    ) : (
-                      Зураггүй
-                    )}
+                  <div
+                    className="productImage"
+                    style={{
+                      backgroundImage: `url(${base.cdnUrl}/product/${product.id}/product/${product.gallery_images[0]})`,
+                    }}
+                  >
+                    {product.gallery_images ? <></> : "Зураггүй"}
                   </div>
                   <div className="productBody">
                     <div className="productName"> {product.title}</div>
                     <div className="moreInfo">
                       <li>{product.type_txt}</li>
-                      <li>{product.mileage} km</li>
+                      <li>
+                        {new Intl.NumberFormat().format(product.mileage)} km
+                      </li>
                     </div>
                     <div className="productPrice">
-                      ${product.price} /
+                      {new Intl.NumberFormat().format(
+                        parseFloat((product.price * jpy) / 1000000).toFixed(1)
+                      )}
+                      сая /
                       <span>
-                        {new Intl.NumberFormat().format(
-                          parseInt(parseInt(product.price) * usd) / 1000000
-                        )}
-                        сая
+                        ¥{new Intl.NumberFormat().format(product.price)}
                       </span>
                     </div>
                     <p className="plusInfo">
@@ -79,7 +85,7 @@ export default ({ active }) => {
           </div>
         ))}
       <div className="productListFooter">
-        <button onClick={more}> Бүгдийг нь үзэх </button>
+        <button onClick={more}> Дараагийн хуудас </button>
       </div>
     </div>
   );

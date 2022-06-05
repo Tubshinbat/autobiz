@@ -29,6 +29,7 @@ export default ({ info, product }) => {
   const router = useRouter();
   const [image, setImage] = useState([]);
   const [ogUrl, setOgUrl] = useState("");
+  const [showImg, setShowImg] = useState(false);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const { asPath } = useRouter();
 
@@ -58,6 +59,10 @@ export default ({ info, product }) => {
     }
   }, [product]);
 
+  const handleImg = () => {
+    setShowImg((bf) => (bf === true ? false : true));
+  };
+
   return (
     <Fragment>
       <Head>
@@ -71,49 +76,19 @@ export default ({ info, product }) => {
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
-              <ImageGallery items={image} />
-              {/* <Swiper
-                spaceBetween={10}
-                navigation={true}
-                thumbs={{ swiper: thumbsSwiper }}
-                modules={[FreeMode, Navigation, Thumbs]}
-                className="productSlide"
+              <div
+                className={`imgGallery ${
+                  showImg === true ? "whiteSpaceSeen" : "whiteSpaceNone"
+                }`}
               >
-                {product.pictures &&
-                  product.pictures.map((el, index) => (
-                    <SwiperSlide
-                      className="product__slide"
-                      key={`product_image_${index}`}
-                    >
-                      <img
-                        key={`image_${index}`}
-                        src={`${base.cdnUrl}/${el}`}
-                      />
-                    </SwiperSlide>
-                  ))}
-              </Swiper>
-              <Swiper
-                onSwiper={setThumbsSwiper}
-                slidesPerView={4}
-                spaceBetween={10}
-                freeMode={true}
-                watchSlidesProgress={true}
-                modules={[FreeMode, Navigation, Thumbs]}
-                className="productThumbs"
-              >
-                {product.pictures &&
-                  product.pictures.map((el, index) => (
-                    <SwiperSlide
-                      className="productThumbs__slide"
-                      key={`thumbs__${index}`}
-                    >
-                      <img
-                        key={`image_${index}`}
-                        src={base.cdnUrl + "/" + el}
-                      />
-                    </SwiperSlide>
-                  ))}
-              </Swiper> */}
+                <ImageGallery items={image} />
+              </div>
+              {image.length > 4 && (
+                <div className="allPicture" onClick={handleImg}>
+                  {" "}
+                  Бүх зургийг харах{" "}
+                </div>
+              )}
               <div className="share-post-box">
                 <ul className="share-box">
                   <li>
@@ -157,23 +132,65 @@ export default ({ info, product }) => {
                   <h2> {product.title}</h2>
                 </div>
                 <div className={css.Info}>
+                  <div className={css.Fetured}>
+                    <table className={css.FeturedTable}>
+                      <tr>
+                        <td>Төрөл: {product.car_type.name}</td>
+                        <td>Загвар: {product.car_zagvar.name} </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Хөдөлгүүр:{" "}
+                          {new Intl.NumberFormat().format(product.car_motor)}cc{" "}
+                        </td>
+                        <td>
+                          Гүйлт:{" "}
+                          {new Intl.NumberFormat().format(product.car_km)}km
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Өнгө: {product.color.name} </td>
+                        <td>Жолооны хүрд: {product.car_hurd}</td>
+                      </tr>
+                      <tr>
+                        <td>Үйлдвэрлэгдсэн он: {product.make_date} </td>
+                        <td>Орж ирсэн он: {product.import_date}</td>
+                      </tr>
+                      <tr>
+                        <td>Түлшний төрөл: {product.car_shatakhuun} </td>
+                        <td>Араа: {product.car_speed_box}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Моторын багтаамж:{" "}
+                          {new Intl.NumberFormat().format(product.car_motor)}{" "}
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div
+                    className={`${css.ProductTitle} ${css.ProductInfoTitle}`}
+                  >
+                    <h5> Нэмэлт мэдээлэл </h5>
+                    <div
+                      className={css.More}
+                      dangerouslySetInnerHTML={{
+                        __html: product.description,
+                      }}
+                    ></div>
+                  </div>
                   <div className="row">
-                    <div className="col-lg-6">
+                    <div className="col-lg-12">
                       <div className={css.PriceInfos}>
                         <div>Зарагдах үнэ:</div>
-                        <span>{parseInt(product.price) / 1000000} сая ₮</span>
+                        <span>
+                          {new Intl.NumberFormat().format(product.price)}₮
+                        </span>
                       </div>
                       <p className={css.Linzing}>{product.lizing}</p>
                     </div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-12">
                       <div className={css.ProductBtns}>
-                        <a
-                          href="#Lend"
-                          className={`${css.ProductBtn} ${css.Cal}`}
-                        >
-                          <i class="fa fa-calculator"></i>
-                          Тооцоолуур
-                        </a>
                         <Link href={`/purchase/${product._id}`}>
                           <button className={`${css.ProductBtn} ${css.Buy}`}>
                             <i className="fa fa-cart-shopping"></i>
@@ -189,45 +206,6 @@ export default ({ info, product }) => {
                   <b> {product.phone || info.phone} </b> утсаар холбогдоно уу
                   мөн цахим шуудангаар мэдээлэл авах боломжтой
                   <b> {product.email || info.email} </b>
-                </div>
-                <div className={`${css.ProductTitle} ${css.ProductInfoTitle}`}>
-                  <h5> Ерөнхий мэдээлэл </h5>
-                </div>
-                <div className={css.Fetured}>
-                  <table className={css.FeturedTable}>
-                    <tr>
-                      <td>Төрөл: {product.car_type.name}</td>
-                      <td>Загвар: {product.car_zagvar.name} </td>
-                    </tr>
-                    <tr>
-                      <td>Хөдөлгүүр: {product.car_motor} </td>
-                      <td>Гүйлт: {product.car_km}</td>
-                    </tr>
-                    <tr>
-                      <td>Өнгө: {product.color.name} </td>
-                      <td>Жолооны хүрд: {product.car_hurd}</td>
-                    </tr>
-                    <tr>
-                      <td>Үйлдвэрлэгдсэн он: {product.make_date} </td>
-                      <td>Орж ирсэн он: {product.import_date}</td>
-                    </tr>
-                    <tr>
-                      <td>Түлшний төрөл: {product.car_shatakhuun} </td>
-                      <td>Араа: {product.car_speed_box}</td>
-                    </tr>
-                    <tr>
-                      <td>Моторын багтаамж: {product.car_motor} </td>
-                    </tr>
-                  </table>
-                </div>
-                <div className={`${css.ProductTitle} ${css.ProductInfoTitle}`}>
-                  <h5> Нэмэлт мэдээлэл </h5>
-                  <div
-                    className={css.More}
-                    dangerouslySetInnerHTML={{
-                      __html: product.description,
-                    }}
-                  ></div>
                 </div>
               </div>
             </div>

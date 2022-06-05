@@ -25,8 +25,10 @@ import Spinner from "components/Spinner";
 import { getBeProduct, getBeProducts } from "lib/beproduct";
 import { getRate } from "lib/rate";
 import Lend from "components/Lend";
+import translate from "lib/translate";
+import Calculator from "components/Calculator";
 
-export default ({ info, product }) => {
+export default ({ info, product, rate }) => {
   const router = useRouter();
   const [ogUrl, setOgUrl] = useState("");
   const [image, setImage] = useState([]);
@@ -34,6 +36,7 @@ export default ({ info, product }) => {
   const { asPath } = useRouter();
   const [usd, setUsd] = useState("");
   const [jpy, setJpy] = useState("");
+  const [showImg, setShowImg] = useState(false);
 
   if (router.isFallback) return <Spinner />;
 
@@ -41,25 +44,30 @@ export default ({ info, product }) => {
     router.push("/404");
   }
 
-  useEffect(async () => {
-    const { data } = await getRate();
-    const usdIndex = await data.findIndex((x) => x.number === 1);
-    const japanIndex = await data.findIndex((x) => x.number === 3);
-    setJpy(
-      data[japanIndex] && data[japanIndex].sellRate && data[japanIndex].sellRate
-    );
-    setUsd(
-      data[usdIndex] && data[usdIndex].sellRate && data[usdIndex].sellRate + 0.5
-    );
-  }, []);
-
+  useEffect(() => {
+    if (rate) {
+      const usdIndex = rate.findIndex((x) => x.number === 1);
+      const jpyIndex = rate.findIndex((x) => x.number === 3);
+      setUsd(
+        rate[usdIndex] &&
+          rate[usdIndex].cashSellRate &&
+          rate[usdIndex].cashSellRate
+      );
+      setJpy(
+        rate[jpyIndex] &&
+          rate[jpyIndex].cashSellRate &&
+          rate[jpyIndex].cashSellRate
+      );
+    }
+  }, [rate]);
+  // ${base.cdnUrl}/product/${product.id}/product/${product.gallery_images[0]}
   useEffect(() => {
     if (product) {
       let img = [];
       product.gallery_images.map((picture) =>
         img.push({
-          original: picture,
-          thumbnail: picture,
+          original: `${base.cdnUrl}/product/${product.id}/product/${picture}`,
+          thumbnail: `${base.cdnUrl}/product/${product.id}/product/${picture}`,
         })
       );
       setImage(img);
@@ -69,9 +77,12 @@ export default ({ info, product }) => {
   useEffect(() => {
     const host = window.location.host;
     const baseUrl = `http://${host}`;
-
     setOgUrl(`${baseUrl}${asPath}`);
   }, [router.pathname]);
+
+  const handleImg = () => {
+    setShowImg((bf) => (bf === true ? false : true));
+  };
 
   return (
     <Fragment>
@@ -86,44 +97,19 @@ export default ({ info, product }) => {
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
-              <ImageGallery items={image} />
-              {/* <Swiper
-                spaceBetween={10}
-                navigation={true}
-                thumbs={{ swiper: thumbsSwiper }}
-                modules={[FreeMode, Navigation, Thumbs]}
-                className="productSlide "
+              <div
+                className={`imgGallery ${
+                  showImg === true ? "whiteSpaceSeen" : "whiteSpaceNone"
+                }`}
               >
-                {product.gallery_images &&
-                  product.gallery_images.map((el, index) => (
-                    <SwiperSlide
-                      className="product__slide"
-                      key={`product_image_${index}`}
-                    >
-                      <div className="productCrop"> autobiz.mn</div>
-                      <img key={`image_${index}`} src={`${el}`} />
-                    </SwiperSlide>
-                  ))}
-              </Swiper>
-              <Swiper
-                onSwiper={setThumbsSwiper}
-                slidesPerView={4}
-                spaceBetween={10}
-                freeMode={true}
-                watchSlidesProgress={true}
-                modules={[FreeMode, Navigation, Thumbs]}
-                className="productThumbs"
-              >
-                {product.gallery_images &&
-                  product.gallery_images.map((el, index) => (
-                    <SwiperSlide
-                      className="productThumbs__slide"
-                      key={`thumbs__${index}`}
-                    >
-                      <img key={`image_${index}`} src={el} />
-                    </SwiperSlide>
-                  ))}
-              </Swiper> */}
+                <ImageGallery items={image} />
+              </div>
+              {image.length > 4 && (
+                <div className="allPicture" onClick={handleImg}>
+                  {" "}
+                  Бүх зургийг харах{" "}
+                </div>
+              )}
               <div className="share-post-box">
                 <ul className="share-box">
                   <li>
@@ -169,42 +155,89 @@ export default ({ info, product }) => {
                 </div>
 
                 <div className={css.Info}>
+                  <div className={css.Fetured}>
+                    <table className={css.FeturedTable}>
+                      <tr>
+                        <td>Төрөл: {product.type_txt}</td>
+                        <td>Загвар: {product.model} </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Хөдөлгүүр:{" "}
+                          {new Intl.NumberFormat().format(product.engine)}cc
+                        </td>
+                        <td>
+                          Гүйлт:{" "}
+                          {new Intl.NumberFormat().format(product.mileage)}km
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Өнгө: {product.color || "-"}</td>
+                        <td>
+                          Жолооны хүрд: {translate(product.steering) || "-"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Үйлдвэрлэгдсэн он: {product.car_year} </td>
+                        <td>Орж ирсэн он: - </td>
+                      </tr>
+                      <tr>
+                        <td>Түлшний төрөл: {translate(product.fuel)} </td>
+                        <td>Transmission: {product.trans}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          {translate("Drive")}: {translate(product.drive)}
+                        </td>
+                        <td></td>
+                      </tr>
+                    </table>
+                  </div>
+
+                  <div
+                    className={`${css.ProductTitle} ${css.ProductInfoTitle}`}
+                  >
+                    <h5> Нэмэлт мэдээлэл </h5>
+                  </div>
+                  <ul className={css.ListFeatures}>
+                    {product.features &&
+                      product.features.map((feature) => <li> {feature}</li>)}
+                  </ul>
+
+                  <div
+                    className={`${css.ProductTitle} ${css.ProductInfoTitle}`}
+                  >
+                    <h5> Монголд орж ирэх үнэ </h5>
+                  </div>
+
+                  <div className={css.PriceInfos}>
+                    <div>Зарагдаж буй үнэ:</div>
+                    <span>
+                      {new Intl.NumberFormat().format(
+                        parseInt(parseInt(product.price) * jpy)
+                      )}
+                      ₮
+                    </span>
+                  </div>
+                  <div className={`${css.PriceInfos} ${css.ConverPirce}`}>
+                    <div>Япон иен дүн:</div>
+                    <span>
+                      ¥{new Intl.NumberFormat().format(product.price)}
+                    </span>
+                  </div>
+                  <p className={css.Linzing}>
+                    Тээвэр, татвар бусад зардал багтаагүй болно
+                  </p>
+
+                  <Calculator product={product} />
+
                   <div className="row">
-                    <div className="col-lg-6">
-                      <div className={css.PriceInfos}>
-                        <div>Зарагдаж буй үнэ:</div>
-                        <span>
-                          {new Intl.NumberFormat().format(
-                            (
-                              parseInt(parseInt(product.price) * usd) / 1000000
-                            ).toFixed(2)
-                          )}
-                          сая ₮
-                        </span>
-                      </div>
-                      <div className={`${css.PriceInfos} ${css.ConverPirce}`}>
-                        <div>Япон иен дүн:</div>
-                        <span>
-                          ¥{new Intl.NumberFormat().format(product.price)}
-                        </span>
-                      </div>
-                      <p className={css.Linzing}>
-                        Тээвэр, татвар бусад зардал багтаагүй болно
-                      </p>
-                    </div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-12">
                       <div className={css.Location}>
                         Байгаа байршил: {product.country} -{" "}
                         {product.location_fob}
                       </div>
                       <div className={css.ProductBtns}>
-                        <a
-                          href="#Lend"
-                          className={`${css.ProductBtn} ${css.Cal}`}
-                        >
-                          <i class="fa fa-calculator"></i>
-                          Тооцоолуур
-                        </a>
                         <Link href={`/order/${product._id}`}>
                           <button className={`${css.ProductBtn} ${css.Buy}`}>
                             <i className="fa fa-cart-shopping"></i>
@@ -221,45 +254,6 @@ export default ({ info, product }) => {
                   мөн цахим шуудангаар мэдээлэл авах боломжтой
                   <b> {product.email || info.email} </b>
                 </div>
-                <div className={`${css.ProductTitle} ${css.ProductInfoTitle}`}>
-                  <h5> Ерөнхий мэдээлэл </h5>
-                </div>
-                <div className={css.Fetured}>
-                  <table className={css.FeturedTable}>
-                    <tr>
-                      <td>Төрөл: {product.type_txt}</td>
-                      <td>Загвар: {product.model} </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Хөдөлгүүр:{" "}
-                        {new Intl.NumberFormat().format(product.engine)}{" "}
-                      </td>
-                      <td>
-                        Гүйлт: {new Intl.NumberFormat().format(product.mileage)}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Өнгө: {product.color || "-"}</td>
-                      <td>Жолооны хүрд: {product.steering || "-"}</td>
-                    </tr>
-                    <tr>
-                      <td>Үйлдвэрлэгдсэн он: {product.car_year} </td>
-                      <td>Орж ирсэн он: - </td>
-                    </tr>
-                    <tr>
-                      <td>Түлшний төрөл: {product.fuel} </td>
-                      <td>Transmission: {product.trans}</td>
-                    </tr>
-                  </table>
-                </div>
-                <div className={`${css.ProductTitle} ${css.ProductInfoTitle}`}>
-                  <h5> Нэмэлт мэдээлэл </h5>
-                </div>
-                <ul className={css.ListFeatures}>
-                  {product.features &&
-                    product.features.map((feature) => <li> {feature}</li>)}
-                </ul>
               </div>
             </div>
           </div>
@@ -343,11 +337,12 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   const { info } = await getInfo();
   const { product } = await getBeProduct(params.id);
-
+  const { data: rate } = await getRate();
   return {
     props: {
       info,
       product,
+      rate,
     },
     revalidate: 10,
   };

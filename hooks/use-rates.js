@@ -4,7 +4,7 @@ export const useRate = () => {
   let rate = [];
   const { data, error } = useSWR(`https://api.khanbank.com/v1/rates`);
   if (data) {
-    rate = data.data;
+    rate = data;
   }
 
   return {

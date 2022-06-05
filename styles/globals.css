@@ -19,6 +19,11 @@ a {
   transition: 0s;
   text-decoration: none;
 }
+
+p {
+  padding-bottom: 0px;
+}
+
 ul {
   padding: 0;
   margin: 0;
@@ -34,7 +39,8 @@ table {
 body {
   overflow-x: hidden;
   font-weight: normal;
-  font-family: "Montserrat", sans-serif;
+
+  font-family: "Exo 2", "Roboto Slab", "Montserrat", sans-serif;
   background-color: #f6f6f6;
 }
 
@@ -398,9 +404,9 @@ header {
   z-index: 100 !important;
   top: 0px;
   width: 100%;
-  animation: fadeInDown;
+  /* animation: fadeInDown;
   animation-duration: 1.2s;
-  transition: all 0.3s;
+  transition: all 0.3s; */
   box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
 }
 
@@ -426,7 +432,7 @@ header {
 
 .headerMenu li a {
   font-size: 0.8rem;
-  margin-right: 20px;
+  margin-right: 16px;
   transition: all 0.3s;
 }
 
@@ -587,10 +593,11 @@ header {
 .homeSlideText {
   flex: auto;
   position: absolute;
+  width: 50%;
   bottom: 20;
   left: 0;
   color: #fff;
-  padding: 10px 20px;
+  padding: 0px 50px;
 }
 
 .homeSlideImage {
@@ -727,9 +734,10 @@ header {
   display: flex;
   position: relative;
   gap: 15px;
+
   margin-bottom: 30px;
   padding-bottom: 30px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 2px solid #ddd;
 }
 
 .homeTabs::before {
@@ -745,7 +753,7 @@ header {
 .homeTab {
   padding: 8px 20px;
   background-color: #fff;
-  border: 1px solid #eaeaea;
+  border: 2px solid #eaeaea;
   border-radius: 5px;
   font-size: 0.8rem;
   cursor: pointer;
@@ -778,7 +786,7 @@ header {
 /*  0.5 product show css
 /*----------------------------------------*/
 
-.productsList {
+.productsGrip {
   display: flex;
   row-gap: 20px;
 }
@@ -809,6 +817,10 @@ header {
   justify-content: center;
   align-items: center;
   transition: all 0.2s;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  transition: transform 0.8s ease-in-out;
 }
 
 .productImg1 {
@@ -908,6 +920,111 @@ header {
 
 .productListFooter button:hover {
   background-color: #ff5100;
+}
+
+.productsList {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
+
+.productListItem {
+  padding-bottom: 30px;
+  border-bottom: 1px solid #ccc;
+}
+
+.productListPhoto {
+  width: 100%;
+  height: 130px;
+  background-position: 50% 50%;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.productListMore {
+  width: 100%;
+}
+
+.productListMore h2 {
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #0c255e;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.productListMore h2:hover {
+  color: #07173b;
+}
+
+.productListDetails {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  align-items: center;
+}
+
+.productListDetails li {
+  list-style: none;
+  text-align: center;
+  border-right: 1px solid #ccc;
+  padding: 0px 20px;
+}
+
+.productListDetails li:first-child {
+  padding-left: 0px;
+}
+
+.productListDetails li:last-child {
+  border-right: none;
+}
+
+.productListDetails div {
+  font-size: 12px;
+  color: rgb(126, 126, 126);
+}
+
+.productListDetails p {
+  font-weight: bold;
+  font-size: 14px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.productListPrices {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  row-gap: 15px;
+}
+
+.productListPrices div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.productListPrices div span:first-child {
+  color: rgb(155, 155, 155);
+  font-size: 13px;
+}
+
+.productListPrices div span:last-child {
+  font-size: 22px;
+  font-weight: bold;
+  color: #ff7b00;
+}
+
+.productPriceInfo {
+  margin-top: 14px !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  color: rgb(158, 152, 152) !important;
+}
+
+.yeanPrice {
+  font-size: 14px !important;
+  font-weight: 400 !important;
 }
 
 /*----------------------------------------*/
@@ -1448,6 +1565,20 @@ footer ul div a:hover {
   opacity: 0.7;
 }
 
+.lists {
+  margin-left: 20px;
+  padding: 8px;
+  background-color: #ff7b00;
+}
+
+.lists .list {
+  cursor: pointer;
+}
+
+.lists .list i {
+  color: #fff;
+}
+
 /*----------------------------------------*/
 /*  09. 404 Page
 /*----------------------------------------*/
@@ -1478,6 +1609,30 @@ footer ul div a:hover {
 
 .notFoundSection a:hover {
   background-color: #ff6600;
+}
+
+.allPicture {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.allPicture:hover {
+  color: #0c255e;
+}
+
+.imgGallery.whiteSpaceSeen
+  .image-gallery-thumbnails
+  .image-gallery-thumbnails-container {
+  white-space: normal !important;
+}
+
+.imgGallery.whiteSpaceNone
+  .image-gallery-thumbnails
+  .image-gallery-thumbnails-container {
+  white-space: nowrap !important;
 }
 
 /*----------------------------------------*/
@@ -2072,11 +2227,14 @@ footer ul div a:hover {
   flex-wrap: wrap;
   align-items: center;
   row-gap: 20px;
+  width: 350px;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .calInput {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
 }
 
@@ -2681,8 +2839,16 @@ footer ul div a:hover {
     flex: 0 0 50%;
   }
 
+  .homeSlideText {
+    width: 70%;
+  }
+
   .searchBox input {
     flex: 0 0 65%;
+  }
+
+  .headerMenu li {
+    line-height: 0.8rem;
   }
 
   .searchBox button {
@@ -2841,5 +3007,9 @@ footer ul div a:hover {
   .topbar {
     height: auto;
     padding: 10px;
+  }
+
+  .homeSlideText {
+    width: 90%;
   }
 }

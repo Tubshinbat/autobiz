@@ -56,15 +56,17 @@ export default ({ data, error, success }) => {
   };
 
   useEffect(() => {
-    toastControl("error", error);
-  }, [error]);
-
-  useEffect(() => {
     if (success) {
       toastControl("success", props.success);
       init();
     }
   }, [success]);
+
+  useEffect(() => {
+    if (error) {
+      removeCookie("autobiztoken");
+    }
+  }, [error]);
 
   const login = async () => {
     if (allCheck()) {
@@ -73,7 +75,7 @@ export default ({ data, error, success }) => {
       if (data) {
         toastControl("success", "Амжилттай нэвтэрлээ.");
         await timer(1500);
-        router.push("/");
+        router.push("/userprofile");
       }
 
       if (error) toastControl("error", error);
@@ -167,7 +169,9 @@ export const getServerSideProps = async function ({ req, res }) {
     return { props: {} };
   }
 
-  const { data } = await checkToken(token);
+  const { data, error } = await checkToken(token);
+
+  if (error !== null || error !== undefined) return { props: { error } };
 
   if (data !== undefined || data !== null) {
     return {

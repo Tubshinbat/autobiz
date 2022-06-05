@@ -101,7 +101,7 @@ export default ({ dPrice }) => {
               <h4> Зээлийн тооцоолуур</h4>
             </div>
             <div className="calculator-box row">
-              <div className="form-group col-lg-6 calInput">
+              <div className="form-group calInput">
                 <label htmlFor> Зээлийн хэмжээ </label>
                 <input
                   id="amount"
@@ -111,7 +111,7 @@ export default ({ dPrice }) => {
                   placeholder="Зээлийн хэмжээ"
                 />
               </div>
-              <div className="form-group col-lg-6 calInput">
+              <div className="form-group calInput">
                 <label htmlFor> Зээлийн хугацаа (сараар) </label>
                 <input
                   id="duration"
@@ -119,7 +119,7 @@ export default ({ dPrice }) => {
                   placeholder="Зээлийн хугацаа (сараар)"
                 />
               </div>
-              <div className="form-group col-lg-6 calInput">
+              <div className="form-group calInput">
                 <label htmlFor> Зээлийн хүү (жилээр) </label>
                 <input
                   id="rate"
@@ -127,7 +127,7 @@ export default ({ dPrice }) => {
                   placeholder="Зээлийн хүү (жилээр)"
                 />
               </div>
-              <div className="form-group col-lg-6 ">
+              <div className="form-group  calInput">
                 <a id="calculate" className="btn  btn-cal">
                   <i className="fa fa-calculator mr-2" /> БОДОХ
                 </a>

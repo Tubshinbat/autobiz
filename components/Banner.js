@@ -85,7 +85,7 @@ const Banner = () => {
             <div className="homeSlider_pagination swiper-pagination"></div>
           </Swiper>
 
-          <form
+          {/* <form
             action={`${
               activeSearch === "product" ? "/products" : "/beproducts"
             }`}
@@ -239,7 +239,7 @@ const Banner = () => {
               </div>
               <button>Хайх</button>
             </div>
-          </form>
+          </form> */}
         </div>
       </div>
     </div>

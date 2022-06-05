@@ -10,24 +10,21 @@ import { getInfo } from "lib/webinfo";
 import TopBar from "components/Header/topBar";
 import Header from "components/Header/header";
 import Section from "components/generals/section";
-import ProductSide from "components/Home-main/productSide";
-
-import getTranslate from "lib/translate";
 
 import css from "styles/product.module.css";
 
 import { useBeproducts } from "hooks/use-beproduct";
 import Footer from "components/Footer";
-import {
-  useGroupBeProduct,
-  useGroupFilterBeProduct,
-} from "hooks/use-beproduct";
+
 import BeproductSide from "components/Home-main/beproductSide";
 import { getRate } from "lib/rate";
+import BeSearch from "components/BeSearch";
 
-export default ({ info }) => {
+export default ({ info, rate }) => {
   const { query, asPath } = useRouter();
   const [usd, setUsd] = useState("");
+  const [jpy, setJpy] = useState("");
+  const [list, setList] = useState("grip");
   const router = useRouter();
 
   //-- PAGINATION
@@ -37,29 +34,9 @@ export default ({ info }) => {
 
   //
 
-  const [currentMake, setMake] = useState("");
-  const [currentModel, setModel] = useState("");
-  const [searchForm, setSearchForm] = useState({});
-  const { groups: mark_txt } = useGroupBeProduct(`mark_txt`);
-  const { groups: location } = useGroupBeProduct(`country`);
-  const { groups: trans } = useGroupBeProduct("trans");
-  const { groups: fuels } = useGroupBeProduct("fuel");
-  const { filterGroups: models } = useGroupFilterBeProduct(
-    `group=model&filed=mark_txt&filter=${currentMake}`
-  );
-  const { filterGroups: types } = useGroupFilterBeProduct(
-    `group=type_txt&filed=model&filter=${currentModel}`
-  );
-
   const { products, pagination } = useBeproducts(
-    `status=true&make=${query.make}&model=${query.model}&type=${query.type}&country=${query.country}&fuel=${query.fuel}&minYear=${query.minYear}&maxYear=${query.maxYear}&minEngcc=${query.minEngcc}&maxEngcc=${query.maxEngcc}&trans=${query.trans}&fuel=${query.fuel}&minMil=${query.minMil}&maxMil=${query.maxMil}&sort=${query.sort}&minPrice=${query.minPrice}&title=${query.title}&maxPrice=${query.maxPrice}&page=${query.page}`
+    `status=true&make=${query.make}&model=${query.model}&type=${query.type}&country=${query.country}&fuel=${query.fuel}&minYear=${query.minYear}&maxYear=${query.maxYear}&minMotor=${query.minMotor}&maxMotor=${query.maxMotor}&trans=${query.trans}&fuel=${query.fuel}&minMil=${query.minMil}&maxMil=${query.maxMil}&sort=${query.sort}&minPrice=${query.minPrice}&title=${query.title}&maxPrice=${query.maxPrice}&page=${query.page}`
   );
-
-  useEffect(() => {
-    if (query.make) setMake(query.make);
-    if (query.model) setModel(query.model);
-    setSearchForm(query);
-  }, [query]);
 
   useEffect(() => {
     if (pagination) {
@@ -68,13 +45,22 @@ export default ({ info }) => {
     }
   }, [pagination]);
 
-  useEffect(async () => {
-    const { data } = await getRate();
-    const usdIndex = await data.findIndex((x) => x.number === 1);
-    setUsd(
-      data[usdIndex] && data[usdIndex].sellRate && data[usdIndex].sellRate
-    );
-  }, []);
+  useEffect(() => {
+    const usdIndex = rate.findIndex((x) => x.number === 1);
+    const jpyIndex = rate.findIndex((x) => x.number === 3);
+    if (rate) {
+      setUsd(
+        rate[usdIndex] &&
+          rate[usdIndex].cashSellRate &&
+          rate[usdIndex].cashSellRate
+      );
+      setJpy(
+        rate[jpyIndex] &&
+          rate[jpyIndex].cashSellRate &&
+          rate[jpyIndex].cashSellRate
+      );
+    }
+  }, [rate]);
 
   const handlePageChange = (pageNumber) => {
     window.scrollTo(0, 0);
@@ -85,76 +71,17 @@ export default ({ info }) => {
     });
   };
 
-  const refresh = () => {
-    Object.keys(searchForm).map((key) =>
-      setSearchForm((bf) => ({ ...bf, [key]: "" }))
-    );
-  };
-
-  const handleChange = (event) => {
-    const { value, name } = event.target;
-    if (name === "make") setMake(value);
-    if (name === "model") setModel(value);
-    setSearchForm((bf) => ({ ...bf, [name]: value }));
-  };
-
-  const years = () => {
-    const currentYear = new Date().getFullYear();
-    let years = [];
-    let startYear = 1920;
-    while (startYear <= currentYear) {
-      years.push(startYear++);
-    }
-    return years;
-  };
-
-  const arrayYears = years();
-
-  const car_motor = [
-    { name: "700cc", value: 700 },
-    { name: "1000cc", value: 1000 },
-    { name: "1500cc", value: 1500 },
-    { name: "1800cc", value: 1800 },
-    { name: "2000cc", value: 2000 },
-    { name: "2500cc", value: 2500 },
-    { name: "3000cc", value: 3000 },
-    { name: "4000cc", value: 4000 },
-  ];
-
-  const mileage = [
-    { name: "50,000 km", value: 50000 },
-    { name: "80,000 km", value: 80000 },
-    { name: "100,000 km", value: 100000 },
-    { name: "150000 km", value: 150000 },
-    { name: "200,000 km", value: 200000 },
-    { name: "300,000 km", value: 300000 },
-  ];
-
-  const price = [
-    { name: "$500", value: 500 },
-    { name: "$750", value: 750 },
-    { name: "$1,000", value: 1000 },
-    { name: "$1,500", value: 1500 },
-    { name: "$2,000", value: 2000 },
-    { name: "$2,500", value: 2500 },
-    { name: "$3,000", value: 3000 },
-    { name: "$3,500", value: 3500 },
-    { name: "$4,000", value: 4000 },
-    { name: "$4,500", value: 4500 },
-    { name: "$5,000", value: 5000 },
-    { name: "$6,000", value: 6000 },
-    { name: "$7,000", value: 7000 },
-    { name: "$8,000", value: 8000 },
-    { name: "$9,000", value: 9000 },
-    { name: "$10,000", value: 10000 },
-    { name: "$15,000", value: 15000 },
-    { name: "$20,000", value: 20000 },
-  ];
-
   const handleSort = (event) => {
     Router.replace({
       pathname: router.pathname,
       query: { ...query, sort: event.target.value },
+    });
+  };
+
+  const handleList = () => {
+    setList((bl) => {
+      if (bl === "list") return "grip";
+      else return "list";
     });
   };
 
@@ -175,325 +102,75 @@ export default ({ info }) => {
               <BeproductSide active="beproduct" />
             </div>
             <div className="col-lg-9">
-              <form style={{ overflow: "hidden" }}>
-                <div className={`row ${css.SearchBox}`}>
-                  <div className="form-group col-lg-3 col-md-3 col-sm-6 col-6">
-                    <select
-                      id="inputState"
-                      name="make"
-                      onChange={handleChange}
-                      value={searchForm.make}
-                      className={`form-select form-select-sm ${css.InputBox}`}
-                    >
-                      <option value="" selected>
-                        Машины үйлдвэрлэгч
-                      </option>
-                      {mark_txt &&
-                        mark_txt.map((product) => (
-                          <option
-                            value={product._id}
-                            key={`indust_${product._id}`}
-                          >
-                            {product._id} ({product.count})
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                  <div className="form-group col-lg-3 col-md-3 col-sm-6 col-6">
-                    <select
-                      id="inputState"
-                      name="model"
-                      onChange={handleChange}
-                      value={searchForm.model}
-                      className={`form-select form-select-sm ${css.InputBox}`}
-                    >
-                      <option value="" selected>
-                        Загвар
-                      </option>
-                      {models &&
-                        models.map((model) => (
-                          <option value={model._id} key={model._id}>
-                            {model._id} ({model.count})
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                  <div className="form-group col-lg-3 col-md-3 col-sm-6 col-6">
-                    <select
-                      id="inputState"
-                      name="type"
-                      onChange={handleChange}
-                      value={searchForm.type}
-                      className={`form-select form-select-sm ${css.InputBox}`}
-                    >
-                      <option value="" selected>
-                        Төрөл
-                      </option>
-                      {types &&
-                        types.map((type) => (
-                          <option value={type._id} key={type._id}>
-                            {type._id} ({type.count})
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                  <div className="form-group col-lg-3 col-md-3 col-sm-6 col-6">
-                    <select
-                      id="inputState"
-                      name="country"
-                      onChange={handleChange}
-                      value={searchForm.country}
-                      className={`form-select form-select-sm ${css.InputBox}`}
-                    >
-                      <option value="" selected>
-                        Байршил
-                      </option>
-                      {location &&
-                        location.map((location) => (
-                          <option value={location._id} key={location._id}>
-                            {getTranslate(location._id)}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                  <div className="form-group col-lg-3 col-md-3 col-sm-6 col-6">
-                    <select
-                      id="inputState"
-                      name="minYear"
-                      onChange={handleChange}
-                      value={searchForm.minYear}
-                      className={`form-select form-select-sm ${css.InputBox}`}
-                    >
-                      <option value=""> Үйлдвэрлэсэн он доод </option>
-                      {arrayYears.map((year) => (
-                        <option value={year}>{year}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group col-lg-3 col-md-3 col-sm-6 col-6">
-                    <select
-                      id="inputState"
-                      name="maxYear"
-                      onChange={handleChange}
-                      value={searchForm.maxYear}
-                      className={`form-select form-select-sm ${css.InputBox}`}
-                    >
-                      <option value=""> Үйлдвэрлэсэн он дээд </option>
-                      {arrayYears.reverse().map((year) => (
-                        <option value={year}>{year}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group col-lg-3 col-md-3 col-sm-6 col-6">
-                    <select
-                      id="inputState"
-                      name="minMotor"
-                      onChange={handleChange}
-                      value={searchForm.minMotor}
-                      className={`form-select form-select-sm ${css.InputBox}`}
-                    >
-                      <option value="" selected>
-                        Мотор доод
-                      </option>
-                      {car_motor &&
-                        car_motor.map((motor) => (
-                          <option value={motor.value}>{motor.name}</option>
-                        ))}
-                    </select>
-                  </div>
-                  <div className="form-group col-lg-3 col-md-3 col-sm-6 col-6">
-                    <select
-                      id="inputState"
-                      name="maxMotor"
-                      onChange={handleChange}
-                      value={searchForm.maxMotor}
-                      className={`form-select form-select-sm ${css.InputBox}`}
-                    >
-                      <option value="" selected>
-                        Мотор дээд
-                      </option>
-                      {car_motor &&
-                        car_motor.map((motor) => (
-                          <option value={motor.value}>{motor.name}</option>
-                        ))}
-                    </select>
-                  </div>
-                  <div className="form-group col-lg-3 col-md-3 col-sm-6 col-6">
-                    <select
-                      id="inputState"
-                      name="trans"
-                      onChange={handleChange}
-                      value={searchForm.trans}
-                      className={`form-select form-select-sm ${css.InputBox}`}
-                    >
-                      <option value="" selected>
-                        Transmission
-                      </option>
-                      {trans &&
-                        trans.map((tran) => (
-                          <option value={tran._id}>{tran._id}</option>
-                        ))}
-                    </select>
-                  </div>
-
-                  <div className="form-group col-lg-3 col-md-3 col-sm-6 col-6">
-                    <select
-                      id="inputState"
-                      name="fuel"
-                      onChange={handleChange}
-                      value={searchForm.fuel}
-                      className={`form-select form-select-sm ${css.InputBox}`}
-                    >
-                      <option value="" selected>
-                        Шатахуун
-                      </option>
-                      {fuels &&
-                        fuels.map((fuel) => (
-                          <option value={fuel._id}>
-                            {getTranslate(fuel._id)}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-
-                  <div className="form-group col-lg-3 col-md-3 col-sm-6 col-6">
-                    <select
-                      id="inputState"
-                      name="minMil"
-                      onChange={handleChange}
-                      value={searchForm.minMil}
-                      className={`form-select form-select-sm ${css.InputBox}`}
-                    >
-                      <option value="" selected>
-                        Гүйлт доод
-                      </option>
-                      {mileage &&
-                        mileage.map((mil) => (
-                          <option value={mil.value}>{mil.name}</option>
-                        ))}
-                    </select>
-                  </div>
-
-                  <div className="form-group col-lg-3 col-md-3 col-sm-6 col-6">
-                    <select
-                      id="inputState"
-                      name="maxMil"
-                      onChange={handleChange}
-                      value={searchForm.maxMil}
-                      className={`form-select form-select-sm ${css.InputBox}`}
-                    >
-                      <option value="" selected>
-                        Гүйлт дээд
-                      </option>
-                      {mileage &&
-                        mileage.map((mil) => (
-                          <option value={mil.value}>{mil.name}</option>
-                        ))}
-                    </select>
-                  </div>
-                  <div className="form-group col-lg-3 col-md-3 col-sm-6 col-6">
-                    <select
-                      id="inputState"
-                      name="minPrice"
-                      onChange={handleChange}
-                      value={searchForm.minPrice}
-                      className={`form-select form-select-sm ${css.InputBox}`}
-                    >
-                      <option value="" selected>
-                        Үнэ доод
-                      </option>
-                      {price &&
-                        price.map((price) => (
-                          <option value={price.value}>{price.name}</option>
-                        ))}
-                    </select>
-                  </div>
-                  <div className="form-group col-lg-3 col-md-3 col-sm-6 col-6">
-                    <select
-                      id="inputState"
-                      name="maxPrice"
-                      onChange={handleChange}
-                      value={searchForm.maxPrice}
-                      className={`form-select form-select-sm ${css.InputBox}`}
-                    >
-                      <option value="" selected>
-                        Үнэ дээд
-                      </option>
-                      {price &&
-                        price.map((price) => (
-                          <option value={price.value}>{price.name}</option>
-                        ))}
-                    </select>
-                  </div>
-
-                  <div className={css.SearchBoxFooter}>
-                    <div className={css.SearchBoxBtns}>
-                      <button type="submit" className={css.SearchSubmit}>
-                        <i class="fa-solid fa-magnifying-glass"></i> Хайлт хийх
-                      </button>
-                      <button
-                        type="button"
-                        onClick={refresh}
-                        className={css.Clear}
-                      >
-                        Цэвэрлэх
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
+              <BeSearch />
               <div className={css.ProductHeader}>
                 <span> эрэмбэлэх </span>
                 <select className="sort" onChange={handleSort}>
                   <option value="new">Шинэ эхэндээ</option>
                   <option value="old">Хуучин эхэндээ</option>
-                  <option value="maxtomin">Үнэ багасах</option>
-                  <option value="mintomax">Үнэ ихсэх</option>
+                  <option value="maxtomin">Ихээс бага</option>
+                  <option value="mintomax">Багаас их</option>
                 </select>
+                <div className="lists">
+                  <div className="list" onClick={handleList}>
+                    <i
+                      className="fa-solid fa-list-ul"
+                      style={{ display: list === "grip" ? "block" : "none" }}
+                    ></i>
+                  </div>
+                  <div className="list" onClick={handleList}>
+                    <i
+                      className="fa-solid fa-grip"
+                      style={{ display: list === "list" ? "block" : "none" }}
+                    ></i>
+                  </div>
+                </div>
               </div>
-              <div className={`row productsList `}>
+              <div
+                className={`row productsGrip `}
+                style={{ display: list === "grip" ? "flex" : "none" }}
+              >
                 {products &&
                   products.map((product, index) => (
                     <div
-                      className="col-custom-2 col-lg-3 col-md-3 col-sm-6 col-6 wow animate__animated animate__fadeIn"
-                      data-wow-delay={`${0.8}s`}
+                      className="col-custom-2 col-lg-3 col-md-3 col-sm-6 col-6 "
                       key={`product_${product._id}`}
                     >
                       <Link href={`/beproduct/${product._id}`}>
                         <a>
                           <div className="productItem">
-                            <div className="productImage">
-                              {product.gallery_images ? (
-                                <>
-                                  <img
-                                    src={`${product.gallery_images[0]}`}
-                                    className="productImg1"
-                                  />
-                                  {product.gallery_images[1] && (
-                                    <img
-                                      src={`${product.gallery_images[1]}`}
-                                      className="productImg2"
-                                    />
-                                  )}
-                                </>
-                              ) : (
-                                Зураггүй
-                              )}
+                            <div
+                              className="productImage"
+                              style={{
+                                backgroundImage: `url(${base.cdnUrl}/product/${product.id}/product/${product.gallery_images[0]})`,
+                              }}
+                            >
+                              {product.gallery_images ? <></> : Зураггүй}
                             </div>
                             <div className="productBody">
-                              <div className="productName">
-                                {" "}
-                                {product.title}
-                              </div>
+                              <div className="productName">{product.title}</div>
                               <div className="moreInfo">
                                 <li>{product.type_txt}</li>
-                                <li>{product.mileage} km</li>
+                                <li>
+                                  {new Intl.NumberFormat().format(
+                                    product.mileage
+                                  )}
+                                  km
+                                </li>
                               </div>
                               <div className="productPrice">
-                                {parseInt(
-                                  (parseInt(product.price) * usd) / 1000000
+                                {new Intl.NumberFormat().format(
+                                  parseFloat(
+                                    (product.price * jpy) / 1000000
+                                  ).toFixed(1)
                                 )}
-                                сая /<span>¥{product.price}</span>
+                                сая /
+                                <span>
+                                  ¥
+                                  {new Intl.NumberFormat().format(
+                                    product.price
+                                  )}
+                                </span>
                               </div>
                               <p className="plusInfo">
                                 тээвэр, татвар бусад зардал багтаагүй үнэ
@@ -504,19 +181,7 @@ export default ({ info }) => {
                       </Link>
                     </div>
                   ))}
-                {total && (
-                  <div className={`pagination`}>
-                    <Pagination
-                      activePage={parseInt(query.page) || 1}
-                      itemClass={`page-item`}
-                      linkClass={"page-link"}
-                      itemsCountPerPage={limit}
-                      totalItemsCount={total}
-                      pageRangeDisplayed={5}
-                      onChange={handlePageChange.bind()}
-                    />
-                  </div>
-                )}
+
                 {products && products.length < 1 && (
                   <div className={"notFound"}>
                     <img src="/images/notfound.png" />
@@ -524,6 +189,107 @@ export default ({ info }) => {
                   </div>
                 )}
               </div>
+
+              {/* LIST */}
+              <div
+                className={`row productsList `}
+                style={{ display: list === "list" ? "flex" : "none" }}
+              >
+                {products &&
+                  products.map((product, index) => (
+                    <div className="col-lg-12">
+                      <div className="row productListItem">
+                        <Link href={`/beproduct/${product._id}`}>
+                          <div className="col-lg-3">
+                            <div
+                              className="productListPhoto"
+                              style={{
+                                backgroundImage: `url(${base.cdnUrl}/product/${product.id}/product/${product.gallery_images[0]})`,
+                              }}
+                            ></div>
+                          </div>
+                        </Link>
+                        <div className="col-lg-6">
+                          <div className="productListMore">
+                            <Link href={`/beproduct/${product._id}`}>
+                              <h2> {product.title} </h2>
+                            </Link>
+                            <div className="productListDetails">
+                              <li>
+                                <div>Гүйлт</div>
+                                <p>
+                                  {new Intl.NumberFormat().format(
+                                    product.mileage
+                                  )}
+                                  km
+                                </p>
+                              </li>
+                              <li>
+                                <div>Он</div>
+                                <p> {product.car_year}</p>
+                              </li>
+                              <li>
+                                <div>Мотор</div>
+                                <p> {product.engine} cc</p>
+                              </li>
+                              <li>
+                                <div>Drive</div>
+                                <p> {product.drive}</p>
+                              </li>
+                              <p className="productPriceInfo">
+                                {" "}
+                                тээвэр, татвар бусад зардал багтаагүй үнэ
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-lg-3">
+                          <div className="productListPrices">
+                            <div className="ListJapanPrice">
+                              <span> Үнэ: </span>
+                              <span>
+                                {new Intl.NumberFormat().format(
+                                  parseFloat(
+                                    (product.price * jpy) / 1000000
+                                  ).toFixed(1)
+                                )}
+                                сая
+                              </span>
+                            </div>
+                            <div className="ListMnPrice">
+                              <span> Иенээр: </span>
+                              <span className="yeanPrice">
+                                ¥{new Intl.NumberFormat().format(product.price)}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+
+                {products && products.length < 1 && (
+                  <div className={"notFound"}>
+                    <img src="/images/notfound.png" />
+                    <p> "Илэрц олдсонгүй" </p>
+                  </div>
+                )}
+              </div>
+
+              {total && (
+                <div className={`pagination`}>
+                  <Pagination
+                    activePage={parseInt(query.page) || 1}
+                    itemClass={`page-item`}
+                    linkClass={"page-link"}
+                    itemsCountPerPage={limit}
+                    totalItemsCount={total}
+                    lastPageText={parseInt(total / 25)}
+                    pageRangeDisplayed={5}
+                    onChange={handlePageChange.bind()}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -535,10 +301,12 @@ export default ({ info }) => {
 
 export const getStaticProps = async () => {
   const { info } = await getInfo();
+  const { data: rate } = await getRate();
 
   return {
     props: {
       info,
+      rate,
     },
     revalidate: 40,
   };

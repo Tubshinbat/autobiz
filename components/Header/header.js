@@ -92,22 +92,6 @@ const Header = ({ page, text }) => {
               )}
             </div>
             <div className="headerMid">
-              <div className="searchBox">
-                <select name="type" onChange={handleChange} value={type}>
-                  <option value="products">Бэлэн байгаа</option>
-                  <option value="beproducts"> Ачигдахад бэлэн </option>
-                </select>
-                <input
-                  type="text"
-                  name="searchText"
-                  onChange={handleChange}
-                  value={searchText}
-                  placeholder="Эндээс машинаа хайна уу"
-                />
-                <button onClick={handleSearch}>
-                  <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-              </div>
               <ul className="headerMenu">{renderMenu(dataMenus)}</ul>
             </div>
             <div className="headerButtons">

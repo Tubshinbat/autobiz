@@ -21,28 +21,22 @@ export default () => {
           <div className="col-lg-9 col-md-12">
             <div className="homeTabs">
               <div
-                className="homeTab action wow animate__animated animate__fadeInUp"
-                data-wow-delay={`1.8s`}
-              >
-                LIVE Дуудлага худалдаа <span className="coming"> Удахгүй</span>
-              </div>
-              <div
-                className={`homeTab ${
-                  active === "beproduct" && "active"
-                } wow animate__animated animate__fadeInUp`}
+                className={`homeTab ${active === "beproduct" && "active"} `}
                 data-wow-delay={`1.6s`}
                 onClick={() => setActive("beproduct")}
               >
                 Ачигдахад бэлэн
               </div>
               <div
-                className={`homeTab ${
-                  active === "product" && "active"
-                } wow animate__animated animate__fadeInUp`}
+                className={`homeTab ${active === "product" && "active"} `}
                 data-wow-delay={`1.4s`}
                 onClick={() => setActive("product")}
               >
                 Монголд байгаа
+              </div>
+              <div className="homeTab action " data-wow-delay={`1.8s`}>
+                LIVE Дуудлага худалдаа
+                {/* <span className="coming"> Удахгүй</span> */}
               </div>
             </div>
             <Product active={active} />

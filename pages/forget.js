@@ -214,7 +214,9 @@ export const getServerSideProps = async function ({ req, res }) {
     return { props: {} };
   }
 
-  const { data } = await checkToken(token);
+  const { data, error } = await checkToken(token);
+
+  if (error !== null) return { props: { error } };
 
   if (data !== undefined || data !== null) {
     return {

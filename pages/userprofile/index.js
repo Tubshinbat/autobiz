@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useInfo } from "hooks/use-info";
 import base from "lib/base";
 import { ToastContainer } from "react-toastify";
@@ -8,13 +8,19 @@ import TopBar from "components/Header/topBar";
 import Header from "components/Header/header";
 import Footer from "components/Footer";
 import Side from "components/UserProfile/side";
-import { getUser } from "lib/user";
+import { checkToken, getUser } from "lib/user";
 import Profile from "components/UserProfile/profile";
 import PasswordTab from "components/UserProfile/passwordTab";
+import { useCookies } from "react-cookie";
 
-export default ({ user }) => {
+export default ({ user, error }) => {
   const { info } = useInfo();
   const [active, setActive] = useState("profile");
+  const [cookies, setCookie, removeCookie] = useCookies(["autobiztoken"]);
+
+  // useEffect(() => {
+  //   removeCookie("autobiztoken");
+  // }, [error]);
 
   return (
     <Fragment>
@@ -97,7 +103,21 @@ export const getServerSideProps = async function ({ req, res }) {
     };
   }
 
-  const user = await getUser(token);
+  const { data, error } = await checkToken(token);
+  console.log(data);
+  if (error !== null || error !== undefined || error !== "null")
+    return { props: { error } };
+
+  const { user, err } = await getUser(token);
+
+  if (err) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
 
   if (!user) {
     return {
@@ -111,6 +131,7 @@ export const getServerSideProps = async function ({ req, res }) {
   return {
     props: {
       user,
+      err,
     },
   };
 };
