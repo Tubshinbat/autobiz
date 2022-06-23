@@ -39,17 +39,17 @@ const TopBar = () => {
               {socialLinks &&
                 socialLinks.map((el) => (
                   <a href={el.link} target="_blank" key={el._id + "social"}>
-                    <i class={`fa-brands fa-${el.name.toLowerCase()}`}></i>
+                    <i className={`fa-brands fa-${el.name.toLowerCase()}`}></i>
                   </a>
                 ))}
             </div>
             <div className="topLinks">
               <a href={`tel:${info.phone}`}>
-                <i class="fa-solid fa-phone"></i>
+                <i className="fa-solid fa-phone"></i>
                 {info.phone}
               </a>
               <a href={`mailto:${info.email}`}>
-                <i class="fa-solid fa-envelope"></i>
+                <i className="fa-solid fa-envelope"></i>
                 {info.email}
               </a>
             </div>

@@ -7,7 +7,7 @@ export default ({ user }) => {
   const router = useRouter();
   const logout = () => {
     removeCookie("autobiztoken");
-    router.push("/");
+    router.reload(window.location.pathname);
   };
 
   return (
@@ -53,14 +53,6 @@ export default ({ user }) => {
           {/* <span className="count">0</span> */}
         </li>
 
-        <li className>
-          <Link href="/userprofile/wallet">
-            <a aria-label="Wallet">Хэтэвч</a>
-          </Link>
-          <span className="count">
-            {new Intl.NumberFormat().format(user.wallet)} ₮
-          </span>
-        </li>
         <li className="logout">
           <button type="button" onClick={logout}>
             Гарах

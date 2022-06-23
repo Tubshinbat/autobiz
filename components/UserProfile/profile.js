@@ -1,3 +1,5 @@
+import Spinner from "components/Spinner";
+import UserContext from "context/UserContext";
 import {
   maxLength,
   minLength,
@@ -7,12 +9,13 @@ import {
 
 import { toastControl } from "lib/toastControl";
 import { updateUser } from "lib/user";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default ({ active, user }) => {
   const [form, setForm] = useState({});
-
+  const userCtx = useContext(UserContext);
   const timer = (ms) => new Promise((res) => setTimeout(res, ms));
+
   const [errors, setErrors] = useState({
     firstname: true,
     lastname: true,
@@ -20,10 +23,18 @@ export default ({ active, user }) => {
   });
 
   useEffect(() => {
-    if (user) {
-      setForm(user);
+    if (userCtx.state.userData) {
+      const { lastname, firstname, phone, gender, age } =
+        userCtx.state.userData;
+      setForm(() => ({
+        lastname,
+        firstname,
+        phone,
+        gender,
+        age,
+      }));
     }
-  }, [user]);
+  }, [userCtx]);
 
   //CHECK FORM FUNCTION
   const checkName = (el, name) => {
@@ -89,6 +100,7 @@ export default ({ active, user }) => {
         active === "profile" ? "displayBlock" : "displayNone"
       }`}
     >
+      {userCtx.state.loading && <Spinner />}
       <h3> Хувийн мэдээлэл </h3>
       <div className="row">
         <div className="form-group col-lg-6">

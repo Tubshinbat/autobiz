@@ -118,8 +118,10 @@ export default ({ text, page = false }) => {
         <div className="socialMobile">
           {socialLinks &&
             socialLinks.map((el) => (
-              <a href={el.link} target="_blank">
-                <i class={`fa-brands fa-${el.name.toLowerCase()}-square`}></i>
+              <a href={el.link} key={`${el._id}-som`} target="_blank">
+                <i
+                  className={`fa-brands fa-${el.name.toLowerCase()}-square`}
+                ></i>
               </a>
             ))}
         </div>

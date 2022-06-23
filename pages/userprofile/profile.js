@@ -10,7 +10,7 @@ import TopBar from "components/Header/topBar";
 import Header from "components/Header/header";
 import Footer from "components/Footer";
 import Side from "components/UserProfile/side";
-import { getUser, updateUser } from "lib/user";
+import { checkToken, getUser, updateUser } from "lib/user";
 import Profile from "components/UserProfile/profile";
 import PasswordTab from "components/UserProfile/passwordTab";
 
@@ -100,9 +100,18 @@ export const getServerSideProps = async function ({ req, res }) {
     };
   }
 
-  const user = await getUser(token);
+  const { data, error } = await checkToken(token);
+  if (error) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  const { user, err } = await getUser(token);
 
-  if (!user) {
+  if (err || !user) {
     return {
       redirect: {
         destination: "/login",
@@ -114,6 +123,7 @@ export const getServerSideProps = async function ({ req, res }) {
   return {
     props: {
       user,
+      err,
     },
   };
 };

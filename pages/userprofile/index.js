@@ -1,8 +1,9 @@
 import Head from "next/head";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { useInfo } from "hooks/use-info";
 import base from "lib/base";
 import { ToastContainer } from "react-toastify";
+import { useRouter } from "next/router";
 
 import TopBar from "components/Header/topBar";
 import Header from "components/Header/header";
@@ -12,15 +13,23 @@ import { checkToken, getUser } from "lib/user";
 import Profile from "components/UserProfile/profile";
 import PasswordTab from "components/UserProfile/passwordTab";
 import { useCookies } from "react-cookie";
+import UserContext from "context/UserContext";
 
 export default ({ user, error }) => {
   const { info } = useInfo();
   const [active, setActive] = useState("profile");
+  const userCtx = useContext(UserContext);
   const [cookies, setCookie, removeCookie] = useCookies(["autobiztoken"]);
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   removeCookie("autobiztoken");
-  // }, [error]);
+  useEffect(() => {
+    if (cookies.autobiztoken) {
+      router.push("/login");
+    }
+    if (!userCtx.state.userData) {
+      userCtx.getUser(cookies.autobiztoken);
+    }
+  }, []);
 
   return (
     <Fragment>
@@ -104,13 +113,7 @@ export const getServerSideProps = async function ({ req, res }) {
   }
 
   const { data, error } = await checkToken(token);
-  console.log(data);
-  if (error !== null || error !== undefined || error !== "null")
-    return { props: { error } };
-
-  const { user, err } = await getUser(token);
-
-  if (err) {
+  if (error) {
     return {
       redirect: {
         destination: "/login",
@@ -118,8 +121,9 @@ export const getServerSideProps = async function ({ req, res }) {
       },
     };
   }
+  const { user, err } = await getUser(token);
 
-  if (!user) {
+  if (err || !user) {
     return {
       redirect: {
         destination: "/login",

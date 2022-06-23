@@ -8,7 +8,6 @@ export const useUser = (token) => {
   const fetcher = (url) =>
     axios
       .get(url, {
-        withCredentials: true,
         headers: { Cookie: `autobiztoken=${token};` },
       })
       .then((res) => res.data);

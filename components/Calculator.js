@@ -1,19 +1,14 @@
-import {
-  maxLength,
-  minLength,
-  onlyNumber,
-  requiredCheck,
-} from "lib/inputRegex";
-
 import { useHybrids } from "hooks/use-hybrid";
 import { useRate } from "hooks/use-rates";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "context/UserContext";
 
 export default ({ product }) => {
   const { data: rate } = useRate();
   const [calculator, setCalculator] = useState({});
   const [jpy, setJpy] = useState(null);
   const [usd, setUsd] = useState(null);
+  const userCtx = useContext(UserContext);
 
   const { hybrid: isHybrid } = useHybrids(
     `name=${product.model_ref && product.model_ref.split(" ")[0]}`
@@ -37,7 +32,6 @@ export default ({ product }) => {
   }, [rate]);
 
   useEffect(() => {
-    console.log(product);
     if (product && jpy && usd) {
       const { _id } = product;
 
@@ -51,13 +45,32 @@ export default ({ product }) => {
       const prePay =
         parseFloat(japanTax) + parseFloat(fee) + parseFloat(product.price);
       const prePayMn = parseFloat(japanTaxMn) + parseFloat(feeMn) + price;
-      const logistic = 3000;
-      const logisticMn = logistic * usd;
+      let logistic = 3000;
       const countYear =
         parseInt(new Date().getFullYear()) - parseInt(product.car_year);
+
       let exciseTax = 0;
       let ENG_V = 0;
       const eng = product.engine;
+
+      switch (product.country) {
+        case "Singapore":
+          logistic = 3000;
+          break;
+        case "Japan":
+          logistic = 2000;
+          break;
+        case "USA":
+          logistic = 5000;
+          break;
+        case "Singapore":
+          logistic = 3000;
+          break;
+        default:
+          logistic = 3000;
+          break;
+      }
+      let logisticMn = logistic * usd;
 
       if (eng) {
         ENG_V = 1;
@@ -127,6 +140,8 @@ export default ({ product }) => {
 
       const niitOft = prePayMn + mongolOft;
       const niitHyb = prePayMn + mongolHyb;
+      const sendPrice = isHybrid && isHybrid.length > 0 ? niitHyb : niitOft;
+      userCtx.getPrice(parseInt(sendPrice));
 
       setCalculator(() => ({
         price,

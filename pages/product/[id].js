@@ -1,19 +1,11 @@
 import { getProduct, getProducts } from "lib/product";
 import { getInfo } from "lib/webinfo";
 import Head from "next/head";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import ImageGallery from "react-image-gallery";
-
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Navigation, Thumbs } from "swiper";
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/free-mode";
-import "swiper/css/navigation";
-import "swiper/css/thumbs";
+import { ToastContainer } from "react-toastify";
+import { toastControl } from "lib/toastControl";
 
 import Header from "components/Header/header";
 import TopBar from "components/Header/topBar";
@@ -24,27 +16,45 @@ import Section from "components/generals/section";
 import Footer from "components/Footer";
 import Spinner from "components/Spinner";
 import Lend from "components/Lend";
+import { Modal, Button } from "react-bootstrap";
+import { getUser } from "lib/user";
+import { useCookies } from "react-cookie";
+import UserContext from "context/UserContext";
+import { createOrder } from "lib/order";
 
 export default ({ info, product }) => {
   const router = useRouter();
+  const { asPath } = useRouter();
   const [image, setImage] = useState([]);
   const [ogUrl, setOgUrl] = useState("");
+  const [loading, setLoading] = useState(false);
   const [showImg, setShowImg] = useState(false);
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const { asPath } = useRouter();
+  const [show, setShow] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["autobiztoken"]);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [resOrder, setOrder] = useState(null);
 
   if (router.isFallback) return <Spinner />;
-
   if (!router.isFallback && !product?._id) {
     router.push("/404");
   }
 
+  const userCtx = useContext(UserContext);
+
   useEffect(() => {
     const host = window.location.host;
     const baseUrl = `http://${host}`;
-
     setOgUrl(`${baseUrl}${asPath}`);
   }, [router.pathname]);
+
+  useEffect(() => {
+    !cookies.autobiztoken && userCtx.allClear();
+  }, []);
+
+  useEffect(() => {
+    !cookies.autobiztoken && userCtx.allClear();
+  }, [cookies.autobiztoken]);
 
   useEffect(() => {
     if (product) {
@@ -61,6 +71,20 @@ export default ({ info, product }) => {
 
   const handleImg = () => {
     setShowImg((bf) => (bf === true ? false : true));
+  };
+
+  const handleBuy = async () => {
+    if (userCtx.state.userData) {
+      const sendData = {
+        userId: userCtx.state.userData._id,
+        product_id: product._id,
+      };
+      setLoading(true);
+      const { order, error } = await createOrder(sendData);
+      if (error) toastControl("error", error);
+      if (order) setOrder(order);
+      setLoading(false);
+    }
   };
 
   return (
@@ -191,12 +215,13 @@ export default ({ info, product }) => {
                     </div>
                     <div className="col-lg-12">
                       <div className={css.ProductBtns}>
-                        <Link href={`/purchase/${product._id}`}>
-                          <button className={`${css.ProductBtn} ${css.Buy}`}>
-                            <i className="fa fa-cart-shopping"></i>
-                            Худалдан авах
-                          </button>
-                        </Link>
+                        <button
+                          className={`${css.ProductBtn} ${css.Buy}`}
+                          onClick={handleShow}
+                        >
+                          <i className="fa fa-cart-shopping"></i>
+                          Худалдан авах
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -214,6 +239,59 @@ export default ({ info, product }) => {
       </Section>
       <Lend dPrice={product.price} />
       <Footer />
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Худалдаж авах </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {loading && <Spinner />}
+          {!userCtx.state.userData && !resOrder && !cookies.autobiztoken && (
+            <div className="error-message">
+              <p>Уучлаарай та захиалга өгөхийн тулд нэвтэрч орно уу!</p>
+            </div>
+          )}
+
+          {userCtx.state.userData && !resOrder && cookies.autobiztoken && (
+            <div className="answer-message">
+              Та захиалга өгөхдөө итгэлтэй байна уу?
+            </div>
+          )}
+
+          {resOrder && (
+            <div className="success-message">
+              <i className="fa-solid fa-circle-check"></i>
+              Таны захиалгыг хүлээн авлаа тантай манай ажилтан тун удахгүй
+              холбогдох болно.
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Болих
+          </Button>
+          {!userCtx.state.userData && !resOrder && (
+            <Button variant="primary" onClick={() => router.push("/login")}>
+              Нэвтрэх
+            </Button>
+          )}
+          {userCtx.state.userData && !resOrder && (
+            <Button variant="primary" onClick={handleBuy}>
+              Худалдан авах
+            </Button>
+          )}
+        </Modal.Footer>
+      </Modal>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </Fragment>
   );
 };

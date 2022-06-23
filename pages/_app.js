@@ -23,7 +23,7 @@ import "styles/globals.css";
 import "animate.css";
 
 import { useEffect } from "react";
-
+import { UserStore } from "context/UserContext";
 Router.onRouteChangeStart = (url) => {
   Nprogress.start();
 };
@@ -90,21 +90,26 @@ function MyApp({ Component, pageProps }) {
             crossorigin
           ></Script>
 
-          <Script
+          <script
+            src="https://unpkg.com/react/umd/react.production.min.js"
+            crossorigin
+          ></script>
+
+          <script
             src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"
             crossorigin
-          ></Script>
+          ></script>
 
-          <Script
+          <script
             src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
             crossorigin
-          ></Script>
+          ></script>
 
           <Script src="/js/all.min.js" crossorigin />
         </Head>
-        <CookiesProvider>
+        <UserStore>
           <Component {...pageProps} />
-        </CookiesProvider>
+        </UserStore>
       </SWRConfig>
     </>
   );

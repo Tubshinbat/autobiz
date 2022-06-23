@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import base from "lib/base";
@@ -9,6 +9,7 @@ import { useInfo } from "hooks/use-info";
 
 import { useUser } from "hooks/use-user";
 import MobileHeader from "components/Mobile/MobileHeader";
+import UserContext from "context/UserContext";
 
 const Header = ({ page, text }) => {
   const [dataMenus, setDataMenus] = useState([]);
@@ -18,8 +19,7 @@ const Header = ({ page, text }) => {
   const [type, setType] = useState("products");
   const [searchText, setSearchText] = useState("");
   const [cookies] = useCookies(["autobiztoken"]);
-
-  const { userInfo } = useUser(cookies.autobiztoken);
+  const userCtx = useContext(UserContext);
 
   useEffect(() => {
     if (menus) {
@@ -37,6 +37,12 @@ const Header = ({ page, text }) => {
         header.classList.remove(`headerSticky`);
       }
     };
+
+    if (!userCtx.state.userData) {
+      if (cookies.autobiztoken) {
+        userCtx.getUser(cookies.autobiztoken);
+      }
+    }
   }, []);
 
   //FUNCTION
@@ -69,16 +75,6 @@ const Header = ({ page, text }) => {
     return myCategories;
   };
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    if (name === "type") setType(value);
-    if (name === "searchText") setSearchText(value);
-  };
-
-  const handleSearch = () => {
-    router.push(`/${type}?title=${searchText}`);
-  };
-
   return (
     <>
       <header className="mainHeader">
@@ -95,14 +91,16 @@ const Header = ({ page, text }) => {
               <ul className="headerMenu">{renderMenu(dataMenus)}</ul>
             </div>
             <div className="headerButtons">
-              {userInfo ? (
+              {userCtx.state.userData ? (
                 <Link href="/login">
                   <div className="headerBottom">
                     <div className="BottomIcon">
-                      <i class="fa-regular fa-user"></i>
+                      <i className="fa-regular fa-user"></i>
                     </div>
                     <div className="BottomText">
-                      {(userInfo.phone && userInfo.phone) || userInfo.email}
+                      {userCtx.state.userData.firstName
+                        ? userCtx.state.userData.firstName
+                        : userCtx.state.userData.email}
                     </div>
                   </div>
                 </Link>
@@ -110,7 +108,7 @@ const Header = ({ page, text }) => {
                 <Link href="/login">
                   <div className="headerBottom">
                     <div className="BottomIcon">
-                      <i class="fa-regular fa-user"></i>
+                      <i className="fa-regular fa-user"></i>
                     </div>
                     <div className="BottomText">Нэвтрэх</div>
                   </div>

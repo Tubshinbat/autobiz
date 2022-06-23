@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import { useInfo } from "hooks/use-info";
 import base from "lib/base";
@@ -8,14 +9,50 @@ import TopBar from "components/Header/topBar";
 import Header from "components/Header/header";
 import Footer from "components/Footer";
 import Side from "components/UserProfile/side";
-import { getUser } from "lib/user";
+import { checkToken, getUser } from "lib/user";
 
 import { getOrders } from "lib/order";
+import { useOrders } from "hooks/use-orders";
+import Pagination from "react-js-pagination";
 
 export default ({ user, orders }) => {
+  const { query, asPath } = useRouter();
   const { info } = useInfo();
-
   const [active, setActive] = useState("profile");
+  const router = useRouter();
+
+  //-- PAGINATION
+  const [activePage, setActivePage] = useState(parseInt(query.page) || 1);
+  const [limit, setLimit] = useState({});
+  const [total, setTotal] = useState();
+
+  const { orders: ordersData, pagination } = useOrders(
+    `ordertype=${query.ordertype}&ordernumber=${query.ordernumber}&page=${query.page}`,
+    orders
+  );
+
+  useEffect(() => {
+    if (pagination) {
+      setTotal(pagination.total);
+      setLimit(pagination.limit);
+    }
+  }, [pagination]);
+
+  const handlePageChange = (pageNumber) => {
+    window.scrollTo(0, 0);
+    setActivePage(pageNumber);
+    router.replace({
+      pathname: router.pathname,
+      query: { ...query, page: pageNumber },
+    });
+  };
+
+  const handleChange = (event) => {
+    router.replace({
+      pathname: router.pathname,
+      query: { ...query, ordernumber: event.target.value },
+    });
+  };
 
   return (
     <Fragment>
@@ -36,25 +73,38 @@ export default ({ user, orders }) => {
               <Side user={user} />
             </div>
             <div className="col-lg-9">
-              <div className="ordersListUser">
+              <div className="ordersListUser userFormProfile">
+                <h3> Миний захиалгууд </h3>
+                <div className="orderSearch">
+                  <input
+                    type="text"
+                    name="ordernumber"
+                    className="orderSearchInput"
+                    onChange={handleChange}
+                    placeholder="Захиалгын дугаараар хайх"
+                  />
+                </div>
                 <table class="orderTable">
                   <thead>
                     <tr>
-                      <th>Хэлцэл</th>
+                      <th>Захиалгын дугаар</th>
+                      <th>Төлөв</th>
                       <th>Сонгосон машин</th>
                       <th>Мессеж </th>
                       <th> Огноо</th>
                     </tr>
                   </thead>
-                  {orders &&
-                    orders.map((el) => (
+                  {ordersData &&
+                    ordersData.map((el) => (
                       <tr>
-                        <td>
-                          {el.status === true ? " Нээлттэй " : " Дууссан "}
-                        </td>
+                        <td>{el.orderNumber}</td>
+                        <td>{el.orderType ? el.orderType.name : " Шинэ "}</td>
                         <td>
                           {el.product_id && (
-                            <a href={`/product/${el.product_id._id}`}>
+                            <a
+                              href={`/product/${el.product_id._id}`}
+                              target="_blank"
+                            >
                               {el.product_id && el.product_id.title}{" "}
                             </a>
                           )}
@@ -70,6 +120,19 @@ export default ({ user, orders }) => {
                       </tr>
                     ))}
                 </table>
+                {total && (
+                  <div className={`pagination`}>
+                    <Pagination
+                      activePage={parseInt(query.page) || 1}
+                      itemClass={`page-item`}
+                      linkClass={"page-link"}
+                      itemsCountPerPage={limit}
+                      totalItemsCount={total}
+                      pageRangeDisplayed={5}
+                      onChange={handlePageChange.bind()}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -93,7 +156,7 @@ export default ({ user, orders }) => {
 
 export const getServerSideProps = async function ({ req, res }) {
   let token = req.cookies.autobiztoken;
-  let orders = [];
+
   if (!token) {
     return {
       redirect: {
@@ -103,9 +166,18 @@ export const getServerSideProps = async function ({ req, res }) {
     };
   }
 
-  const user = await getUser(token);
+  const { data, error } = await checkToken(token);
+  if (error) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  const { user, err } = await getUser(token);
 
-  if (!user) {
+  if (err || !user) {
     return {
       redirect: {
         destination: "/login",
@@ -114,7 +186,7 @@ export const getServerSideProps = async function ({ req, res }) {
     };
   }
 
-  orders = await getOrders(token);
+  let orders = await getOrders(token);
 
   return {
     props: {

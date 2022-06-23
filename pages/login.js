@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useCookies } from "react-cookie";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useContext } from "react";
 import base from "lib/base";
 import { useRouter } from "next/router";
 import { ToastContainer } from "react-toastify";
@@ -11,20 +11,33 @@ import Header from "components/Header/header";
 import Footer from "components/Footer";
 import { regEmail, requiredCheck } from "lib/inputRegex";
 import { toastControl } from "lib/toastControl";
-import { loginUser } from "lib/login";
 import { checkToken } from "lib/token";
 import { useInfo } from "hooks/use-info";
+import UserContext from "context/UserContext";
+import Spinner from "components/Spinner";
 
 export default ({ data, error, success }) => {
   const [loginForm, setLoginForm] = useState({});
-  const { info } = useInfo();
-  const [cookies, setCookie, removeCookie] = useCookies(["autobiztoken"]);
-
-  const router = useRouter();
   const [errors, setError] = useState({
     email: "",
     password: true,
   });
+  const router = useRouter();
+  const userCtx = useContext(UserContext);
+
+  const { info } = useInfo();
+
+  // PAGE INIT
+  const init = () => {
+    setError({
+      email: "",
+      password: true,
+    });
+    setLoginForm(() => ({
+      email: null,
+      password: null,
+    }));
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -47,7 +60,7 @@ export default ({ data, error, success }) => {
     });
     return errorsValues.length === errorCount;
   };
-  const timer = (ms) => new Promise((res) => setTimeout(res, ms));
+
   const allCheck = () => {
     Object.keys(errors).map((el) => {
       checkFrom(el, loginForm[el] === undefined ? "" : loginForm[el]);
@@ -56,29 +69,33 @@ export default ({ data, error, success }) => {
   };
 
   useEffect(() => {
-    if (success) {
-      toastControl("success", props.success);
+    if (userCtx.state.success) {
+      toastControl("success", userCtx.state.success);
       init();
+      router.back();
     }
-  }, [success]);
+    return () => {
+      userCtx.clear();
+      init();
+    };
+  }, [userCtx.state.success]);
 
   useEffect(() => {
-    if (error) {
-      removeCookie("autobiztoken");
+    if (userCtx.state.userData) router.push("/userprofile");
+    console.log(userCtx);
+    return init();
+  }, []);
+
+  useEffect(() => {
+    if (userCtx.state.error) {
+      toastControl("error", userCtx.state.error);
     }
-  }, [error]);
+    return;
+  }, [userCtx.state.error]);
 
   const login = async () => {
     if (allCheck()) {
-      const { data, isLoading, error } = await loginUser(loginForm);
-
-      if (data) {
-        toastControl("success", "Амжилттай нэвтэрлээ.");
-        await timer(1500);
-        router.push("/userprofile");
-      }
-
-      if (error) toastControl("error", error);
+      userCtx.loginUser(loginForm);
     } else toastControl("error", "Талбаруудыг бөглөнө үү");
   };
 
@@ -96,6 +113,7 @@ export default ({ data, error, success }) => {
       </div>
       <div className="loginSection">
         <div className="loginForm">
+          {userCtx.state.loading && <Spinner />}
           <div className="loginHeader">
             <li className={`loginTab active`}>Нэвтрэх</li>
           </div>
@@ -134,13 +152,13 @@ export default ({ data, error, success }) => {
             </div>
           </div>
 
-          <button onClick={login} type="button" class="btn btn-login">
+          <button onClick={login} type="button" className="btn btn-login">
             Нэвтрэх
           </button>
           <button
             onClick={() => router.push("/register")}
             type="button"
-            class="btn btn-register"
+            className="btn btn-register"
           >
             Бүртгүүлэх
           </button>
@@ -171,9 +189,11 @@ export const getServerSideProps = async function ({ req, res }) {
 
   const { data, error } = await checkToken(token);
 
-  if (error !== null || error !== undefined) return { props: { error } };
+  if (error) {
+    return { props: {} };
+  }
 
-  if (data !== undefined || data !== null) {
+  if (data) {
     return {
       redirect: {
         destination: "/userprofile",

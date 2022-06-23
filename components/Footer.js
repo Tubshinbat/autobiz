@@ -16,38 +16,36 @@ export default () => {
       categories.map((el, index) => {
         let dly = 0.2 * index;
         myCategories.push(
-          <>
-            <div
-              key={el._id}
-              className={`${
-                !child && "col-lg-3"
-              } wow animate__animated animate__fadeInDown`}
-              data-wow-delay={`${dly}s`}
-            >
-              {!child && <div className="footerTitle">{el.name}</div>}
+          <div
+            key={el._id}
+            className={`${
+              !child && "col-lg-3"
+            } wow animate__animated animate__fadeInDown`}
+            data-wow-delay={`${dly}s`}
+          >
+            {!child && <div className="footerTitle">{el.name}</div>}
 
-              {!el.isDirect && !el.model && child && (
-                <Link href={`/f/${parentSlug}/${el.slug}`}>
-                  <a>{el.name}</a>
-                </Link>
-              )}
+            {!el.isDirect && !el.model && child && (
+              <Link href={`/f/${parentSlug}/${el.slug}`}>
+                <a>{el.name}</a>
+              </Link>
+            )}
 
-              {el.isDirect && child && (
-                <a href={el.direct} target="_blank">
-                  {el.name}
-                </a>
-              )}
+            {el.isDirect && child && (
+              <a href={el.direct} target="_blank">
+                {el.name}
+              </a>
+            )}
 
-              {el.model && child && (
-                <Link href={`/${el.model}`}>
-                  <a>{el.name}</a>
-                </Link>
-              )}
-              {el.children.length > 0 && !child ? (
-                <ul>{renderCategories(el.children, true, el.slug)}</ul>
-              ) : null}
-            </div>
-          </>
+            {el.model && child && (
+              <Link href={`/${el.model}`}>
+                <a>{el.name}</a>
+              </Link>
+            )}
+            {el.children.length > 0 && !child ? (
+              <ul>{renderCategories(el.children, true, el.slug)}</ul>
+            ) : null}
+          </div>
         );
       });
 
@@ -96,9 +94,9 @@ export default () => {
               <div className="socialsLinks">
                 {socialLinks &&
                   socialLinks.map((el) => (
-                    <a href={el.link} target="_blank">
+                    <a href={el.link} target="_blank" key={`${el._id}-social`}>
                       <i
-                        class={`fa-brands fa-${el.name.toLowerCase()}-square`}
+                        className={`fa-brands fa-${el.name.toLowerCase()}-square`}
                       ></i>
                       {el.name.toLowerCase()}
                     </a>

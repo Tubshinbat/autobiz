@@ -1,18 +1,11 @@
 import { getInfo } from "lib/webinfo";
 import Head from "next/head";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import ImageGallery from "react-image-gallery";
-
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Navigation, Thumbs } from "swiper";
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/free-mode";
-import "swiper/css/navigation";
-import "swiper/css/thumbs";
+import { ToastContainer } from "react-toastify";
+import { toastControl } from "lib/toastControl";
 
 import Header from "components/Header/header";
 import TopBar from "components/Header/topBar";
@@ -27,6 +20,10 @@ import { getRate } from "lib/rate";
 import Lend from "components/Lend";
 import translate from "lib/translate";
 import Calculator from "components/Calculator";
+import { Modal, Button } from "react-bootstrap";
+import { useCookies } from "react-cookie";
+import UserContext from "context/UserContext";
+import { createBeOrder } from "lib/order";
 
 export default ({ info, product, rate }) => {
   const router = useRouter();
@@ -37,6 +34,13 @@ export default ({ info, product, rate }) => {
   const [usd, setUsd] = useState("");
   const [jpy, setJpy] = useState("");
   const [showImg, setShowImg] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["autobiztoken"]);
+  const handleClose = () => setShow(false);
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const [resOrder, setOrder] = useState(null);
+  const userCtx = useContext(UserContext);
 
   if (router.isFallback) return <Spinner />;
 
@@ -82,6 +86,21 @@ export default ({ info, product, rate }) => {
 
   const handleImg = () => {
     setShowImg((bf) => (bf === true ? false : true));
+  };
+
+  const handleBuy = async () => {
+    if (userCtx.state.userData) {
+      const sendData = {
+        userId: userCtx.state.userData._id,
+        product_id: product._id,
+        price: userCtx.state.price,
+      };
+      setLoading(true);
+      const { order, error } = await createBeOrder(sendData);
+      if (error) toastControl("error", error);
+      if (order) setOrder(order);
+      setLoading(false);
+    }
   };
 
   return (
@@ -238,12 +257,13 @@ export default ({ info, product, rate }) => {
                         {product.location_fob}
                       </div>
                       <div className={css.ProductBtns}>
-                        <Link href={`/order/${product._id}`}>
-                          <button className={`${css.ProductBtn} ${css.Buy}`}>
-                            <i className="fa fa-cart-shopping"></i>
-                            Захиалга өгөх
-                          </button>
-                        </Link>
+                        <button
+                          className={`${css.ProductBtn} ${css.Buy}`}
+                          onClick={handleShow}
+                        >
+                          <i className="fa fa-cart-shopping"></i>
+                          Захиалга өгөх
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -259,64 +279,65 @@ export default ({ info, product, rate }) => {
           </div>
         </div>
       </Section>
-      {/* <div className="calTabs">
-        <div className="calTab"> Монголд ирэх дүн бодох </div>
-        <div className="calTab"> Зээлийн тооцоолуур </div>
-      </div>
-      <div className="container">
-        <div className="calFob">
-          <div className="calFobTitle"> Монголд ирэх үнэ бодох</div>
-          <table>
-            <tr>
-              <th>№</th>
-              <th>Тайлбар</th>
-              <th>Валют</th>
-              <th>Ханш</th>
-              <th>Үнэ</th>
-            </tr>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Зарагдаж байгаа үнэ</td>
-                <td>{}</td>
-                <td>{jpy}</td>
-                <td>{}</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>
-                  Японы худалдааны татвар 7%{" "}
-                  <a
-                    href="https://ja.m.wikipedia.org/wiki/%E6%B6%88%E8%B2%BB%E7%A8%8E"
-                    target="_blank"
-                  >
-                    татвар
-                  </a>
-                </td>
-                <td>{}</td>
-                <td>{jpy}</td>
-                <td>{}</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Япон дах үйлчилгээний зардал</td>
-                <td>100,000 Иен</td>
-                <td>{jpy}</td>
-                <td>{new Intl.NumberFormat().format(100000 * jpy)}₮</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>Урьдчилгаа төлбөр</td>
-                <td>100,000 Иен</td>
-                <td>{jpy}</td>
-                <td>₮</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div> */}
+
       <Lend />
       <Footer />
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Худалдаж авах </Modal.Title>
+        </Modal.Header>
+
+        {loading && <Spinner />}
+        <Modal.Body>
+          {loading && <Spinner />}
+          {!userCtx.state.userData && !resOrder && (
+            <div className="error-message">
+              <p>Уучлаарай та захиалга өгөхийн тулд нэвтэрч орно уу!</p>
+            </div>
+          )}
+
+          {userCtx.state.userData && !resOrder && (
+            <div className="answer-message">
+              Та захиалга өгөхдөө итгэлтэй байна уу?
+            </div>
+          )}
+
+          {resOrder && (
+            <div className="success-message">
+              <i className="fa-solid fa-circle-check"></i>
+              Таны захиалгыг хүлээн авлаа тантай манай ажилтан тун удахгүй
+              холбогдох болно.
+            </div>
+          )}
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Болих
+          </Button>
+          {!userCtx.state.userData && !resOrder && (
+            <Button variant="primary" onClick={() => router.push("/login")}>
+              Нэвтрэх
+            </Button>
+          )}
+          {userCtx.state.userData && !resOrder && (
+            <Button variant="primary" onClick={handleBuy}>
+              Захиалга өгөх
+            </Button>
+          )}
+        </Modal.Footer>
+      </Modal>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </Fragment>
   );
 };
