@@ -62,7 +62,7 @@ export default ({ active, user }) => {
       }
 
       if (name === "email" && result === true) {
-        result = regEmail;
+        result = regEmail(val);
       }
 
       setErrors((bfError) => ({ ...bfError, [name]: result }));
