@@ -40,7 +40,7 @@ export default ({ product }) => {
       const price = parseFloat(jpy) * parseFloat(product.price);
       const japanTax = parseFloat(product.price) * parseFloat(0.07);
       const japanTaxMn = parseFloat(japanTax) * parseFloat(jpy);
-      const fee = parseFloat(120000);
+      const fee = parseFloat(100000);
       const feeMn = fee * parseFloat(jpy);
       const prePay =
         parseFloat(japanTax) + parseFloat(fee) + parseFloat(product.price);
@@ -279,13 +279,17 @@ export default ({ product }) => {
         </tr>
         <tr>
           <td></td>
-          <td colspan="3">Нийт гар дээр ирэх төлбөр</td>
+          <td colspan="3">
+            <b>Нийт гар дээр ирэх төлбөр</b>
+          </td>
           <td align="right">
-            {new Intl.NumberFormat().format(
-              isHybrid && isHybrid.length > 0
-                ? calculator.niitHyb
-                : calculator.niitOft
-            )}{" "}
+            <b>
+              {new Intl.NumberFormat().format(
+                isHybrid && isHybrid.length > 0
+                  ? calculator.niitHyb
+                  : calculator.niitOft
+              )}
+            </b>
             <span>₮</span>
           </td>
         </tr>

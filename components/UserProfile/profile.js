@@ -20,11 +20,12 @@ export default ({ active, user }) => {
     firstname: true,
     lastname: true,
     phone: true,
+    email: true,
   });
 
   useEffect(() => {
     if (userCtx.state.userData) {
-      const { lastname, firstname, phone, gender, age } =
+      const { lastname, firstname, phone, gender, age, address, email } =
         userCtx.state.userData;
       setForm(() => ({
         lastname,
@@ -32,6 +33,8 @@ export default ({ active, user }) => {
         phone,
         gender,
         age,
+        address,
+        email,
       }));
     }
   }, [userCtx]);
@@ -51,11 +54,17 @@ export default ({ active, user }) => {
         result === true && (result = maxLength(val, 300));
       }
       if (name === "phone" && result === true) result = onlyNumber(val);
-      setErrors((bfError) => ({ ...bfError, [name]: result }));
+
       if (name === "phone" && result === true) {
         result = minLength(val, 8);
         if (result === true) result = maxLength(val, 8);
       }
+
+      if (name === "email" && result === true) {
+        result = regEmail;
+      }
+
+      setErrors((bfError) => ({ ...bfError, [name]: result }));
     }
   };
 
@@ -142,6 +151,18 @@ export default ({ active, user }) => {
           <p className="contactError"> {errors.phone} </p>
         </div>
         <div className="form-group col-lg-6">
+          <label> Имэйл хаяг * </label>
+          <input
+            type="email"
+            name="email"
+            value={form.email}
+            className={`form-control ${errors.email === true && "is-valid"}`}
+            onChange={handleChange}
+            placeholder="Таны имэйл хаяг"
+          />
+          <p className="contactError"> {errors.email} </p>
+        </div>
+        <div className="form-group col-lg-6">
           <label> Хүйс </label>
           <select
             name="gender"
@@ -162,6 +183,17 @@ export default ({ active, user }) => {
             onChange={handleChange}
             className="form-control"
             placeholder="Таны нас"
+          />
+        </div>
+        <div className="form-group col-lg-6">
+          <label> Хаяг </label>
+          <input
+            type="text"
+            name="address"
+            value={form.address}
+            onChange={handleChange}
+            className="form-control"
+            placeholder="Гэрийн хаягаа оруулна уу"
           />
         </div>
         <div className="formInfoFooter">

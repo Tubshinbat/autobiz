@@ -35,7 +35,7 @@ export default ({ info, rate }) => {
   //
 
   const { products, pagination } = useBeproducts(
-    `status=true&make=${query.make}&model=${query.model}&type=${query.type}&country=${query.country}&fuel=${query.fuel}&minYear=${query.minYear}&maxYear=${query.maxYear}&minMotor=${query.minMotor}&maxMotor=${query.maxMotor}&trans=${query.trans}&fuel=${query.fuel}&minMil=${query.minMil}&maxMil=${query.maxMil}&sort=${query.sort}&minPrice=${query.minPrice}&title=${query.title}&maxPrice=${query.maxPrice}&page=${query.page}`
+    `status=true&make=${query.make}&model=${query.model}&type=${query.type}&country=${query.country}&fuel=${query.fuel}&minYear=${query.minYear}&maxYear=${query.maxYear}&minMotor=${query.minMotor}&maxMotor=${query.maxMotor}&trans=${query.trans}&fuel=${query.fuel}&minMil=${query.minMil}&maxMil=${query.maxMil}&sort=${query.sort}&minPrice=${query.minPrice}&title=${query.title}&steering=${query.steering}&maxPrice=${query.maxPrice}&page=${query.page}`
   );
 
   useEffect(() => {

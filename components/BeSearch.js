@@ -50,7 +50,7 @@ export default () => {
     { name: "50,000 km", value: 50000 },
     { name: "80,000 km", value: 80000 },
     { name: "100,000 km", value: 100000 },
-    { name: "150000 km", value: 150000 },
+    { name: "150,000 km", value: 150000 },
     { name: "200,000 km", value: 200000 },
     { name: "300,000 km", value: 300000 },
   ];
@@ -65,7 +65,7 @@ export default () => {
     { name: "¥300,000", value: 300000 },
     { name: "¥350,000", value: 350000 },
     { name: "¥400,000", value: 400000 },
-    { name: "¥450,00", value: 450000 },
+    { name: "¥450,000", value: 450000 },
     { name: "¥500,000", value: 500000 },
     { name: "¥600,000", value: 600000 },
     { name: "¥700,000", value: 700000 },
@@ -184,7 +184,7 @@ export default () => {
               className={`form-select form-select-sm ${css.InputBox}`}
             >
               <option value=""> Үйлдвэрлэсэн он доод </option>
-              {arrayYears.map((year) => (
+              {arrayYears.reverse().map((year) => (
                 <option value={year}>{year}</option>
               ))}
             </select>
@@ -198,7 +198,7 @@ export default () => {
               className={`form-select form-select-sm ${css.InputBox}`}
             >
               <option value=""> Үйлдвэрлэсэн он дээд </option>
-              {arrayYears.reverse().map((year) => (
+              {arrayYears.map((year) => (
                 <option value={year}>{year}</option>
               ))}
             </select>
@@ -340,6 +340,21 @@ export default () => {
                 price.map((price) => (
                   <option value={price.value}>{price.name}</option>
                 ))}
+            </select>
+          </div>
+          <div className="form-group col-lg-3 col-md-3 col-sm-6 col-6">
+            <select
+              id="inputState"
+              name="steering"
+              onChange={handleChange}
+              value={searchForm.steering}
+              className={`form-select form-select-sm ${css.InputBox}`}
+            >
+              <option value="" selected>
+                Жолооны хүрд
+              </option>
+              <option value={"Right"}>Баруун</option>
+              <option value={"Left"}>Зүүн</option>
             </select>
           </div>
 

@@ -146,7 +146,7 @@ export default ({ info, product, rate }) => {
                   </li>
                   <li>
                     <a
-                      className="twitter"
+                      className="pinterest"
                       href={`http://pinterest.com/pin/create/button/?url=${ogUrl}&media=&description=${product.title}`}
                     >
                       <i className="fa-brands fa-twitter-square" />
@@ -177,37 +177,42 @@ export default ({ info, product, rate }) => {
                   <div className={css.Fetured}>
                     <table className={css.FeturedTable}>
                       <tr>
-                        <td>Төрөл: {product.type_txt}</td>
-                        <td>Загвар: {product.model} </td>
+                        <th>Төрөл:</th>
+                        <td> {product.type_txt}</td>
+                        <th>Загвар:</th>
+                        <td> {product.model} </td>
                       </tr>
                       <tr>
+                        <th> Хөдөлгүүр:</th>
                         <td>
-                          Хөдөлгүүр:{" "}
                           {new Intl.NumberFormat().format(product.engine)}cc
                         </td>
+                        <th>Гүйлт:</th>
                         <td>
-                          Гүйлт:{" "}
                           {new Intl.NumberFormat().format(product.mileage)}km
                         </td>
                       </tr>
                       <tr>
-                        <td>Өнгө: {product.color || "-"}</td>
-                        <td>
-                          Жолооны хүрд: {translate(product.steering) || "-"}
-                        </td>
+                        <th>Өнгө:</th>
+                        <td> {product.color || "-"}</td>
+                        <th>Жолооны хүрд:</th>
+                        <td>{translate(product.steering) || "-"}</td>
                       </tr>
                       <tr>
-                        <td>Үйлдвэрлэгдсэн он: {product.car_year} </td>
-                        <td>Орж ирсэн он: - </td>
+                        <th>Үйлдвэрлэгдсэн он:</th>
+                        <td> {product.car_year} </td>
+                        <th>Орж ирсэн он:</th>
+                        <td> - </td>
                       </tr>
                       <tr>
-                        <td>Түлшний төрөл: {translate(product.fuel)} </td>
-                        <td>Transmission: {product.trans}</td>
+                        <th>Түлшний төрөл:</th>
+                        <td> {translate(product.fuel)} </td>
+                        <th>Transmission:</th>
+                        <td> {product.trans}</td>
                       </tr>
                       <tr>
-                        <td>
-                          {translate("Drive")}: {translate(product.drive)}
-                        </td>
+                        <th>{translate("Drive")}:</th>
+                        <td>{translate(product.drive)}</td>
                         <td></td>
                       </tr>
                     </table>

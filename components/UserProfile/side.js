@@ -41,15 +41,23 @@ export default ({ user }) => {
         </li>
         <li className>
           <Link href="/userprofile/orders">
-            <a aria-label="Orders">Миний захиалгууд</a>
+            <a aria-label="Orders">Ачигдахад бэлэн</a>
           </Link>
           {/* <span className="count">0</span> */}
         </li>
 
         <li className>
           <Link href="/userprofile/purchasies">
-            <a aria-label="Orders">Худалдан авалт</a>
+            <a aria-label="Orders">Бэлэн машин </a>
           </Link>
+          {/* <span className="count">0</span> */}
+        </li>
+
+        <li className>
+          <a href="#" aria-label="Orders">
+            Дуудлага худалдаа
+          </a>
+
           {/* <span className="count">0</span> */}
         </li>
 

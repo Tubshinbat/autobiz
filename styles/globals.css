@@ -1622,10 +1622,11 @@ footer ul div a:hover {
   color: #0c255e;
 }
 
-.imgGallery.whiteSpaceSeen
-  .image-gallery-thumbnails
-  .image-gallery-thumbnails-container {
+.imgGallery.whiteSpaceSeen .image-gallery-thumbnails,
+.imgGallery.whiteSpaceSeen .image-gallery-thumbnails-container {
   white-space: normal !important;
+  transform: translate3d(0px, 0px, 0px) !important;
+  transition: all 450ms ease-out 0s !important;
 }
 
 .imgGallery.whiteSpaceNone
@@ -2651,18 +2652,18 @@ footer ul div a:hover {
   box-shadow: rgb(78 85 98 / 12%) 0px 0px 16px;
   border-radius: 5px;
   overflow: hidden;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .preOrderTable th,
 .preOrderTable td {
-  padding: 10px 5px;
+  padding: 5px 5px;
   border: 1px solid #ddd;
   text-align: center;
 }
 
 .preOrderTable th {
-  padding: 14px 5px;
+  padding: 10px 5px;
   background-color: rgb(236, 236, 236);
 }
 
