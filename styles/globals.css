@@ -2667,6 +2667,9 @@ footer ul div a:hover {
   background-color: rgb(236, 236, 236);
 }
 
+.fb_dialog_content iframe {
+  bottom: 100px !important;
+}
 .preOrderTable td:nth-child(2) {
   text-align: left;
 }
