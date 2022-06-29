@@ -5,6 +5,7 @@ import {
   minLength,
   onlyNumber,
   requiredCheck,
+  regEmail,
 } from "lib/inputRegex";
 
 import { toastControl } from "lib/toastControl";
