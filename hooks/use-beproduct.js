@@ -18,24 +18,6 @@ export const useBeproducts = (slug) => {
   };
 };
 
-export const useGetBeProduct = (id, init) => {
-  const product = {};
-
-  const { data, error } = useSWR(`${base.apiUrl}/beproducts/${id}`, {
-    initialData: init,
-  });
-
-  if (data) {
-    product = data.data;
-  }
-
-  return {
-    product,
-    isLoading: !error && !data,
-    error,
-  };
-};
-
 export const useGroupBeProduct = (group) => {
   let result = [];
 
