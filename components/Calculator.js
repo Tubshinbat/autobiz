@@ -1,4 +1,4 @@
-import { useHybrids } from "hooks/use-hybrid";
+import { useHybrids, useFree } from "hooks/use-hybrid";
 import { useRate } from "hooks/use-rates";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "context/UserContext";
@@ -11,6 +11,10 @@ export default ({ product }) => {
   const userCtx = useContext(UserContext);
 
   const { hybrid: isHybrid } = useHybrids(
+    `name=${product.model_ref && product.model_ref.split(" ")[0]}`
+  );
+
+  const { free: isFree } = useHybrids(
     `name=${product.model_ref && product.model_ref.split(" ")[0]}`
   );
 
@@ -134,7 +138,13 @@ export default ({ product }) => {
       } else exciseTax = 0;
 
       const gaaliHuvi = (price + feeMn + logisticMn) * 0.05;
-      const hybraid = parseFloat(exciseTax) / 2;
+
+      let hybraid = parseFloat(exciseTax) / 2;
+      if (isFree.length > 0) {
+        hybraid = 0;
+        exciseTax = 0;
+      }
+
       const noatTatvarOft = (price + feeMn + logisticMn + exciseTax) * 0.1;
       const noatTatvarHy = (price + feeMn + logisticMn + hybraid) * 0.1;
       const mongolOft = logisticMn + exciseTax + gaaliHuvi + noatTatvarOft;

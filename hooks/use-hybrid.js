@@ -15,3 +15,18 @@ export const useHybrids = (query) => {
     error,
   };
 };
+
+export const useFree = (query) => {
+  const { data, error } = useSWR(`${base.apiUrl}/freemods?${query}`);
+
+  let free = [];
+  if (data) {
+    free = data.data;
+  }
+
+  return {
+    free,
+    isLoading: !error && !data,
+    error,
+  };
+};
