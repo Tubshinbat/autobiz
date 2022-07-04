@@ -14,6 +14,8 @@ export default ({ product }) => {
     `name=${product.model_ref && product.model_ref.split(" ")[0]}`
   );
 
+  console.log(product.model_ref && product.model_ref.split(" ")[0]);
+
   useEffect(() => {
     if (rate) {
       const usdIndex = rate.findIndex((x) => x.number === 1);
@@ -40,7 +42,7 @@ export default ({ product }) => {
       const price = parseFloat(jpy) * parseFloat(product.price);
       const japanTax = parseFloat(product.price) * parseFloat(0.07);
       const japanTaxMn = parseFloat(japanTax) * parseFloat(jpy);
-      const fee = parseFloat(100000);
+      const fee = parseFloat(80000);
       const feeMn = fee * parseFloat(jpy);
       const prePay =
         parseFloat(japanTax) + parseFloat(fee) + parseFloat(product.price);

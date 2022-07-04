@@ -159,34 +159,42 @@ export default ({ info, product }) => {
                   <div className={css.Fetured}>
                     <table className={css.FeturedTable}>
                       <tr>
-                        <td>Төрөл: {product.car_type.name}</td>
-                        <td>Загвар: {product.car_zagvar.name} </td>
+                        <th>Төрөл:</th>
+                        <td> {product.car_type.name}</td>
+                        <th>Загвар:</th>
+                        <td> {product.car_zagvar.name} </td>
                       </tr>
                       <tr>
+                        <th> Хөдөлгүүр: </th>
                         <td>
-                          Хөдөлгүүр:{" "}
                           {new Intl.NumberFormat().format(product.car_motor)}cc{" "}
                         </td>
+                        <th>Гүйлт: </th>
                         <td>
-                          Гүйлт:{" "}
                           {new Intl.NumberFormat().format(product.car_km)}km
                         </td>
                       </tr>
                       <tr>
-                        <td>Өнгө: {product.color.name} </td>
-                        <td>Жолооны хүрд: {product.car_hurd}</td>
+                        <th>Өнгө:</th>
+                        <td> {product.color.name} </td>
+                        <th>Жолооны хүрд:</th>
+                        <td> {product.car_hurd}</td>
                       </tr>
                       <tr>
-                        <td>Үйлдвэрлэгдсэн он: {product.make_date} </td>
-                        <td>Орж ирсэн он: {product.import_date}</td>
+                        <th>Үйлдвэрлэгдсэн он:</th>
+                        <td> {product.make_date} </td>
+                        <th>Орж ирсэн он:</th>
+                        <td> {product.import_date}</td>
                       </tr>
                       <tr>
-                        <td>Түлшний төрөл: {product.car_shatakhuun} </td>
-                        <td>Араа: {product.car_speed_box}</td>
+                        <th>Түлшний төрөл:</th>
+                        <td> {product.car_shatakhuun} </td>
+                        <th>Араа:</th>
+                        <td> {product.car_speed_box}</td>
                       </tr>
                       <tr>
+                        <th>Моторын багтаамж:</th>
                         <td>
-                          Моторын багтаамж:{" "}
                           {new Intl.NumberFormat().format(product.car_motor)}{" "}
                         </td>
                       </tr>
