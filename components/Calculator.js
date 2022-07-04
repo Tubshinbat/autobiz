@@ -14,7 +14,7 @@ export default ({ product }) => {
     `name=${product.model_ref && product.model_ref.split(" ")[0]}`
   );
 
-  const { free: isFree } = useHybrids(
+  const { free: isFree } = useFree(
     `name=${product.model_ref && product.model_ref.split(" ")[0]}`
   );
 
