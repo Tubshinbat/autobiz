@@ -141,6 +141,7 @@ export default ({ product }) => {
 
       let hybraid = parseFloat(exciseTax) / 2;
       if (isFree && isFree.length > 0) {
+        console.log(isFree);
         hybraid = 0;
         exciseTax = 0;
       }
