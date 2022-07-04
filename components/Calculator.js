@@ -140,7 +140,7 @@ export default ({ product }) => {
       const gaaliHuvi = (price + feeMn + logisticMn) * 0.05;
 
       let hybraid = parseFloat(exciseTax) / 2;
-      if (isFree.length > 0) {
+      if (isFree && isFree.length > 0) {
         hybraid = 0;
         exciseTax = 0;
       }
