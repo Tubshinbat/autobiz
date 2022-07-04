@@ -21,6 +21,7 @@ import { getUser } from "lib/user";
 import { useCookies } from "react-cookie";
 import UserContext from "context/UserContext";
 import { createOrder } from "lib/order";
+import { useGetProduct } from "hooks/use-product";
 
 export default ({ info, product: resProduct }) => {
   const router = useRouter();
@@ -34,7 +35,6 @@ export default ({ info, product: resProduct }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [resOrder, setOrder] = useState(null);
-  import { useGetProduct } from "hooks/use-product";
 
   if (router.isFallback) return <Spinner />;
   if (!router.isFallback && !resProduct?._id) {
