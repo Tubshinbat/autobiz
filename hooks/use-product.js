@@ -18,10 +18,13 @@ export const useProducts = (slug) => {
   };
 };
 
-export const useGetProduct = (id) => {
+export const useGetProduct = (id, product) => {
   const product = {};
 
-  const { data, error } = useSWR(`${base.apiUrl}/products/${id}`);
+  const { data, error } = useSWR(`${base.apiUrl}/products/${id}`, {
+    initialData: product,
+  });
+
   if (data) {
     product = data.data;
   }

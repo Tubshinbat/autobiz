@@ -22,7 +22,7 @@ import { useCookies } from "react-cookie";
 import UserContext from "context/UserContext";
 import { createOrder } from "lib/order";
 
-export default ({ info, product }) => {
+export default ({ info, product: resProduct }) => {
   const router = useRouter();
   const { asPath } = useRouter();
   const [image, setImage] = useState([]);
@@ -34,13 +34,16 @@ export default ({ info, product }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [resOrder, setOrder] = useState(null);
+  import { useGetProduct } from "hooks/use-product";
 
   if (router.isFallback) return <Spinner />;
-  if (!router.isFallback && !product?._id) {
+  if (!router.isFallback && !resProduct?._id) {
     router.push("/404");
   }
 
   const userCtx = useContext(UserContext);
+
+  const { product } = useGetProduct(resProduct._id, resProduct);
 
   useEffect(() => {
     const host = window.location.host;

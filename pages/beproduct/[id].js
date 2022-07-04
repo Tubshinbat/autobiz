@@ -24,8 +24,9 @@ import { Modal, Button } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import UserContext from "context/UserContext";
 import { createBeOrder } from "lib/order";
+import { useGetBeProduct } from "hooks/use-beproduct";
 
-export default ({ info, product, rate }) => {
+export default ({ info, product: resProduct, rate }) => {
   const router = useRouter();
   const [ogUrl, setOgUrl] = useState("");
   const [image, setImage] = useState([]);
@@ -44,9 +45,11 @@ export default ({ info, product, rate }) => {
 
   if (router.isFallback) return <Spinner />;
 
-  if (!router.isFallback && !product?._id) {
+  if (!router.isFallback && !resProduct?._id) {
     router.push("/404");
   }
+
+  const { product } = useGetBeProduct(resProduct._id, resProduct);
 
   useEffect(() => {
     if (rate) {
