@@ -64,8 +64,7 @@ const Banner = () => {
             autoplay={{
               delay: 5000,
             }}
-            pagination={{ el: ".homeSlider_pagination" }}
-            loop={true}
+            pagination={{ el: ".homeSlider_pagination", clickable: true }}
             className="homeBanner"
           >
             {banners &&
