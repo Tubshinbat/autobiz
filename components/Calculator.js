@@ -56,26 +56,34 @@ export default ({ product }) => {
       let exciseTax = 0;
       let ENG_V = 0;
       const eng = product.engine;
-
-      switch (product.country) {
-        case "Singapore":
-          logistic = 3000;
-          break;
-        case "Japan":
-          logistic = 1650;
-          break;
-        case "Korea":
-          logistic = 1650;
-          break;
-        case "USA":
-          logistic = 5000;
-          break;
-        case "Singapore":
-          logistic = 3000;
-          break;
-        default:
-          logistic = 3000;
-          break;
+      if (
+        product.type != "bus" ||
+        product.type != "truck" ||
+        product.type != "Bus" ||
+        product.type != "Truck"
+      )
+        switch (product.country) {
+          case "Singapore":
+            logistic = 3000;
+            break;
+          case "Japan":
+            logistic = 1650;
+            break;
+          case "Korea":
+            logistic = 1650;
+            break;
+          case "USA":
+            logistic = 5000;
+            break;
+          case "Singapore":
+            logistic = 3000;
+            break;
+          default:
+            logistic = 3000;
+            break;
+        }
+      else {
+        logistic = 4000;
       }
 
       if (eng) {
@@ -144,15 +152,6 @@ export default ({ product }) => {
         product.type === "Pick up"
       ) {
         hybraid = 0;
-        exciseTax = 0;
-      }
-      if (
-        product.type == "Bus" ||
-        product.type == "Truck" ||
-        product.type == "bus" ||
-        product.type == "truck"
-      ) {
-        logistic = 4000;
         exciseTax = 0;
       }
 
