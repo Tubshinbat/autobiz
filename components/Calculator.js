@@ -18,8 +18,6 @@ export default ({ product }) => {
     `name=${product.model_ref && product.model_ref.split(" ")[0]}`
   );
 
-  console.log(product.model_ref && product.model_ref.split(" ")[0]);
-
   useEffect(() => {
     if (rate) {
       const usdIndex = rate.findIndex((x) => x.number === 1);
@@ -64,7 +62,10 @@ export default ({ product }) => {
           logistic = 3000;
           break;
         case "Japan":
-          logistic = 2000;
+          logistic = 1650;
+          break;
+        case "Korea":
+          logistic = 1650;
           break;
         case "USA":
           logistic = 5000;
@@ -140,16 +141,21 @@ export default ({ product }) => {
       const gaaliHuvi = (price + feeMn + logisticMn) * 0.05;
 
       let hybraid = parseFloat(exciseTax) / 2;
-      if (isFree && isFree.length > 0) {
-        console.log(isFree);
+      if (
+        (isFree && isFree.length > 0) ||
+        product.type === "Bus" ||
+        product.type === "Truck" ||
+        product.type === "Pick up"
+      ) {
         hybraid = 0;
         exciseTax = 0;
+        if (product.type === "Bus" || product.type === "Truck") logistic = 4000;
       }
 
       const noatTatvarOft = (price + feeMn + logisticMn + exciseTax) * 0.1;
       const noatTatvarHy = (price + feeMn + logisticMn + hybraid) * 0.1;
-      const mongolOft = logisticMn + exciseTax + gaaliHuvi + noatTatvarOft;
-      const mongolHyb = logisticMn + hybraid + gaaliHuvi + noatTatvarHy;
+      let mongolOft = logisticMn + exciseTax + gaaliHuvi + noatTatvarOft;
+      let mongolHyb = logisticMn + hybraid + gaaliHuvi + noatTatvarHy;
 
       const niitOft = prePayMn + mongolOft;
       const niitHyb = prePayMn + mongolHyb;
@@ -162,8 +168,8 @@ export default ({ product }) => {
         japanTaxMn,
         fee,
         feeMn,
-        prePay,
-        prePayMn,
+        prePay: isHybrid && isHybrid.length > 0 ? niitHyb / 2 : niitOft / 2,
+        prePayMn: isHybrid && isHybrid.length > 0 ? niitHyb / 2 : niitOft / 2,
         logistic,
         logisticMn,
         countYear,
@@ -172,13 +178,13 @@ export default ({ product }) => {
         hybraid,
         noatTatvarOft,
         noatTatvarHy,
-        mongolHyb,
-        mongolOft,
+        mongolHyb: isHybrid && isHybrid.length > 0 ? niitHyb / 2 : niitOft / 2,
+        mongolOft: isHybrid && isHybrid.length > 0 ? niitHyb / 2 : niitOft / 2,
         niitHyb,
         niitOft,
       }));
     }
-  }, [product, jpy, usd]);
+  }, [product, jpy, usd, isFree, isHybrid]);
 
   return (
     <table className="preOrderTable">
@@ -223,11 +229,9 @@ export default ({ product }) => {
         </tr>
         <tr>
           <td></td>
-          <td>Урьдчилгаа төлбөр</td>
-          <td>
-            ¥{new Intl.NumberFormat().format(parseInt(calculator.prePay))}
+          <td colspan="3">
+            <b>Урьдчилгаа төлбөр</b>
           </td>
-          <td>¥{jpy}</td>
           <td>
             {new Intl.NumberFormat().format(parseInt(calculator.prePayMn))}₮
           </td>
@@ -283,10 +287,12 @@ export default ({ product }) => {
           <td colspan="3">Машин Монголд ирсэн үед төлөх нийт төлбөр</td>
           <td align="right">
             {new Intl.NumberFormat().format(
-              isHybrid && isHybrid.length > 0
-                ? calculator.mongolHyb
-                : calculator.mongolOft
-            )}{" "}
+              parseInt(
+                isHybrid && isHybrid.length > 0
+                  ? calculator.mongolHyb
+                  : calculator.mongolOft
+              )
+            )}
             <span>₮</span>
           </td>
         </tr>
@@ -298,9 +304,11 @@ export default ({ product }) => {
           <td align="right">
             <b>
               {new Intl.NumberFormat().format(
-                isHybrid && isHybrid.length > 0
-                  ? calculator.niitHyb
-                  : calculator.niitOft
+                parseInt(
+                  isHybrid && isHybrid.length > 0
+                    ? calculator.niitHyb
+                    : calculator.niitOft
+                )
               )}
             </b>
             <span>₮</span>

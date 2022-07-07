@@ -81,17 +81,6 @@
   text-align: justify;
 }
 
-.Description > p:first-child:first-letter {
-  color: #ff9000;
-  float: left;
-  font-family: Georgia;
-  font-size: 75px;
-  line-height: 60px;
-  padding-top: 4px;
-  padding-right: 8px;
-  padding-left: 3px;
-}
-
 .Description a {
   display: flex;
   color: #46311c;
