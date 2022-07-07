@@ -27,7 +27,7 @@ export default ({ info }) => {
           banners.map((banner) => (
             <meta
               property="og:image"
-              content={`${base.cdnUrl}/${banner.picture}`}
+              content={`${base.cdnUrl}/450/${banner.picture}`}
             />
           ))}
       </Head>
