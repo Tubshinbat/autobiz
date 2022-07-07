@@ -49,11 +49,6 @@ const Page = ({
         <title>
           {menu.name} - {info.name}
         </title>
-        {banners &&
-          banners.map((banner) => (
-           
-          ))}
-          
       </Head>
       <Header page={true} />
 
