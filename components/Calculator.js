@@ -56,13 +56,13 @@ export default ({ product }) => {
       let exciseTax = 0;
       let ENG_V = 0;
       const eng = product.engine;
-      console.log(product);
+
       if (
         product &&
-        product.type != "bus" &&
-        product.type != "truck" &&
-        product.type != "Bus" &&
-        product.type != "Truck"
+        product.type_txt != "bus" &&
+        product.type_txt != "truck" &&
+        product.type_txt != "Bus" &&
+        product.type_txt != "Truck"
       )
         switch (product.country) {
           case "Singapore":
@@ -85,10 +85,10 @@ export default ({ product }) => {
             break;
         }
       else if (
-        product.type == "bus" &&
-        product.type == "truck" &&
-        product.type == "Bus" &&
-        product.type == "Truck"
+        product.type_txt == "bus" ||
+        product.type_txt == "truck" ||
+        product.type_txt == "Bus" ||
+        product.type_txt == "Truck"
       ) {
         logistic = 4000;
       }
@@ -154,9 +154,9 @@ export default ({ product }) => {
 
       if (
         (isFree && isFree.length > 0) ||
-        product.type === "Bus" ||
-        product.type === "Truck" ||
-        product.type === "Pick up"
+        product.type_txt === "Bus" ||
+        product.type_txt === "Truck" ||
+        product.type_txt === "Pick up"
       ) {
         hybraid = 0;
         exciseTax = 0;
