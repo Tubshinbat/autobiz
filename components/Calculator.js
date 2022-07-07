@@ -57,9 +57,9 @@ export default ({ product }) => {
       let ENG_V = 0;
       const eng = product.engine;
       if (
-        product.type != "bus" ||
-        product.type != "truck" ||
-        product.type != "Bus" ||
+        product.type != "bus" &&
+        product.type != "truck" &&
+        product.type != "Bus" &&
         product.type != "Truck"
       )
         switch (product.country) {
