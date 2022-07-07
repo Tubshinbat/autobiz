@@ -146,9 +146,8 @@ export default ({ product }) => {
         hybraid = 0;
         exciseTax = 0;
       }
-      if (product.type === "Bus" || product.type === "Truck") {
-        logistic = 4000;
-      }
+
+      logistic = 4000;
 
       let logisticMn = logistic * usd;
       const gaaliHuvi = (price + feeMn + logisticMn) * 0.05;
