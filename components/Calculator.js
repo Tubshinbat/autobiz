@@ -77,7 +77,6 @@ export default ({ product }) => {
           logistic = 3000;
           break;
       }
-      let logisticMn = logistic * usd;
 
       if (eng) {
         ENG_V = 1;
@@ -138,9 +137,6 @@ export default ({ product }) => {
         }
       } else exciseTax = 0;
 
-      const gaaliHuvi = (price + feeMn + logisticMn) * 0.05;
-
-      let hybraid = parseFloat(exciseTax) / 2;
       if (
         (isFree && isFree.length > 0) ||
         product.type === "Bus" ||
@@ -149,8 +145,15 @@ export default ({ product }) => {
       ) {
         hybraid = 0;
         exciseTax = 0;
-        if (product.type === "Bus" || product.type === "Truck") logistic = 4000;
       }
+      if (product.type === "Bus" || product.type === "Truck") {
+        logistic = 4000;
+      }
+
+      let logisticMn = logistic * usd;
+      const gaaliHuvi = (price + feeMn + logisticMn) * 0.05;
+
+      let hybraid = parseFloat(exciseTax) / 2;
 
       const noatTatvarOft = (price + feeMn + logisticMn + exciseTax) * 0.1;
       const noatTatvarHy = (price + feeMn + logisticMn + hybraid) * 0.1;
