@@ -56,6 +56,7 @@ export default ({ product }) => {
       let exciseTax = 0;
       let ENG_V = 0;
       const eng = product.engine;
+      console.log(product);
       if (
         product &&
         product.type != "bus" &&

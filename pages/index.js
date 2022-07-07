@@ -11,10 +11,11 @@ import Banner from "components/Banner";
 import HomeMain from "components/Home-main";
 import News from "components/Home-main/news";
 import Footer from "components/Footer";
+import { useBanners } from "hooks/use-banner";
 
 export default ({ info }) => {
   const [cookies] = useCookies();
-
+  const { banners } = useBanners();
   return (
     <Fragment>
       <Head>
@@ -22,6 +23,13 @@ export default ({ info }) => {
         <meta property="og:url" content={`${base.siteUrl}`} />
         <meta property="og:title" content={info.name} />
         <meta property="og:description" content={info.siteInfo} />
+        {banners &&
+          banners.map((banner) => (
+            <meta
+              property="og:image"
+              content={`${base.cdnUrl}/${banner.picture}`}
+            />
+          ))}
       </Head>
       <div className="home">
         <TopBar />
