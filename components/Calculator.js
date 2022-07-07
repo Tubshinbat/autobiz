@@ -57,6 +57,7 @@ export default ({ product }) => {
       let ENG_V = 0;
       const eng = product.engine;
       if (
+        product &&
         product.type != "bus" &&
         product.type != "truck" &&
         product.type != "Bus" &&
@@ -82,7 +83,12 @@ export default ({ product }) => {
             logistic = 3000;
             break;
         }
-      else {
+      else if (
+        product.type == "bus" &&
+        product.type == "truck" &&
+        product.type == "Bus" &&
+        product.type == "Truck"
+      ) {
         logistic = 4000;
       }
 
