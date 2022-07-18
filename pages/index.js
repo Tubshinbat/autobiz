@@ -26,7 +26,7 @@ export default ({ info, banner }) => {
         <meta property="og:description" content={info.siteInfo} />
         <meta
           property="og:image"
-          content={`${base.cdnUrl}/450/${banner[0].picture}`}
+          content={`${base.cdnUrl}/450/${banner.picture}`}
         />
       </Head>
       <div className="home">
@@ -43,11 +43,11 @@ export default ({ info, banner }) => {
 
 export const getStaticProps = async () => {
   const { info } = await getInfo();
-  const { banner } = await getBanners();
+  const { banners } = await getBanners();
   return {
     props: {
       info,
-      banner,
+      banner: banners,
     },
     revalidate: 50,
   };
