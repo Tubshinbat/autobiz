@@ -21,6 +21,7 @@ export default ({ info, banner }) => {
     <Fragment>
       <Head>
         <title>{info.name}</title>
+
         <meta property="og:url" content={`${base.siteUrl}`} />
         <meta property="og:title" content={info.name} />
         <meta property="og:description" content={info.siteInfo} />

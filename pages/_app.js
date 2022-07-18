@@ -85,6 +85,10 @@ function MyApp({ Component, pageProps }) {
         }}
       >
         <Head>
+          <meta
+            name="facebook-domain-verification"
+            content="15s1v9749lpaveyon96gzl3pylen1l"
+          />
           <link rel="stylesheet" href="/fonts/fonts.css" />
           <link rel="stylesheet" href="/css/all.min.css" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
