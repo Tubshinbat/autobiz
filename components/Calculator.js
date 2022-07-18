@@ -151,16 +151,16 @@ export default ({ product }) => {
           }
         }
       } else exciseTax = 0;
-
-      if (
-        (isFree && isFree.length > 0) ||
-        product.type_txt === "Bus" ||
-        product.type_txt === "Truck" ||
-        product.type_txt === "Pick up"
-      ) {
-        hybraid = 0;
-        exciseTax = 0;
-      }
+      if (product.model_ref)
+        if (
+          (isFree && isFree.length > 0) ||
+          product.type_txt === "Bus" ||
+          product.type_txt === "Truck" ||
+          product.type_txt === "Pick up"
+        ) {
+          hybraid = 0;
+          exciseTax = 0;
+        }
 
       let logisticMn = logistic * usd;
       const gaaliHuvi = (price + feeMn + logisticMn) * 0.05;
