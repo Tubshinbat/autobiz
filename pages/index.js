@@ -25,18 +25,25 @@ export default ({ info, banner }) => {
         <meta property="og:url" content={`${base.siteUrl}`} />
         <meta property="og:title" content={info.name} />
         <meta property="og:description" content={info.siteInfo} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://autobiz.mn/" />
+        <meta property="og:title" content="Autobiz.mn" />
+        <meta property="og:description" content />
         <meta
           property="og:image"
-          content={`${base.cdnUrl}/${banner.picture}`}
-          key="ogimage"
+          content="https://autobiz.mn/uploads/photo_banner_pradoo.jpg"
         />
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://autobiz.mn/" />
+        <meta property="twitter:title" content="Autobiz.mn" />
+        <meta property="twitter:description" content />
         <meta
-          property="og:image:url"
-          content={`${base.cdnUrl}/${banner.picture}`}
+          property="twitter:image"
+          content="https://autobiz.mn/uploads/photo_banner_pradoo.jpg"
         />
-
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
       </Head>
       <div className="home">
         <TopBar />
