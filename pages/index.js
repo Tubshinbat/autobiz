@@ -23,13 +23,11 @@ export default ({ info }) => {
         <meta property="og:url" content={`${base.siteUrl}`} />
         <meta property="og:title" content={info.name} />
         <meta property="og:description" content={info.siteInfo} />
-        {banners &&
-          banners.map((banner) => (
-            <meta
-              property="og:image"
-              content={`${base.cdnUrl}/450/${banner.picture}`}
-            />
-          ))}
+
+        <meta
+          property="og:image"
+          content={`${base.cdnUrl}/450/${banners[0].picture}`}
+        />
       </Head>
       <div className="home">
         <TopBar />
