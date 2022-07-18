@@ -29,6 +29,10 @@ export default ({ info, banner }) => {
           property="og:image"
           content={`${base.cdnUrl}/${banner.picture}`}
         />
+        <meta
+          property="og:image:url"
+          content={`${base.cdnUrl}/${banner.picture}`}
+        />
       </Head>
       <div className="home">
         <TopBar />
