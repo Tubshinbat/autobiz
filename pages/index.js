@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import base from "lib/base";
 
 import { getInfo } from "lib/webinfo";
+import { getBanners } from "lib/banners";
 import Section from "components/generals/section";
 import TopBar from "components/Header/topBar";
 import Header from "components/Header/header";
@@ -13,7 +14,7 @@ import News from "components/Home-main/news";
 import Footer from "components/Footer";
 import { useBanners } from "hooks/use-banner";
 
-export default ({ info }) => {
+export default ({ info, banner }) => {
   const [cookies] = useCookies();
   const { banners } = useBanners();
   return (
@@ -23,10 +24,9 @@ export default ({ info }) => {
         <meta property="og:url" content={`${base.siteUrl}`} />
         <meta property="og:title" content={info.name} />
         <meta property="og:description" content={info.siteInfo} />
-
         <meta
           property="og:image"
-          content={`${base.cdnUrl}/450/${banners && banners[0].picture}`}
+          content={`${base.cdnUrl}/450/${banner[0].picture}`}
         />
       </Head>
       <div className="home">
@@ -43,9 +43,11 @@ export default ({ info }) => {
 
 export const getStaticProps = async () => {
   const { info } = await getInfo();
+  const { banner } = await getBanners();
   return {
     props: {
       info,
+      banner,
     },
     revalidate: 50,
   };
