@@ -26,7 +26,7 @@ export default ({ info }) => {
 
         <meta
           property="og:image"
-          content={`${base.cdnUrl}/450/${banners[0].picture}`}
+          content={`${base.cdnUrl}/450/${banners && banners[0].picture}`}
         />
       </Head>
       <div className="home">
