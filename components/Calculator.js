@@ -223,7 +223,7 @@ export default ({ product }) => {
         <tr>
           <td>2</td>
           <td>
-            Японы худалдааны татвар 7%{" "}
+            Японы худалдааны татвар
             <a
               href="https://ja.m.wikipedia.org/wiki/%E6%B6%88%E8%B2%BB%E7%A8%8E"
               target="_blank"
