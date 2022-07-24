@@ -2,11 +2,11 @@ import { useHybrids, useFree } from "hooks/use-hybrid";
 import { useRate } from "hooks/use-rates";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "context/UserContext";
-import { useCal } from "hooks/use-cal";
+// import { useCal } from "hooks/use-cal";
 
 export default ({ product }) => {
   const { data: rate } = useRate();
-  const { prices: usePrice } = useCal();
+  // const { prices: usePrice } = useCal();
   const [calculator, setCalculator] = useState({});
   const [jpy, setJpy] = useState(null);
   const [usd, setUsd] = useState(null);
@@ -182,74 +182,74 @@ export default ({ product }) => {
       const sendPrice = isHybrid && isHybrid.length > 0 ? niitHyb : niitOft;
       userCtx.getPrice(parseInt(sendPrice));
 
-      usePrice.map((price) => {
-        let newPrice = 0;
-        switch (price.price) {
-          case "%":
-            newPrice = parseInt(price.price) / 100;
-            break;
-          case "₮":
-            newPrice = parseInt(price.price);
-            break;
-          case "$":
-            newPrice = parseInt(price.price) * usd;
-            break;
-          case "¥":
-            newPrice = parseInt(price.price) * jpy;
-            break;
-        }
+      // usePrice.map((price) => {
+      //   let newPrice = 0;
+      //   switch (price.price) {
+      //     case "%":
+      //       newPrice = parseInt(price.price) / 100;
+      //       break;
+      //     case "₮":
+      //       newPrice = parseInt(price.price);
+      //       break;
+      //     case "$":
+      //       newPrice = parseInt(price.price) * usd;
+      //       break;
+      //     case "¥":
+      //       newPrice = parseInt(price.price) * jpy;
+      //       break;
+      //   }
 
-        switch (price.name) {
-          case "Singapore энгийн тээвэр":
-            logistic = parseInt(price.price);
-            break;
-          case "Japan энгийн тээвэр":
-            logistic = parseInt(price.price);
-            break;
-          case "Korea энгийн тээвэр":
-            logistic = parseInt(price.price);
-            break;
-          case "USA энгийн тээвэр":
-            logistic = parseInt(price.price);
-            break;
-          case "Ерөнхий тээвэр":
-            logistic = parseInt(price.price);
-            break;
-          case "bus truck тээвэр":
-            logistic = parseInt(price.price);
-            break;
-          case "Япон татвар":
-            japanTax = parseFloat(product.price) * parseFloat(newPrice);
-            break;
-          case "Japan үйлчилгээний хөлс":
-            fee = price.price;
-            break;
-          case "Singapore үйлчилгээний хөлс":
-            fee = price.price;
-            break;
-          case "Korea үйлчилгээний хөлс":
-            fee = price.price;
-            break;
-          case "USA үйлчилгээний хөлс":
-            fee = price.price;
-            break;
-          case "Бусад улсад үйлчилгээний хөлс":
-            fee = price.price;
-            break;
-          case "Онцгой мотор <= 1500 Жил <= 3 ба Жил >= 0":
-            exciseTax = price.price;
-            break;
-          case "Онцгой мотор <= 1500 Жил <= 6 ба Жил >= 4":
-            exciseTax = price.price;
-            break;
-          case "Онцгой мотор <= 1500 Жил <= 9 ба Жил >= 7":
-            exciseTax = price.price;
-            break;
-          case "Онцгой мотор <= 1500 Жил >= 10":
-            exciseTax = price.price;
-            break;
-        }
-      });
+      //   switch (price.name) {
+      //     case "Singapore энгийн тээвэр":
+      //       logistic = parseInt(price.price);
+      //       break;
+      //     case "Japan энгийн тээвэр":
+      //       logistic = parseInt(price.price);
+      //       break;
+      //     case "Korea энгийн тээвэр":
+      //       logistic = parseInt(price.price);
+      //       break;
+      //     case "USA энгийн тээвэр":
+      //       logistic = parseInt(price.price);
+      //       break;
+      //     case "Ерөнхий тээвэр":
+      //       logistic = parseInt(price.price);
+      //       break;
+      //     case "bus truck тээвэр":
+      //       logistic = parseInt(price.price);
+      //       break;
+      //     case "Япон татвар":
+      //       japanTax = parseFloat(product.price) * parseFloat(newPrice);
+      //       break;
+      //     case "Japan үйлчилгээний хөлс":
+      //       fee = price.price;
+      //       break;
+      //     case "Singapore үйлчилгээний хөлс":
+      //       fee = price.price;
+      //       break;
+      //     case "Korea үйлчилгээний хөлс":
+      //       fee = price.price;
+      //       break;
+      //     case "USA үйлчилгээний хөлс":
+      //       fee = price.price;
+      //       break;
+      //     case "Бусад улсад үйлчилгээний хөлс":
+      //       fee = price.price;
+      //       break;
+      //     case "Онцгой мотор <= 1500 Жил <= 3 ба Жил >= 0":
+      //       exciseTax = price.price;
+      //       break;
+      //     case "Онцгой мотор <= 1500 Жил <= 6 ба Жил >= 4":
+      //       exciseTax = price.price;
+      //       break;
+      //     case "Онцгой мотор <= 1500 Жил <= 9 ба Жил >= 7":
+      //       exciseTax = price.price;
+      //       break;
+      //     case "Онцгой мотор <= 1500 Жил >= 10":
+      //       exciseTax = price.price;
+      //       break;
+      //   }
+      // });
 
       setCalculator(() => ({
         price,
