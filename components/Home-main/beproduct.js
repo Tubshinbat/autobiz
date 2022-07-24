@@ -1,15 +1,26 @@
 import BeSearch from "components/BeSearch";
-import { useBeproducts } from "hooks/use-beproduct";
+import { useBeproducts, useHomeCar } from "hooks/use-beproduct";
 import base from "lib/base";
 import { getRate } from "lib/rate";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { getHomeCar } from "lib/beproduct";
 
 export default ({ active }) => {
   const [usd, setUsd] = useState("");
   const [jpy, setJpy] = useState("");
   const { products } = useBeproducts(`limit=25&status=true`);
+  const { homecars } = useHomeCar();
+  const [showCar, setShowCar] = useState();
+
+  useEffect(() => {
+    if (showCar) {
+      console.log(showCar);
+      showCar.map((el) => console.log(el));
+    }
+  }, [showCar]);
+
   const router = useRouter();
   const more = () => {
     router.push(`/beproducts?page=2`);
@@ -41,8 +52,9 @@ export default ({ active }) => {
       <div className="col-lg-12">
         <BeSearch />
       </div>
-      {products &&
-        products.map((product) => (
+      {homecars &&
+        homecars.length > 0 &&
+        homecars.map((product) => (
           <div
             className="col-custom-2 col-lg-3 col-md-3 col-sm-6 col-6"
             key={`beproduct_${product._id}`}

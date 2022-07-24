@@ -18,6 +18,36 @@ export const useBeproducts = (slug) => {
   };
 };
 
+export const useHomeCars = (slug) => {
+  const homecars = null;
+  let pagination = null;
+  const { data, error } = useSWR(`${base.apiUrl}/homecars?${slug}`);
+  if (data) {
+    homecars = data.data;
+  }
+
+  return {
+    homecars,
+    isLoading: !error && !data,
+    error,
+  };
+};
+
+export const useHomeCar = (slug) => {
+  const homecars = null;
+  let pagination = null;
+  const { data, error } = useSWR(`${base.apiUrl}/beproducts/homecar?${slug}`);
+  if (data) {
+    homecars = data.data;
+  }
+
+  return {
+    homecars,
+    isLoading: !error && !data,
+    error,
+  };
+};
+
 export const useGroupBeProduct = (group) => {
   let result = [];
 
