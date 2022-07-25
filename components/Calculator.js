@@ -330,13 +330,10 @@ export default ({ product }) => {
         </tr>
         <tr>
           <td></td>
-          <td>
+          <td colspan="3">
             <b>Урьдчилгаа төлбөр</b>
           </td>
-          <td>
-            ¥{new Intl.NumberFormat().format(parseInt(calculator.prePay))}
-          </td>
-          <td>¥{jpy}</td>
+
           <td>
             {new Intl.NumberFormat().format(parseInt(calculator.prePayMn))}₮
           </td>
