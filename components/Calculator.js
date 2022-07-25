@@ -290,84 +290,88 @@ export default ({ product }) => {
   return (
     <table className="preOrderTable">
       <tr>
-        <th>â„–</th>
-        <th>Ð¢Ð°Ð¹Ð»Ð±Ð°Ñ€</th>
-        <th>Ð’Ð°Ð»ÑŽÑ‚</th>
-        <th>Ð¥Ð°Ð½Ñˆ</th>
-        <th>Ò®Ð½Ñ</th>
+        <th>№</th>
+        <th>Тайлбар</th>
+        <th>Валют</th>
+        <th>Ханш</th>
+        <th>Үнэ</th>
       </tr>
       <tbody>
         <tr>
           <td>1</td>
-          <td>Ð—Ð°Ñ€Ð°Ð³Ð´Ð°Ð¶ Ð±Ð°Ð¹Ð³Ð°Ð° Ò¯Ð½Ñ</td>
-          <td>Â¥{new Intl.NumberFormat().format(product.price)}</td>
-          <td>Â¥{jpy}</td>
+          <td>Зарагдаж байгаа үнэ</td>
+          <td>¥{new Intl.NumberFormat().format(product.price)}</td>
+          <td>¥{jpy}</td>
           <td>
-            {new Intl.NumberFormat().format(parseFloat(calculator.price))}â‚®
+            {new Intl.NumberFormat().format(parseFloat(calculator.price))}₮
           </td>
         </tr>
         <tr>
           <td>2</td>
           <td>
-            Ð¯Ð¿Ð¾Ð½Ñ‹ Ñ…ÑƒÐ´Ð°Ð»Ð´Ð°Ð°Ð½Ñ‹ Ñ‚Ð°Ñ‚Ð²Ð°Ñ€
+            Японы худалдааны татвар 7%{" "}
             <a
               href="https://ja.m.wikipedia.org/wiki/%E6%B6%88%E8%B2%BB%E7%A8%8E"
               target="_blank"
-            ></a>
+            >
+              татвар
+            </a>
           </td>
-          <td>Â¥{new Intl.NumberFormat().format(calculator.japanTax)}</td>
-          <td>Â¥{jpy}</td>
-          <td>{new Intl.NumberFormat().format(calculator.japanTaxMn)}â‚®</td>
+          <td>¥{new Intl.NumberFormat().format(calculator.japanTax)}</td>
+          <td>¥{jpy}</td>
+          <td>{new Intl.NumberFormat().format(calculator.japanTaxMn)}₮</td>
         </tr>
         <tr>
           <td>3</td>
-          <td>Ð¯Ð¿Ð¾Ð½ Ð´Ð°Ñ… Ò¯Ð¹Ð»Ñ‡Ð¸Ð»Ð³ÑÑÐ½Ð¸Ð¹ Ð·Ð°Ñ€Ð´Ð°Ð»</td>
-          <td>Â¥{new Intl.NumberFormat().format(calculator.fee)}</td>
-          <td>Â¥{jpy}</td>
-          <td>{new Intl.NumberFormat().format(calculator.feeMn)}â‚®</td>
+          <td>Япон дах үйлчилгээний зардал</td>
+          <td>¥{new Intl.NumberFormat().format(calculator.fee)}</td>
+          <td>¥{jpy}</td>
+          <td>{new Intl.NumberFormat().format(calculator.feeMn)}₮</td>
         </tr>
         <tr>
           <td></td>
-          <td colspan="3">
-            <b>Ð£Ñ€ÑŒÐ´Ñ‡Ð¸Ð»Ð³Ð°Ð° Ñ‚Ó©Ð»Ð±Ó©Ñ€</b>
-          </td>
+          <td>Урьдчилгаа төлбөр</td>
           <td>
-            {new Intl.NumberFormat().format(parseInt(calculator.prePayMn))}â‚®
+            ¥{new Intl.NumberFormat().format(parseInt(calculator.prePay))}
+          </td>
+          <td>¥{jpy}</td>
+          <td>
+            {new Intl.NumberFormat().format(parseInt(calculator.prePayMn))}₮
           </td>
         </tr>
         <tr>
           <td>4</td>
-          <td>Ð¢ÑÑÐ²Ñ€Ð¸Ð¹Ð½ Ð·Ð°Ñ€Ð´Ð°Ð»</td>
+          <td>Тээврийн зардал</td>
           <td>${new Intl.NumberFormat().format(calculator.logistic)}</td>
           <td>${new Intl.NumberFormat().format(usd)}</td>
-          <td>{new Intl.NumberFormat().format(calculator.logisticMn)}â‚®</td>
+          <td>{new Intl.NumberFormat().format(calculator.logisticMn)}₮</td>
         </tr>
         <tr>
           <td>5</td>
-          <td>ÐžÐ½Ñ†Ð³Ð¾Ð¹ Ð°Ð»Ð±Ð°Ð½ Ñ‚Ð°Ñ‚Ð²Ð°Ñ€</td>
+          <td>Онцгой албан татвар</td>
           <td></td>
           <td></td>
           <td>
             {new Intl.NumberFormat().format(
-              isHybrid && product.model_ref && isHybrid.length > 0
+              isHybrid && isHybrid.length > 0
                 ? calculator.hybraid
                 : calculator.exciseTax
             )}
-            â‚®
+            ₮
           </td>
         </tr>
         <tr>
           <td>6</td>
-          <td>Ð“Ð°Ð°Ð»Ð¸Ð¹Ð½ Ð°Ð»Ð±Ð°Ð½ Ñ‚Ð°Ñ‚Ð²Ð°Ñ€ (1+3+4)*5%</td>
+          <td>Гаалийн албан татвар (1+3+4)*5%</td>
           <td></td>
           <td>5%</td>
           <td>
-            {new Intl.NumberFormat().format(parseInt(calculator.gaaliHuvi))}â‚®
+            {new Intl.NumberFormat().format(parseInt(calculator.gaaliHuvi))}₮
           </td>
         </tr>
         <tr>
           <td>7</td>
-          <td>ÐÓ¨ÐÐ¢ (1+3+4+5)*10%</td>
+          <td>НӨАТ (1+3+4+5)*10%</td>
           <td></td>
           <td>10%</td>
           <td>
@@ -378,42 +382,35 @@ export default ({ product }) => {
                   : calculator.noatTatvarOft
               )
             )}
-            â‚®
+            ₮
           </td>
         </tr>
         <tr>
           <td></td>
-          <td colspan="3">
-            ÐœÐ°ÑˆÐ¸Ð½ ÐœÐ¾Ð½Ð³Ð¾Ð»Ð´ Ð¸Ñ€ÑÑÐ½ Ò¯ÐµÐ´ Ñ‚Ó©Ð»Ó©Ñ… Ð½Ð¸Ð¹Ñ‚
-            Ñ‚Ó©Ð»Ð±Ó©Ñ€
-          </td>
+          <td colspan="3">Машин Монголд ирсэн үед төлөх нийт төлбөр</td>
           <td align="right">
             {new Intl.NumberFormat().format(
-              parseInt(
-                isHybrid && isHybrid.length > 0
-                  ? calculator.mongolHyb
-                  : calculator.mongolOft
-              )
-            )}
-            <span>â‚®</span>
+              isHybrid && isHybrid.length > 0
+                ? calculator.mongolHyb
+                : calculator.mongolOft
+            )}{" "}
+            <span>₮</span>
           </td>
         </tr>
         <tr>
           <td></td>
           <td colspan="3">
-            <b>ÐÐ¸Ð¹Ñ‚ Ð³Ð°Ñ€ Ð´ÑÑÑ€ Ð¸Ñ€ÑÑ… Ñ‚Ó©Ð»Ð±Ó©Ñ€</b>
+            <b>Нийт гар дээр ирэх төлбөр</b>
           </td>
           <td align="right">
             <b>
               {new Intl.NumberFormat().format(
-                parseInt(
-                  isHybrid && isHybrid.length > 0
-                    ? calculator.niitHyb
-                    : calculator.niitOft
-                )
+                isHybrid && isHybrid.length > 0
+                  ? calculator.niitHyb
+                  : calculator.niitOft
               )}
             </b>
-            <span>â‚®</span>
+            <span>₮</span>
           </td>
         </tr>
       </tbody>
