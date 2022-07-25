@@ -309,7 +309,7 @@ export default ({ product }) => {
         <tr>
           <td>2</td>
           <td>
-            Японы худалдааны татвар 7%{" "}
+            Худалдааны татвар 7%{" "}
             <a
               href="https://ja.m.wikipedia.org/wiki/%E6%B6%88%E8%B2%BB%E7%A8%8E"
               target="_blank"
@@ -323,14 +323,16 @@ export default ({ product }) => {
         </tr>
         <tr>
           <td>3</td>
-          <td>Япон дах үйлчилгээний зардал</td>
+          <td>Үйлчилгээний зардал</td>
           <td>¥{new Intl.NumberFormat().format(calculator.fee)}</td>
           <td>¥{jpy}</td>
           <td>{new Intl.NumberFormat().format(calculator.feeMn)}₮</td>
         </tr>
         <tr>
           <td></td>
-          <td>Урьдчилгаа төлбөр</td>
+          <td>
+            <b>Урьдчилгаа төлбөр</b>
+          </td>
           <td>
             ¥{new Intl.NumberFormat().format(parseInt(calculator.prePay))}
           </td>
