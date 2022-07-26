@@ -65,6 +65,6 @@ export const getStaticProps = async () => {
       info,
       banner: banners,
     },
-    revalidate: 50,
+    revalidate: 60,
   };
 };
