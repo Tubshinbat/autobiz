@@ -21,7 +21,7 @@ export const useBeproducts = (slug) => {
 export const useHomeCars = (slug) => {
   const homecars = null;
   let pagination = null;
-  const { data, error } = useSWR(`${base.apiUrl}/homecars?${slug}`);
+  const { data, error } = useSWR(`${base.apiUrl}/homecars`);
   if (data) {
     homecars = data.data;
   }

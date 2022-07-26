@@ -75,7 +75,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <SWRConfig
         value={{
-          refreshInterval: 1000 * 120,
+          refreshInterval: 1210000,
           fetcher,
           onError: (error, key) => {
             if (error.status !== 403 && error.status !== 404) {
