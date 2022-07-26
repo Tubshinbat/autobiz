@@ -14,13 +14,6 @@ export default ({ active }) => {
   const { homecars } = useHomeCar();
   const [showCar, setShowCar] = useState();
 
-  useEffect(() => {
-    if (showCar) {
-      console.log(showCar);
-      showCar.map((el) => console.log(el));
-    }
-  }, [showCar]);
-
   const router = useRouter();
   const more = () => {
     router.push(`/beproducts?page=2`);
