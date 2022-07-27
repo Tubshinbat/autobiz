@@ -45,9 +45,9 @@ export default ({ active }) => {
       <div className="col-lg-12">
         <BeSearch />
       </div>
-      {homecars &&
-        homecars.length > 0 &&
-        homecars.map((product) => (
+      {products &&
+        products.length > 0 &&
+        products.map((product) => (
           <div
             className="col-custom-2 col-lg-3 col-md-3 col-sm-6 col-6"
             key={`beproduct_${product._id}`}
