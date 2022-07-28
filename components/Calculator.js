@@ -56,10 +56,6 @@ export default ({ product }) => {
       const { _id } = product;
       const price = parseFloat(jpy) * parseFloat(product.price);
 
-      usePrice.map((price) => {
-        setDprice((pstate) => ({ ...pstate, [price.type]: price }));
-      });
-
       let exciseTax = 0;
       let ENG_V = 0;
       let japanTax =
