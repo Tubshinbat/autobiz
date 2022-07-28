@@ -1,5 +1,5 @@
 import BeSearch from "components/BeSearch";
-import { useBeproducts, useHomeCar } from "hooks/use-beproduct";
+import { useBeproducts, useHomeCars } from "hooks/use-beproduct";
 import base from "lib/base";
 import { getRate } from "lib/rate";
 import Link from "next/link";
@@ -11,13 +11,27 @@ export default ({ active }) => {
   const [usd, setUsd] = useState("");
   const [jpy, setJpy] = useState("");
   const { products } = useBeproducts(`limit=25&status=true`);
-  const { homecars } = useHomeCar();
-  const [showCar, setShowCar] = useState();
-
+  const { homecars } = useHomeCars();
+  const [showCar, setShowCar] = useState([]);
   const router = useRouter();
+
   const more = () => {
-    router.push(`/beproducts?page=2`);
+    router.push(`/beproducts?page=1`);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      homecars.map(async (el) => {
+        const { car } = await getHomeCar(el._id);
+        setShowCar((ps) => [...ps, car]);
+      });
+
+      return "success";
+    };
+    if (homecars) {
+      fetchData();
+    }
+  }, [homecars]);
 
   useEffect(async () => {
     const { data } = await getRate();
@@ -36,6 +50,7 @@ export default ({ active }) => {
       );
     }
   }, []);
+
   return (
     <div
       className={`row productsGrip  ${
@@ -45,9 +60,9 @@ export default ({ active }) => {
       <div className="col-lg-12">
         <BeSearch />
       </div>
-      {products &&
-        products.length > 0 &&
-        products.map((product) => (
+      {showCar &&
+        showCar.length > 0 &&
+        showCar.map((product) => (
           <div
             className="col-custom-2 col-lg-3 col-md-3 col-sm-6 col-6"
             key={`beproduct_${product._id}`}
