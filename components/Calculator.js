@@ -39,7 +39,7 @@ export default ({ product }) => {
   }, [rate]);
 
   useEffect(() => {
-    if (product && jpy && usd) {
+    if (product && jpy && usd && usePrice) {
       const { _id } = product;
 
       // Cal
@@ -226,7 +226,7 @@ export default ({ product }) => {
         niitOft,
       }));
     }
-  }, [product, jpy, usd, isFree, isHybrid]);
+  }, [product, jpy, usd, isFree, isHybrid, usePrice]);
 
   return (
     <table className="preOrderTable">
