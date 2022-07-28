@@ -2,14 +2,15 @@ import { useHybrids, useFree } from "hooks/use-hybrid";
 import { useRate } from "hooks/use-rates";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "context/UserContext";
-// import { useCal } from "hooks/use-cal";
+import { useCal } from "hooks/use-cal";
 
 export default ({ product }) => {
   const { data: rate } = useRate();
-  // const { prices: usePrice } = useCal();
+  const { prices: usePrice } = useCal();
   const [calculator, setCalculator] = useState({});
   const [jpy, setJpy] = useState(null);
   const [usd, setUsd] = useState(null);
+  const [ps, setDprice] = useState({});
   const userCtx = useContext(UserContext);
 
   const { hybrid: isHybrid } = useHybrids(
@@ -44,136 +45,145 @@ export default ({ product }) => {
       // Cal
 
       const price = parseFloat(jpy) * parseFloat(product.price);
-      let japanTax = parseFloat(product.price) * parseFloat(0.07);
-      let japanTaxMn = parseFloat(japanTax) * parseFloat(jpy);
-      let fee = parseFloat(120000);
 
-      let logistic = 3000;
-      const countYear =
-        parseInt(new Date().getFullYear()) - parseInt(product.car_year);
-
+      if (usePrice) {
+        usePrice.map((price) => {
+          setDprice((pstate) => ({ ...pstate, [price.type]: price }));
+        });
+      }
       let exciseTax = 0;
       let ENG_V = 0;
+      let japanTax =
+        parseFloat(product.price) * parseFloat(ps.japanTax.price / 100);
+      let japanTaxMn = parseFloat(japanTax) * parseFloat(jpy);
+
+      let fee = parseInt(ps.fee.price || 120000);
+      let logistic = parseInt(ps.logistic.price || 3000);
+
+      const countYear =
+        parseInt(new Date().getFullYear()) - parseInt(product.car_year);
       const eng = product.engine;
 
+      switch (product.country) {
+        case "Singapore":
+          logistic = parseInt(ps.logisticSingapore.price);
+          break;
+        case "Japan":
+          logistic = parseInt(ps.logisticJapan.price);
+          fee = parseInt(ps.feeJapan.price);
+          ps.logistic.name = ps.logisticJapan.name;
+          ps.fee.name = ps.feeJapan.name;
+          break;
+        case "Korea":
+          logistic = parseInt(ps.logisticKorea.price);
+          fee = parseInt(ps.feeKorea.price);
+          ps.logistic.name = ps.logisticKorea.name;
+          ps.fee.name = ps.feeKorea.name;
+          break;
+        case "USA":
+          logistic = parseInt(ps.logisticUSA.price);
+          fee = parseInt(ps.feeUSA.price);
+          ps.fee.name = ps.feeUSA.name;
+          ps.logistic.name = ps.logisticUSA.name;
+          break;
+        case "Dubai":
+          logistic = parseInt(ps.logisticDubai.price);
+          fee = parseInt(ps.feeDubai.price);
+          ps.logistic.name = ps.logisticDubai.name;
+          ps.fee.name = ps.feeDubai.name;
+          break;
+        default:
+          logistic = parseInt(ps.logistic.price);
+          break;
+      }
+
       if (
-        product &&
-        product.type_txt != "bus" &&
-        product.type_txt != "truck" &&
-        product.type_txt != "Bus" &&
-        product.type_txt != "Truck"
-      )
-        switch (product.country) {
-          case "Singapore":
-            logistic = 3000;
-            break;
-          case "Japan":
-            logistic = 1650;
-            fee = 80000;
-            break;
-          case "Korea":
-            logistic = 1650;
-            fee = 80000;
-            break;
-          case "USA":
-            logistic = 5000;
-            break;
-          case "Singapore":
-            logistic = 3000;
-            break;
-          default:
-            logistic = 3000;
-            break;
-        }
-      else if (
         product.type_txt == "bus" ||
         product.type_txt == "truck" ||
         product.type_txt == "Bus" ||
         product.type_txt == "Truck"
       ) {
-        logistic = 4000;
+        logistic = parseInt(ps.logisticBusTruck.price);
+        hybraid = 0;
+        exciseTax = parseInt(ps.busTruckExciseTax.price);
       }
+
       const feeMn = fee * parseFloat(jpy);
-      const prePay =
-        parseFloat(japanTax) + parseFloat(fee) + parseFloat(product.price);
-      const prePayMn = parseFloat(japanTaxMn) + parseFloat(feeMn) + price;
+
+      // const prePay =
+      //   parseFloat(japanTax) + parseFloat(fee) + parseFloat(product.price);
+      // const prePayMn = parseFloat(japanTaxMn) + parseFloat(feeMn) + price;
+
       if (eng) {
         ENG_V = 1;
         if (eng <= 1500) {
           if (countYear <= 3 && countYear >= 0) {
-            exciseTax = 750000;
+            exciseTax = parseInt(ps.eng1500_Year_3_to_0.price);
           } else if (countYear <= 6 && countYear >= 4) {
-            exciseTax = 1600000;
+            exciseTax = parseInt(ps.eng1500_Year_6_to_4.price);
           } else if (countYear <= 9 && countYear >= 7) {
-            exciseTax = 3350000;
+            exciseTax = parseInt(ps.eng1500_Year_9_to_7.price);
           } else if (countYear >= 10) {
-            exciseTax = 10000000;
+            exciseTax = parseInt(ps.eng1500_Year_10.price);
           }
         } else if (eng >= 1501 && eng <= 2500) {
           ENG_V = 2;
           if (countYear <= 3 && countYear >= 0) {
-            exciseTax = 2300000;
+            exciseTax = parseInt(ps.eng2500_Year_3_to_0.price);
           } else if (countYear <= 6 && countYear >= 4) {
-            exciseTax = 3200000;
+            exciseTax = parseInt(ps.eng2500_Year_6_to_4.price);
           } else if (countYear <= 9 && countYear >= 7) {
-            exciseTax = 5000000;
+            exciseTax = parseInt(ps.eng2500_Year_9_to_7.price);
           } else if (countYear >= 10) {
-            exciseTax = 11700000;
+            exciseTax = parseInt(ps.eng2500_Year_10.price);
           }
         } else if (eng >= 2501 && eng <= 3500) {
           ENG_V = 3;
           if (countYear <= 3 && countYear >= 0) {
-            exciseTax = 3050000;
+            exciseTax = parseInt(ps.eng3500_Year_3_to_0.price);
           } else if (countYear <= 6 && countYear >= 4) {
-            exciseTax = 4000000;
+            exciseTax = parseInt(ps.eng3500_Year_6_to_4.price);
           } else if (countYear <= 9 && countYear >= 7) {
-            exciseTax = 6700000;
+            exciseTax = parseInt(ps.eng3500_Year_9_to_7.price);
           } else if (countYear >= 10) {
-            exciseTax = 13350000;
+            exciseTax = parseInt(ps.eng3500_Year_10.price);
           }
         } else if (eng >= 3501 && eng <= 4500) {
           ENG_V = 4;
           if (countYear <= 3 && countYear >= 0) {
-            exciseTax = 6850000;
+            exciseTax = parseInt(ps.eng4500_Year_3_to_0.price);
           } else if (countYear <= 6 && countYear >= 4) {
-            exciseTax = 8000000;
+            exciseTax = parseInt(ps.eng4500_Year_6_to_4.price);
           } else if (countYear <= 9 && countYear >= 7) {
-            exciseTax = 10850000;
+            exciseTax = parseInt(ps.eng4500_Year_9_to_7.price);
           } else if (countYear >= 10) {
-            exciseTax = 17500000;
+            exciseTax = parseInt(ps.eng4500_Year_10.price);
           }
         } else if (eng >= 4501) {
           ENG_V = 5;
           if (countYear <= 3 && countYear >= 0) {
-            exciseTax = 14210000;
+            exciseTax = parseInt(ps.eng4501_Year_3_to_0.price);
           } else if (countYear <= 6 && countYear >= 4) {
-            exciseTax = 27200000;
+            exciseTax = parseInt(ps.eng4501_Year_6_to_4.price);
           } else if (countYear <= 9 && countYear >= 7) {
-            exciseTax = 39150000;
+            exciseTax = parseInt(ps.eng4501_Year_9_to_7.price);
           } else if (countYear >= 10) {
-            exciseTax = 65975000;
+            exciseTax = parseInt(ps.eng4501_Year_10.price);
           }
         }
       } else exciseTax = 0;
-      if (product.model_ref) {
-        if (
-          (isFree && isFree.length > 0) ||
-          product.type_txt === "Bus" ||
-          product.type_txt === "Truck" ||
-          product.type_txt === "Pick up"
-        ) {
-          hybraid = 0;
-          exciseTax = 0;
-        }
-      }
 
       let logisticMn = logistic * usd;
-      const gaaliHuvi = (price + feeMn + logisticMn) * 0.05;
-
+      const gaaliHuvi =
+        (price + feeMn + logisticMn) * parseFloat(ps.gaaliHuvi.price / 100);
       let hybraid = parseFloat(exciseTax) / 2;
 
-      const noatTatvarOft = (price + feeMn + logisticMn + exciseTax) * 0.1;
-      const noatTatvarHy = (price + feeMn + logisticMn + hybraid) * 0.1;
+      const noatTatvarOft =
+        (price + feeMn + logisticMn + exciseTax) *
+        parseFloat(ps.noat.price / 100);
+      const noatTatvarHy =
+        (price + feeMn + logisticMn + hybraid) *
+        parseFloat(ps.noat.price / 100);
       let mongolOft = logisticMn + exciseTax + gaaliHuvi + noatTatvarOft;
       let mongolHyb = logisticMn + hybraid + gaaliHuvi + noatTatvarHy;
 
@@ -181,75 +191,6 @@ export default ({ product }) => {
       const niitHyb = parseInt(prePayMn) + parseInt(mongolHyb);
       const sendPrice = isHybrid && isHybrid.length > 0 ? niitHyb : niitOft;
       userCtx.getPrice(parseInt(sendPrice));
-
-      // usePrice.map((price) => {
-      //   let newPrice = 0;
-      //   switch (price.price) {
-      //     case "%":
-      //       newPrice = parseInt(price.price) / 100;
-      //       break;
-      //     case "₮":
-      //       newPrice = parseInt(price.price);
-      //       break;
-      //     case "$":
-      //       newPrice = parseInt(price.price) * usd;
-      //       break;
-      //     case "¥":
-      //       newPrice = parseInt(price.price) * jpy;
-      //       break;
-      //   }
-
-      //   switch (price.name) {
-      //     case "Singapore энгийн тээвэр":
-      //       logistic = parseInt(price.price);
-      //       break;
-      //     case "Japan энгийн тээвэр":
-      //       logistic = parseInt(price.price);
-      //       break;
-      //     case "Korea энгийн тээвэр":
-      //       logistic = parseInt(price.price);
-      //       break;
-      //     case "USA энгийн тээвэр":
-      //       logistic = parseInt(price.price);
-      //       break;
-      //     case "Ерөнхий тээвэр":
-      //       logistic = parseInt(price.price);
-      //       break;
-      //     case "bus truck тээвэр":
-      //       logistic = parseInt(price.price);
-      //       break;
-      //     case "Япон татвар":
-      //       japanTax = parseFloat(product.price) * parseFloat(newPrice);
-      //       break;
-      //     case "Japan үйлчилгээний хөлс":
-      //       fee = price.price;
-      //       break;
-      //     case "Singapore үйлчилгээний хөлс":
-      //       fee = price.price;
-      //       break;
-      //     case "Korea үйлчилгээний хөлс":
-      //       fee = price.price;
-      //       break;
-      //     case "USA үйлчилгээний хөлс":
-      //       fee = price.price;
-      //       break;
-      //     case "Бусад улсад үйлчилгээний хөлс":
-      //       fee = price.price;
-      //       break;
-      //     case "Онцгой мотор <= 1500 Жил <= 3 ба Жил >= 0":
-      //       exciseTax = price.price;
-      //       break;
-      //     case "Онцгой мотор <= 1500 Жил <= 6 ба Жил >= 4":
-      //       exciseTax = price.price;
-      //       break;
-      //     case "Онцгой мотор <= 1500 Жил <= 9 ба Жил >= 7":
-      //       exciseTax = price.price;
-      //       break;
-      //     case "Онцгой мотор <= 1500 Жил >= 10":
-      //       exciseTax = price.price;
-      //       break;
-      //   }
-      // });
 
       setCalculator(() => ({
         price,
@@ -299,7 +240,7 @@ export default ({ product }) => {
       <tbody>
         <tr>
           <td>1</td>
-          <td>Зарагдаж байгаа үнэ</td>
+          <td>{ps.productPrice.name}</td>
           <td>¥{new Intl.NumberFormat().format(product.price)}</td>
           <td>¥{jpy}</td>
           <td>
@@ -308,22 +249,14 @@ export default ({ product }) => {
         </tr>
         <tr>
           <td>2</td>
-          <td>
-            Худалдааны татвар 7%{" "}
-            <a
-              href="https://ja.m.wikipedia.org/wiki/%E6%B6%88%E8%B2%BB%E7%A8%8E"
-              target="_blank"
-            >
-              татвар
-            </a>
-          </td>
+          <td>{ps.japanTax.name}</td>
           <td>¥{new Intl.NumberFormat().format(calculator.japanTax)}</td>
           <td>¥{jpy}</td>
           <td>{new Intl.NumberFormat().format(calculator.japanTaxMn)}₮</td>
         </tr>
         <tr>
           <td>3</td>
-          <td>Үйлчилгээний зардал</td>
+          <td>{ps.fee.name}</td>
           <td>¥{new Intl.NumberFormat().format(calculator.fee)}</td>
           <td>¥{jpy}</td>
           <td>{new Intl.NumberFormat().format(calculator.feeMn)}₮</td>
@@ -340,14 +273,14 @@ export default ({ product }) => {
         </tr>
         <tr>
           <td>4</td>
-          <td>Тээврийн зардал</td>
+          <td>{ps.logistic.name}</td>
           <td>${new Intl.NumberFormat().format(calculator.logistic)}</td>
           <td>${new Intl.NumberFormat().format(usd)}</td>
           <td>{new Intl.NumberFormat().format(calculator.logisticMn)}₮</td>
         </tr>
         <tr>
           <td>5</td>
-          <td>Онцгой албан татвар</td>
+          <td>{ps.exciseTax.name}</td>
           <td></td>
           <td></td>
           <td>
@@ -361,18 +294,18 @@ export default ({ product }) => {
         </tr>
         <tr>
           <td>6</td>
-          <td>Гаалийн албан татвар (1+3+4)*5%</td>
+          <td>{ps.gaaliHuvi.name}</td>
           <td></td>
-          <td>5%</td>
+          <td>{ps.gaaliHuvi.price + ps.gaaliHuvi.priceVal}</td>
           <td>
             {new Intl.NumberFormat().format(parseInt(calculator.gaaliHuvi))}₮
           </td>
         </tr>
         <tr>
           <td>7</td>
-          <td>НӨАТ (1+3+4+5)*10%</td>
+          <td>{ps.noat.name}</td>
           <td></td>
-          <td>10%</td>
+          <td>{ps.noat.price + ps.noat.priceVal}</td>
           <td>
             {new Intl.NumberFormat().format(
               parseInt(

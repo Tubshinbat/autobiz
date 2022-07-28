@@ -1,3 +1,6 @@
+import base from "lib/base";
+import useSWR from "swr";
+
 export const useCal = (slug) => {
   const prices = null;
   let pagination = null;
