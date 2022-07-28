@@ -6,7 +6,7 @@ import { useCal } from "hooks/use-cal";
 
 export default ({ product }) => {
   const { data: rate } = useRate();
-  const { prices: usePrice } = useCal();
+  const { prices: usePrice } = useCal(`limit=100`);
   const [calculator, setCalculator] = useState();
   const [jpy, setJpy] = useState(null);
   const [usd, setUsd] = useState(null);
