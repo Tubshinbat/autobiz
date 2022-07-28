@@ -20,7 +20,17 @@ export default ({ product }) => {
   const { free: isFree } = useFree(
     `name=${product.model_ref && product.model_ref.split(" ")[0]}`
   );
-  console.log(usePrice);
+
+  useEffect(() => {
+    if (usePrice) {
+      usePrice.map((price) => {
+        setDprice((pstate) => ({ ...pstate, [price.type]: price }));
+      });
+    }
+  }, [usePrice]);
+
+  console.log(ps);
+
   // usePrice.map((price) => {
   //   setDprice((pstate) => ({ ...pstate, [price.type]: price }));
   //   console.log(price);
