@@ -21,8 +21,10 @@ export default ({ active }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log(homecars);
       homecars.map(async (el) => {
         const { car } = await getHomeCar(el._id);
+        console.log(car);
         setShowCar((ps) => [...ps, car]);
       });
 
