@@ -85,12 +85,6 @@ export default ({ product }) => {
           ps.fee.name = ps.feeUSA.name;
           ps.logistic.name = ps.logisticUSA.name;
           break;
-        case "Dubai":
-          logistic = parseInt(ps.logisticDubai.price);
-          fee = parseInt(ps.feeDubai.price);
-          ps.logistic.name = ps.logisticDubai.name;
-          ps.fee.name = ps.feeDubai.name;
-          break;
         default:
           logistic = parseInt(ps.logistic.price);
           break;
