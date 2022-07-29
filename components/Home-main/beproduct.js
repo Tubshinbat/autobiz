@@ -20,16 +20,7 @@ export default ({ active }) => {
   };
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   homecars.map(async (el) => {
-    //     const { car } = await getHomeCar(el._id);
-    //     setShowCar((ps) => [...ps, car]);
-    //   });
-
-    //   return "success";
-    // };
-    const one = [];
-    if (homecars) {
+    const fetchData = async () => {
       const { car: car1 } = await getHomeCar(homecars[0]._id);
       const { car: car2 } = await getHomeCar(homecars[1]._id);
       const { car: car3 } = await getHomeCar(homecars[2]._id);
@@ -83,6 +74,12 @@ export default ({ active }) => {
       one.push(car25);
     
       setShowCar(() => one);
+
+    //   return "success";
+    };
+    const one = [];
+    if (homecars) {
+      fetchData()
     }
 
 
