@@ -48,20 +48,27 @@ export default ({ product }) => {
 
   useEffect(() => {
     if (product && jpy && usd && ps) {
-      const { _id } = product;
+      
       const price = parseFloat(jpy) * parseFloat(product.price);
-      let fee = 0;
-      let logistic = 0;
-      let exciseTax = 0;
-      let ENG_V = 0;
-      if (ps && ps.japanTax) {
-        let japanTax =
-          parseFloat(product.price) * parseFloat(ps.japanTax.price / 100);
+      let japanTax = ENG_V =  logistic = exciseTax = japanTaxMn = fee = feeMn = prePay = prePayMn = logistic = logisticMn = countYear
+      = exciseTax = gaaliHuvi = hybraid = noatTatvarOft = noatTatvarHy = mongolHyb = mongolOft= niitHyb = niitOft = 0;
+      let feeName = logisticName = "";
+
+      price = parseFloat(jpy) * parseFloat(product.price);
+      if(ps.japanTax){
+        japanTax = parseFloat(product.price) * parseFloat(ps.japanTax.price / 100);
+        japanTaxMn = parseFloat(japanTax) * parseFloat(jpy);
       }
 
-      let japanTaxMn = parseFloat(japanTax) * parseFloat(jpy);
-      if (ps && ps.fee) fee = parseInt(ps.fee.price || 120000);
-      if (ps && ps.logistic) logistic = parseInt(ps.logistic.price || 3000);
+      if(ps.fee){
+        fee = parseFloat(ps.fee.price);
+        feeName = ps.fee.name;
+      }
+      if(ps.logistic){
+        logisticName = ps.logistic.name;
+        logistic = parseInt(ps.logistic.price);
+      }
+        
 
       const countYear =
         parseInt(new Date().getFullYear()) - parseInt(product.car_year);
@@ -73,33 +80,33 @@ export default ({ product }) => {
             logistic = parseInt(ps.logisticSingapore.price);
           break;
         case "Japan":
-          if (ps.fee) {
+          if (ps.feeJapan) {
             fee = parseInt(ps.feeJapan.price);
-            ps.fee.name = ps.feeJapan.name;
+            feeName = ps.feeJapan.name;
           }
           if (ps.logisticJapan) {
-            ps.logistic.name = ps.logisticJapan.name;
+            logisticName = ps.logisticJapan.name;
             logistic = parseInt(ps.logisticJapan.price);
           }
           break;
         case "Korea":
           if (ps.logisticKorea) {
             logistic = parseInt(ps.logisticKorea.price);
-            ps.logistic.name = ps.logisticKorea.name;
+            logisticName = ps.logisticKorea.name;
           }
           if (ps.feeKorea) {
             fee = parseInt(ps.feeKorea.price);
-            ps.fee.name = ps.feeKorea.name;
+            feeName = ps.feeKorea.name;
           }
           break;
         case "USA":
           if (ps.logisticUSA) {
             logistic = parseInt(ps.logisticUSA.price);
-            ps.logistic.name = ps.logisticUSA.name;
+            logisticName = ps.logisticUSA.name;
           }
           if (ps.feeUSA) {
             fee = parseInt(ps.feeUSA.price);
-            ps.fee.name = ps.feeUSA.name;
+            feeName = ps.feeUSA.name;
           }
           break;
         default:
@@ -113,10 +120,13 @@ export default ({ product }) => {
         product.type_txt == "Bus" ||
         product.type_txt == "Truck"
       ) {
-        if (ps.logisticBusTruck) logistic = parseInt(ps.logisticBusTruck.price);
+        if (ps.logisticBusTruck) {
+          logistic = parseInt(ps.logisticBusTruck.price);
+        }
         hybraid = 0;
-        if (ps.busTruckExciseTax)
+        if (ps.busTruckExciseTax){
           exciseTax = parseInt(ps.busTruckExciseTax.price);
+        }
       }
 
       const feeMn = fee * parseFloat(jpy);
